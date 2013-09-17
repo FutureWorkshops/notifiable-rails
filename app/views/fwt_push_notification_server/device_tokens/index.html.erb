@@ -1,0 +1,20 @@
+<h1>Device tokens</h1>
+<%= paginate @device_tokens %>
+<table class='table table-striped'>
+ <thead>
+  <tr>
+    <th>Token</th>
+    <th width="200px">Date added</th>
+  </tr>
+ </thead>
+ <tbody>
+    <% @device_tokens.each do |t| %>
+     <tr>
+      <td><%= t.token %> </td>
+      <td><%= t.updated_at.strftime("%d-%m-%Y %H:%M") %></td>
+     </tr>
+    <% end %>
+ </tbody>
+</table>
+
+<%= paginate @device_tokens %>
