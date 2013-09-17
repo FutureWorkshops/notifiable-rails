@@ -1,4 +1,5 @@
 require_dependency "fwt_push_notification_server/application_controller"
+require 'digest'
 
 module FwtPushNotificationServer
   
@@ -9,7 +10,9 @@ module FwtPushNotificationServer
         false
       else
         token = params[:token]
-        key = ApplicationConfig.api_key
+        config = FwtPushNotificationServer.config
+        key = config[:api_key]
+        puts key
         !!(Digest::HMAC.hexdigest(token, key, Digest::SHA256) == params[:sig])
       end
     }
@@ -21,19 +24,24 @@ module FwtPushNotificationServer
 
     # POST /device_tokens
     def create
-      @device_token = DeviceToken.new(device_token_params)
-
-      if @device_token.save
-        redirect_to @device_token, notice: 'Device token was successfully created.'
+      @device_token = DeviceToken.new({
+        :token => params[:token],
+        :device_id => params[:device_id],
+        :device_name => params[:device_name]
+      })
+      if @device_token.present?
+        @device_token.save
+        status = 0
       else
-        render action: 'new'
+        status = -1
       end
+      render :json => { :status => status }
     end
 
     private
       # Only allow a trusted parameter "white list" through.
       def device_token_params
-        params.require(:device_token).permit(:token, :device_id, :device_name, :is_valid)
+        params.permit(:token, :device_id, :device_name, :is_valid, :key, :sig)
       end
 
   end

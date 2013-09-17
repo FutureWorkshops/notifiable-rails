@@ -1,7 +1,7 @@
 #development (sandbox)
 FwtPushNotificationServer.config = {
 
-	:api_key => 'YOUR-DELELOPMENT-KEY-HERE',
+	:api_key => 'YOUR-DEVELOPMENT-KEY-HERE',
     :certificate => File.join(Rails.root, 'config', 'APNSDevelopment.pem'),
     :passphrase => 'PASSPHRASE',
     :gateway => 'gateway.sandbox.push.apple.com'
