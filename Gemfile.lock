@@ -91,6 +91,7 @@ GEM
       sprockets-rails (~> 2.0.0)
     rails_bootstrap_navbar (0.2.1)
       bootstrap-navbar (~> 0.0.13)
+      rails (>= 3.0.0)
     railties (4.0.0)
       actionpack (= 4.0.0)
       activesupport (= 4.0.0)
@@ -128,13 +129,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass
-  cancan
-  coffee-rails
-  devise
   fwt_push_notification_server!
-  kaminari-bootstrap
-  rails_bootstrap_navbar
-  sass-rails
-  simple_form
   sqlite3

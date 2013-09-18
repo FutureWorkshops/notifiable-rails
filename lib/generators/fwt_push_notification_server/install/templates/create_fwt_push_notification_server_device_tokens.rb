@@ -1,4 +1,3 @@
-# This migration comes from fwt_push_notification_server (originally 20130917115541)
 class CreateFwtPushNotificationServerDeviceTokens < ActiveRecord::Migration
   
   def change
