@@ -10,10 +10,12 @@ module FwtPushNotificationServer
         false
       else
         token = params[:token]
+        device_name = params[:device_name]
+        device_id = params[:device_id]
         config = FwtPushNotificationServer.config
         key = config[:api_key]
-        puts key
-        !!(Digest::HMAC.hexdigest(token, key, Digest::SHA256) == params[:sig])
+        params_string = "token=#{token}&device_name=#{device_name}&device_id=#{device_id}"
+        !!(Digest::HMAC.hexdigest(params_string, key, Digest::SHA256) == params[:sig])
       end
     }
 
