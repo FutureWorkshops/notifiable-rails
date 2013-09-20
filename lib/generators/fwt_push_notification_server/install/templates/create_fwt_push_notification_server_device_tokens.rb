@@ -5,7 +5,7 @@ class CreateFwtPushNotificationServerDeviceTokens < ActiveRecord::Migration
       t.string :token
       t.string :device_id
       t.string :device_name
-      t.boolean :is_valid
+      t.boolean :is_valid, :default => true
 
       t.timestamps
     end
