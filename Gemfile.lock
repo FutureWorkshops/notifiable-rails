@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fwt_push_notification_server (0.0.1)
+    fwt_push_notification_server (0.0.3)
       bootstrap-sass
       cancan
       coffee-rails

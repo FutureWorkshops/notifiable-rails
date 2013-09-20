@@ -26,10 +26,10 @@ module FwtPushNotificationServer
 
     # POST /device_tokens
     def create
-      @device_token = DeviceToken.new({
-        :token => params[:token],
-        :device_id => params[:device_id],
-        :device_name => params[:device_name]
+      @device_token = DeviceToken.find_or_create_by_token(params[:token])
+      @device_token.update_attributes({
+        :device_id => params[:device_id] || "",
+        :device_name => params[:device_name] || ""
       })
       if @device_token.present?
         @device_token.save
