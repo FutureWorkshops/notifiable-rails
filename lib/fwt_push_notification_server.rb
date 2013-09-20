@@ -1,7 +1,7 @@
 require "fwt_push_notification_server/engine"
 require 'active_support/core_ext/hash/slice'
 require "devise"
-
+require "grocer"
 
 module FwtPushNotificationServer
 
