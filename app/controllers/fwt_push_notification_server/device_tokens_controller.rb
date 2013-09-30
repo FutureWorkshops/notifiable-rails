@@ -1,35 +1,14 @@
-require_dependency "fwt_push_notification_server/application_controller"
-require 'digest'
 
 module FwtPushNotificationServer
   
-  class DeviceTokensController < ApplicationController
+  class DeviceTokensController < FwtPushNotificationServer.api_controller_class
 
-    skip_before_filter :authenticate_user!, :if => lambda {
-      if params[:token].blank? || params[:sig].blank?
-        false
-      else
-        token = params[:token]
-        device_name = params[:device_name]
-        device_id = params[:device_id]
-        config = FwtPushNotificationServer.config
-        key = config[:api_key]
-        params_string = "token=#{token}&device_name=#{device_name}&device_id=#{device_id}"
-        !!(Digest::HMAC.hexdigest(params_string, key, Digest::SHA256) == params[:sig])
-      end
-    }
+    skip_authorization_check
 
-    # GET /device_tokens
-    def index
-      @device_tokens = DeviceToken.page.per(100)
-    end
-
-    # POST /device_tokens
     def create
       @device_token = DeviceToken.find_or_create_by_token(params[:token])
       @device_token.update_attributes({
-        :device_id => params[:device_id] || "",
-        :device_name => params[:device_name] || ""
+        :user_id => params[:user_id]
       })
       if @device_token.present?
         @device_token.save
@@ -41,9 +20,8 @@ module FwtPushNotificationServer
     end
 
     private
-      # Only allow a trusted parameter "white list" through.
       def device_token_params
-        params.permit(:token, :device_id, :device_name, :is_valid, :key, :sig)
+        params.permit(:token, :user_id)
       end
 
   end

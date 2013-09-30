@@ -15,8 +15,12 @@ gem 'fwt_push_notification_server'
 
 6. Run rails g fwt_push_notification_server:install
 
-7. Customize settings in config/initializers/fwt_push_notification_server.rb and db/seeds.db
+7. Customize settings in config/initializers/fwt_push_notification_server.rb
 
-8. Run rake db:migrate && rake db:seed
+8. In config/initializers/devise.rb add:
+
+	require 'devise/models/notifiable'
+
+9. Run rake db:migrate && rake db:seed
 
 Done!

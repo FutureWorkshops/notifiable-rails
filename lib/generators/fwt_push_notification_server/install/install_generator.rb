@@ -22,7 +22,6 @@ module FwtPushNotificationServer
 
       def copy_migrations
         migration_template "create_fwt_push_notification_server_device_tokens.rb", "db/migrate/create_fwt_push_notification_server_device_tokens.rb"
-        migration_template "devise_create_fwt_push_notification_server_users.rb", "db/migrate/devise_create_fwt_push_notification_server_users.rb"
       end
 
       desc "Add initializer"
@@ -31,13 +30,6 @@ module FwtPushNotificationServer
         copy_file "initializer.rb", "config/initializers/#{app_name}.rb"
       end
     
-      desc "Add seeds"
-
-      def append_seeds
-        seeds = File.read(File.join(File.dirname(__FILE__), "templates/seeds.rb"))
-        append_file "db/seeds.rb", seeds
-      end
-
       private
         def app_name
           "fwt_push_notification_server"

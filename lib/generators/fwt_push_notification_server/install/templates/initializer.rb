@@ -1,20 +1,15 @@
-#development (sandbox)
-FwtPushNotificationServer.config = {
 
-	:api_key => 'YOUR-DEVELOPMENT-KEY-HERE',
-    :certificate => File.join(Rails.root, 'config', 'APNSDevelopment.pem'),
-    :passphrase => 'PASSPHRASE',
-    :gateway => 'gateway.sandbox.push.apple.com',
-    :title => 'FWT Push Notifications'
-};
+FwtPushNotificationServer.configure do |config|
 
-#production
-# FwtPushNotificationServer.config = {
+	# APNS
+	config.apns_certificate = File.join(Rails.root, 'config', 'APNSDevelopment.pem')
+	config.apns_passphrase = 'PASSPHRASE'
+	config.apns_gateway = 'gateway.sandbox.push.apple.com'
+	
+	# Devise integration
+	config.api_controller_class = ApplicationController
+	config.authentication_filter = :authenticate_user!
+	config.user_class = User
+	config.user_key = :user_id
 
-# 	  :api_key => 'YOUR-PRODUCTION-KEY-HERE',
-#     :certificate => File.join(Rails.root, 'config', 'APNSProduction.pem'),
-#     :passphrase => 'PASSPHRASE',
-#     :gateway => 'gateway.push.apple.com',
-#     :title => 'FWT Push Notifications'
-
-# };
+end

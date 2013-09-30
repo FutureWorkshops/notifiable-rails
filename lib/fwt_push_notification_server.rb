@@ -1,48 +1,40 @@
 require "fwt_push_notification_server/engine"
-require 'active_support/core_ext/hash/slice'
-require "devise"
-require "grocer"
+require 'notifier/apns'
+require 'notifier/gcm'
 
 module FwtPushNotificationServer
 
-	mattr_accessor :config
+  mattr_accessor :api_controller_class
 
-	def self.apns_config
-		config.slice(:gateway, :certificate, :passphrase)
-	end
+  mattr_accessor :authentication_filter
+  @@authentication_filter = :authenticate_user!
 
-	def self.send_notification_to_all(alert)
-		devices = DeviceToken.where(:is_valid => true).all
-		send_notification(alert, devices)
-	end
+  mattr_accessor :user_class
 
-	def self.send_notification(alert, device_tokens)
+  mattr_accessor :user_key
+  @@user_key = :user_id  
 
-      alert = alert.byteslice(0, 232)
-      alert += '...' if alert.bytesize > 232
-      
-      config = self.apns_config
-      
-      pusher = Grocer.pusher(config)
-      
-      device_tokens = [device_tokens] unless device_tokens.is_a?(Array)
+  mattr_accessor :apns_gateway
+  @@apns_gateway = 'sandbox.push.apple.com'
 
-      device_tokens.each do |device|
-      	if device.is_valid
-        	token = device.token
-      	 	n = Grocer::Notification.new(device_token: token, alert: alert)
-        	pusher.push n
-    	end
-      end
+  mattr_accessor :apns_certificate
 
-      feedback = Grocer.feedback(config)
-      feedback.each do |attempt|
-        token = attempt.device_token
-        device_token = DeviceToken.find_by_token(token)
-        device_token.update_attribute("is_valid", false) unless device_token.nil?
-        puts "Device #{token} failed at #{attempt.timestamp}"
-      end
+  mattr_accessor :apns_passphrase
 
-	end
+  def self.configure
+    yield self
+  end
+
+  ###
+  # Push Notifications
+  ###
+
+  def self.apns_config
+    {
+      :gateway => gateway,
+      :certificate => certificate,
+      :passphrase => passphrase
+    }
+  end
 
 end
