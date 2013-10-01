@@ -22,6 +22,7 @@ module FwtPushNotificationServer
 
       def copy_migrations
         migration_template "create_fwt_push_notification_server_device_tokens.rb", "db/migrate/create_fwt_push_notification_server_device_tokens.rb"
+        migration_template "add_provider_to_push_notification_server_device_tokens.rb", "db/migrate/add_provider_to_push_notification_server_device_tokens.rb"
       end
 
       desc "Add initializer"
