@@ -1,4 +1,3 @@
-
 module FwtPushNotificationServer
 
 	module Notifier

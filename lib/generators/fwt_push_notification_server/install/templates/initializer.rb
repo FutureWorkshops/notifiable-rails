@@ -6,6 +6,9 @@ FwtPushNotificationServer.configure do |config|
 	config.apns_passphrase = 'PASSPHRASE'
 	config.apns_gateway = 'gateway.sandbox.push.apple.com'
 	
+	# GCM
+	config.gcm_api_key = 'YOUR-KEY-HERE'
+
 	# Devise integration
 	config.api_controller_class = ApplicationController
 	config.authentication_filter = :authenticate_user!

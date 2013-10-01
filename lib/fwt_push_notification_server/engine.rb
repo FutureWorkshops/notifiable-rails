@@ -1,6 +1,7 @@
 require "devise"
 require "cancan"
 require "grocer"
+require "gcm"
 
 module FwtPushNotificationServer
   

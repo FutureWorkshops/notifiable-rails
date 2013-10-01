@@ -1,3 +1,3 @@
 module FwtPushNotificationServer
-  VERSION = "0.0.7.b2"
+  VERSION = "0.0.7.b3"
 end

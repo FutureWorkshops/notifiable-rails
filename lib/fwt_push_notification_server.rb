@@ -21,6 +21,9 @@ module FwtPushNotificationServer
 
   mattr_accessor :apns_passphrase
 
+
+  mattr_accessor :gcm_api_key
+
   def self.configure
     yield self
   end
