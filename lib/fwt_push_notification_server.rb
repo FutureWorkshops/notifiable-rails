@@ -31,9 +31,9 @@ module FwtPushNotificationServer
 
   def self.apns_config
     {
-      :gateway => gateway,
-      :certificate => certificate,
-      :passphrase => passphrase
+      :gateway => apns_gateway,
+      :certificate => apns_certificate,
+      :passphrase => apns_passphrase
     }
   end
 
