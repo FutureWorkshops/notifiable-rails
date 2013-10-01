@@ -14,8 +14,9 @@ module Devise
 				notifier.notify(message, device_token) unless notifier.nil?
 			end
 
-			def device_token
-				FwtPushNotificationServer::DeviceToken.find_by_user(self)
+			def device_tokens
+				key = FwtPushNotificationServer.user_key
+				FwtPushNotificationServer::DeviceToken.where(:user_id => send(key))
 			end
 
 		end
