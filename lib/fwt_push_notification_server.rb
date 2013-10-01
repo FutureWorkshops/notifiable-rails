@@ -1,4 +1,5 @@
 require "fwt_push_notification_server/engine"
+require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
 
@@ -32,12 +33,30 @@ module FwtPushNotificationServer
   # Push Notifications
   ###
 
+  mattr_accessor :notifiers
+  @@notifiers = {
+    :apns => Notifier::APNS.new,
+    :gcm => Notifier::GCM.new
+  }
+
   def self.apns_config
     {
       :gateway => apns_gateway,
       :certificate => apns_certificate,
       :passphrase => apns_passphrase
     }
+  end
+
+  def self.begin_transaction(message)
+    notifiers.each_value do |notifier|
+      notifier.begin_transaction(message)
+    end
+  end
+
+  def self.commit_transaction
+    notifiers.each_value do |notifier|
+      notifier.commit_transaction
+    end
   end
 
 end

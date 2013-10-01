@@ -5,21 +5,16 @@ module Devise
 
 			extend ActiveSupport::Concern
 
-			def notify(message)
-
+			def notify_once(message)
 				device_tokens.each do |device|
-					next if device.provider.nil?
-					provider = device.provider.to_sym
-
-					if provider == :apns
-						notifier = FwtPushNotificationServer::Notifier::APNS.new
-					elsif provider == :gcm
-						notifier = FwtPushNotificationServer::Notifier::GCM.new
-					end
-
-					notifier.notify(message, device_token) unless notifier.nil?
+					device.notifier.notify(message, device) unless device.notifier.nil?
 				end
+			end
 
+			def schedule_notification
+				device_tokens.each do |device|
+					device.notifier.add_device_token(device) unless device.notifier.nil?
+				end
 			end
 
 			def device_tokens

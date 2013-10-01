@@ -2,9 +2,9 @@ module FwtPushNotificationServer
 
 	module Notifier
 
-		class GCM
+		class GCM < Notifier::Base
 
-			def notify(message, device_tokens)
+			def notify_once(message, device_tokens)
 
 				device_tokens = [device_tokens] unless device_tokens.is_a?(Array)
 				gcm = ::GCM.new(FwtPushNotificationServer.gcm_api_key)

@@ -8,6 +8,11 @@ module FwtPushNotificationServer
   		user_id.blank? ? nil : FwtPushNotificationServer.user_class.find_by(FwtPushNotificationServer.user_key => user_id)
   	end
 
+  	def notifier
+  		return nil if provider.nil?
+		FwtPushNotificationServer.notifiers[provider.to_sym]
+	end
+
   end
 
 end

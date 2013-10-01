@@ -2,9 +2,9 @@ module FwtPushNotificationServer
 
 	module Notifier
 
-		class APNS
+		class APNS < Notifier::Base
 
-			def notify(message, device_tokens)
+			def notify_once(message, device_tokens)
 
 				alert = message.byteslice(0, 232)
 		     	alert += '...' if alert.bytesize > 232
