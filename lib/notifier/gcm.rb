@@ -12,7 +12,7 @@ module FwtPushNotificationServer
 
 				@registration_ids = []
 				@payload = { :data => { :message => message } }
-				device_tokens.each do |device|
+				@device_tokens.each do |device|
 					@registration_ids << device.token
 					if @registration_ids.count == 1000
 						send_batch
@@ -24,7 +24,7 @@ module FwtPushNotificationServer
 			private
 			def send_batch
 				response = @gcm.send_notification(@registration_ids, @payload)
-				body = JSON.parse(response.fetch(:body, {}))
+				body = JSON.parse(response.fetch(:body, "{}"))
 				results = body.fetch("results", [])
 				results.each_with_index do |result, idx|
 					if result["error"]
