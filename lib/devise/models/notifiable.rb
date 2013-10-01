@@ -7,12 +7,14 @@ module Devise
 
 			def notify_once(message)
 				device_tokens.each do |device|
-					device.notifier.notify(message, device) unless device.notifier.nil?
+					next unless device.is_valid
+					device.notifier.notify_once(message, device) unless device.notifier.nil?
 				end
 			end
 
 			def schedule_notification
 				device_tokens.each do |device|
+					next unless device.is_valid
 					device.notifier.add_device_token(device) unless device.notifier.nil?
 				end
 			end

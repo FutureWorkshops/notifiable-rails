@@ -10,7 +10,7 @@ module FwtPushNotificationServer
 			end
 
 			def add_device_token(device_token)
-				@device_tokens << device_token
+				@device_tokens << device_token if device_token.is_valid
 			end
 
 			def commit_transaction
