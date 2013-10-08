@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.version     = FwtPushNotificationServer::VERSION
   s.authors     = ["Kamil Kocemba"]
   s.email       = ["kamil@futureworkshops.com"]
-  s.homepage    = "http://futureworkshops.com"
-  s.summary     = "A simple rails plugin for APNS."
-  s.description = "A simple rails plugin for managing device tokens and sending push notifications."
-  s.licenses    = ["MIT"]
+  s.homepage    = "http://www.futureworkshops.com"
+  s.summary     = "Rails engine to make push notifications a bit easier."
+  s.description = "Rails engine to make push notifications a bit easier. "
+  s.licenses    = ["Apache 2.0"]
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.0.0"
