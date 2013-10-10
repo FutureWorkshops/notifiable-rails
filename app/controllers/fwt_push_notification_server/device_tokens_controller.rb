@@ -13,8 +13,7 @@ module FwtPushNotificationServer
       })
 
       user = @device_token.user
-      user_info = params[:user]
-      user.update_attributes(user_info) if user_info
+      user.update_attributes(user_info_params) if user_info_params
 
       if @device_token.save
         render :json => { :status => 0 }
@@ -26,6 +25,10 @@ module FwtPushNotificationServer
     private
       def device_token_params
         params.permit(:token, :user_id, :provider)
+      end
+
+      def user_info_params
+        params[:user].permit(FwtPushNotificationServer.permitted_user_attributes)
       end
 
   end

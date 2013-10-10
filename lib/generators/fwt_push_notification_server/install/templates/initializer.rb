@@ -13,5 +13,6 @@ FwtPushNotificationServer.configure do |config|
 	config.api_controller_class = ApplicationController
 	config.user_class = User
 	config.user_key = :user_id
+	config.permitted_user_attributes = :first_name, :last_name
 
 end
