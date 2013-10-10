@@ -12,7 +12,11 @@ module FwtPushNotificationServer
         :provider => params[:provider]
       })
 
-      if @device_token.save!
+      user = @device_token.user
+      user_info = params[:user]
+      user.update_attributes(user_info) if user_info
+
+      if @device_token.save
         render :json => { :status => 0 }
       else
         render :json => { :errors => @device_token.errors.full_messages }
