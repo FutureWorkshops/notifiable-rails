@@ -11,7 +11,6 @@ FwtPushNotificationServer.configure do |config|
 
 	# Devise integration
 	config.api_controller_class = ApplicationController
-	config.authentication_filter = :authenticate_user!
 	config.user_class = User
 	config.user_key = :user_id
 

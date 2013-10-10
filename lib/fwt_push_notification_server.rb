@@ -7,9 +7,6 @@ module FwtPushNotificationServer
 
   mattr_accessor :api_controller_class
 
-  mattr_accessor :authentication_filter
-  @@authentication_filter = :authenticate_user!
-
   mattr_accessor :user_class
 
   mattr_accessor :user_key
