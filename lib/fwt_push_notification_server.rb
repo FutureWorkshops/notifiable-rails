@@ -7,10 +7,9 @@ module FwtPushNotificationServer
 
   mattr_accessor :api_controller_class
 
-  mattr_accessor :authentication_filter
-  @@authentication_filter = :authenticate_user!
-
   mattr_accessor :user_class
+
+  mattr_accessor :permitted_user_attributes
 
   mattr_accessor :user_key
   @@user_key = :user_id  
@@ -21,7 +20,6 @@ module FwtPushNotificationServer
   mattr_accessor :apns_certificate
 
   mattr_accessor :apns_passphrase
-
 
   mattr_accessor :gcm_api_key
 
