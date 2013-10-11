@@ -13,7 +13,7 @@ module FwtPushNotificationServer
       })
 
       user = @device_token.user
-      user.update_attributes(user_info_params) if user_info_params
+      user.update_attributes(user_info_params) unless user_info_params.nil? && user.nil?
 
       if @device_token.save
         render :json => { :status => 0 }
