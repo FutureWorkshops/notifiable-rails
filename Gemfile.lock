@@ -1,9 +1,10 @@
 PATH
   remote: .
   specs:
-    fwt_push_notification_server (0.0.7.pre)
+    fwt_push_notification_server (0.1.0.b1)
       cancan
       devise
+      gcm
       grocer
       rails (~> 4.0.0)
 
@@ -39,22 +40,30 @@ GEM
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
     cancan (1.6.10)
-    devise (3.1.0)
+    devise (3.1.1)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
+    gcm (0.0.4)
+      httparty
+      json
     grocer (0.4.1)
     hike (1.2.3)
+    httparty (0.12.0)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.5)
+    json (1.8.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25)
     minitest (4.7.5)
-    multi_json (1.8.0)
+    multi_json (1.8.1)
+    multi_xml (0.5.5)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -91,7 +100,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.38)
     warden (1.2.3)
       rack (>= 1.0)
 

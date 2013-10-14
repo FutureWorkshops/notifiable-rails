@@ -28,7 +28,11 @@ module FwtPushNotificationServer
       end
 
       def user_info_params
-        params[:user].permit(FwtPushNotificationServer.permitted_user_attributes)
+        unless params[:user].nil? || FwtPushNotificationServer.permitted_user_attributes.nil?
+          params[:user].permit(FwtPushNotificationServer.permitted_user_attributes)
+        else
+          nil
+        end
       end
 
   end
