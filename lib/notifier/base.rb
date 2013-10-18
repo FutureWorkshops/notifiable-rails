@@ -15,7 +15,7 @@ module FwtPushNotificationServer
 			end
 
 			def commit_transaction
-				notify_once(@message, @device_tokens.uniq)
+				notify_once(@message, @device_tokens.uniq, payload)
 			end
 
 			def notify_once(message, device_tokens, payload = nil)
