@@ -4,7 +4,7 @@ module FwtPushNotificationServer
 
 		class GCM < Notifier::Base
 
-			def notify_once(message, device_tokens)
+			def notify_once(message, device_tokens, payload = nil)
 
 				@device_tokens = device_tokens.is_a?(Array) ? device_tokens : [device_tokens]
 				

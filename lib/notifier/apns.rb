@@ -4,7 +4,7 @@ module FwtPushNotificationServer
 
 		class APNS < Notifier::Base
 
-			def notify_once(message, device_tokens)
+			def notify_once(message, device_tokens, payload = nil)
 
 				alert = message.byteslice(0, 232)
 		     	alert += '...' if alert.bytesize > 232
@@ -16,7 +16,7 @@ module FwtPushNotificationServer
 				device_tokens.each do |device|
 		      		if device.is_valid
 		        		token = device.token
-		      	 		n = Grocer::Notification.new(device_token: token, alert: alert)
+		      	 		n = Grocer::Notification.new(device_token: token, alert: alert, custom: payload)
 		        		pusher.push n
 		    	  	end
 		      	end

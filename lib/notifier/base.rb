@@ -4,9 +4,10 @@ module FwtPushNotificationServer
 
 		class Base
 
-			def begin_transaction(message)
+			def begin_transaction(message, payload = nil)
 				@device_tokens = []
 				@message = message
+				@payload = payload
 			end
 
 			def add_device_token(device_token)
@@ -17,7 +18,7 @@ module FwtPushNotificationServer
 				notify_once(@message, @device_tokens.uniq)
 			end
 
-			def notify_once(message, device_tokens)
+			def notify_once(message, device_tokens, payload = nil)
 
 			end
 

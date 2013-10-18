@@ -5,10 +5,10 @@ module Devise
 
 			extend ActiveSupport::Concern
 
-			def notify_once(message)
+			def notify_once(message, payload = nil)
 				device_tokens.each do |device|
 					next unless device.is_valid
-					device.notifier.notify_once(message, device) unless device.notifier.nil?
+					device.notifier.notify_once(message, device, payload) unless device.notifier.nil?
 				end
 			end
 

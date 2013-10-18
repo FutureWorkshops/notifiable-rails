@@ -45,9 +45,9 @@ module FwtPushNotificationServer
     }
   end
 
-  def self.begin_transaction(message)
+  def self.begin_transaction(message, payload = nil)
     notifiers.each_value do |notifier|
-      notifier.begin_transaction(message)
+      notifier.begin_transaction(message, payload)
     end
   end
 
