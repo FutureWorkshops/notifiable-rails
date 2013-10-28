@@ -49,9 +49,7 @@ module FwtPushNotificationServer
     notifiers.each_value do |notifier|
       notifier.begin_transaction(message, payload)
     end
-  end
-
-  def self.commit_transaction
+    yield
     notifiers.each_value do |notifier|
       notifier.commit_transaction
     end
