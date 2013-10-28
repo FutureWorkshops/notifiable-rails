@@ -28,7 +28,7 @@ Sample request:
 // POST /device_tokens
 // Content-Type: application/json
 {
-	"token" : "SADFD234GFSD7982321321",
+    "token" : "SADFD234GFSD7982321321",
     "user_id" : "user@example.com",
     "provider" : "apns"
 }
@@ -64,11 +64,11 @@ Push notifications will be sent to all active devices of the user using appropri
 ```ruby
 	alert = "Hi all!"
     users = User.all
-	FwtPushNotificationServer.begin_transaction(alert)
-    user.each do |u|
-    	u.schedule_notification
+	FwtPushNotificationServer.begin_transaction(alert) do
+        user.each do |u|
+        	u.schedule_notification
+        end
     end
-    FwtPushNotificationServer.commit_transaction
 ```
 This transactional method minimises the amount of connections. This is preferred way of sending large amounts of notifications.
 
