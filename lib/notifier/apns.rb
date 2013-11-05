@@ -21,11 +21,15 @@ module FwtPushNotificationServer
 		    	  	end
 		      	end
 
-		      	feedback = Grocer.feedback(config)
+		      	feedback_config = {
+		      		:gateway => config[:gateway].gsub('gateway', 'feedback'),
+		      		:certificate => config[:certificate]
+		      	}
+		      	feedback = Grocer.feedback(feedback_config)
 		      	feedback.each do |attempt|
 		        	token = attempt.device_token
 		        	device_token = DeviceToken.find_by_token(token)
-		        	device_token.update_attribute("is_valid", false) unless device_token.nil?
+		        	device_token.update_attribute("is_valid", false) unless device_token.nil? && device.token.update_at < attempt.timestamp
 		        	puts "APNS: Device #{token} failed at #{attempt.timestamp}"
 		      	end
 
