@@ -22,6 +22,12 @@ module FwtPushNotificationServer
   mattr_accessor :apns_passphrase
 
   mattr_accessor :gcm_api_key
+  
+  mattr_accessor :deliveries_store
+  @@deliveries_store = {}
+  
+  mattr_accessor :delivery_method
+  @@delivery_method = :send
 
   def self.configure
     yield self
@@ -36,6 +42,16 @@ module FwtPushNotificationServer
     :apns => Notifier::APNS.new,
     :gcm => Notifier::GCM.new
   }
+  
+  def self.deliveries
+    if @@deliveries_store.empty?
+      @@deliveries_store = {
+        'FwtPushNotificationServer::Notifier::APNS' => [],
+        'FwtPushNotificationServer::Notifier::GCM' => []
+      }
+    end
+    @@deliveries_store
+  end
 
   def self.apns_config
     {
