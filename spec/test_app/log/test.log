@@ -1,0 +1,86 @@
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (10.8ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:02:43 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:02:43 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mrollback transaction[0m
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:06:24 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:06:24 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.4ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:09:17 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:09:17 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (0.4ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:09:38 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:09:38 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.4ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:09:59 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:09:59 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.3ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:11:48 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:11:48 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.6ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:12:09 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:12:09 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mFwtPushNotificationServer::DeviceToken Exists (0.1ms)[0m  SELECT 1 AS one FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."token" IS NULL LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  rollback transaction
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:17:46 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:17:46 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mFwtPushNotificationServer::DeviceToken Exists (0.1ms)[0m  SELECT 1 AS one FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."token" = 'ABC1234' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "fwt_push_notification_server_device_tokens" ("created_at", "provider", "token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:17:46 UTC +00:00], ["provider", :apns], ["token", "ABC1234"], ["updated_at", Tue, 10 Dec 2013 13:17:46 UTC +00:00], ["user_id", "matt@futureworkshops.com"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.6ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.3ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:19:12 UTC +00:00], ["email", "matt@futureworkshops.com"], ["updated_at", Tue, 10 Dec 2013 13:19:12 UTC +00:00]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mFwtPushNotificationServer::DeviceToken Exists (0.1ms)[0m  SELECT 1 AS one FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."token" = 'ABC1234' LIMIT 1
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO "fwt_push_notification_server_device_tokens" ("created_at", "provider", "token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Tue, 10 Dec 2013 13:19:12 UTC +00:00], ["provider", :apns], ["token", "ABC1234"], ["updated_at", Tue, 10 Dec 2013 13:19:12 UTC +00:00], ["user_id", "matt@futureworkshops.com"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  [1mSELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'[0m
+  [1m[35m (6.6ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mFwtPushNotificationServer::DeviceToken Exists (0.1ms)[0m  [1mSELECT 1 AS one FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."token" = 'ABC1234' LIMIT 1[0m
+  [1m[35mSQL (22.8ms)[0m  INSERT INTO "fwt_push_notification_server_device_tokens" ("created_at", "provider", "token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?)  [["created_at", Tue, 10 Dec 2013 13:35:47 UTC +00:00], ["provider", :apns], ["token", "ABC1234"], ["updated_at", Tue, 10 Dec 2013 13:35:47 UTC +00:00], ["user_id", "matt@futureworkshops.com"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mFwtPushNotificationServer::DeviceToken Load (0.1ms)[0m  SELECT "fwt_push_notification_server_device_tokens".* FROM "fwt_push_notification_server_device_tokens" WHERE "fwt_push_notification_server_device_tokens"."user_id" = 'matt@futureworkshops.com'
+  [1m[36m (0.7ms)[0m  [1mrollback transaction[0m
