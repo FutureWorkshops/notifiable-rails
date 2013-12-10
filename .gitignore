@@ -81,3 +81,4 @@ public/development
 **.swp
 
 /config/database.yml
+*.log
