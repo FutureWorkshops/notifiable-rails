@@ -11,6 +11,6 @@ describe User do
         
     user.notify_once "Test"
     
-    FwtPushNotificationServer.deliveries["FwtPushNotificationServer::Notifier::APNS"].count.should == 1
+    FwtPushNotificationServer.deliveries[:apns].count.should == 1
   end
 end
