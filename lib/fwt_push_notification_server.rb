@@ -23,9 +23,6 @@ module FwtPushNotificationServer
 
   mattr_accessor :gcm_api_key
   
-  mattr_accessor :deliveries_store
-  @@deliveries_store = {}
-  
   mattr_accessor :delivery_method
   @@delivery_method = :send
 
@@ -43,13 +40,17 @@ module FwtPushNotificationServer
     :gcm => Notifier::GCM.new
   }
   
+  mattr_accessor :notifier_handles
+  @@notifier_handles = {
+    Notifier::APNS => :apns,
+    Notifier::GCM => :gcm
+  }
+  
+  mattr_accessor :deliveries_store
+  @@deliveries_store = {}
+  
   def self.deliveries
-    if @@deliveries_store.empty?
-      @@deliveries_store = {
-        'FwtPushNotificationServer::Notifier::APNS' => [],
-        'FwtPushNotificationServer::Notifier::GCM' => []
-      }
-    end
+    @@notifiers.keys.each{|h| @@deliveries_store[h] = []} if @@deliveries_store.empty?
     @@deliveries_store
   end
 
