@@ -20,7 +20,7 @@ module FwtPushNotificationServer
 
 			def notify_once(message, device_tokens, payload = nil)
         if FwtPushNotificationServer.delivery_method == :test
-          FwtPushNotificationServer.deliveries[self.class.name] << message
+          FwtPushNotificationServer.deliveries[FwtPushNotificationServer.notifier_handles[self.class]] << message
         else
           send_notify_once(message, device_tokens, payload)  
         end
