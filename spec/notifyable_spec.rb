@@ -18,4 +18,14 @@ describe User do
     FwtPushNotificationServer.deliveries.count.should == 1
     FwtPushNotificationServer.deliveries[0].recipients.count.should == 2
   end
+  
+  it "sends zero notifications if the device is not valid" do
+    user = FactoryGirl.build(:user_with_invalid_apns_token)
+    
+    user.notify_once "Test"
+    
+    FwtPushNotificationServer.deliveries.count.should == 0
+    
+  end
+  
 end
