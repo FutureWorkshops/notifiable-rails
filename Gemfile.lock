@@ -2,8 +2,6 @@ PATH
   remote: .
   specs:
     fwt_push_notification_server (0.1.0.b11)
-      cancan
-      devise
       gcm
       grocer
       rails (~> 4.0.0)
@@ -37,9 +35,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.1)
     atomic (1.1.14)
-    bcrypt-ruby (3.1.2)
     builder (3.1.4)
-    cancan (1.6.10)
     columnize (0.3.6)
     debugger (1.6.3)
       columnize (>= 0.3.1)
@@ -47,12 +43,6 @@ GEM
       debugger-ruby_core_source (~> 1.2.4)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.4)
-    devise (3.2.2)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     factory_girl (4.3.0)
@@ -77,7 +67,6 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multi_xml (0.5.5)
-    orm_adapter (0.5.0)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -125,8 +114,6 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
-    warden (1.2.3)
-      rack (>= 1.0)
 
 PLATFORMS
   ruby
