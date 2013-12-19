@@ -54,6 +54,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    docile (1.1.1)
     erubis (2.7.0)
     factory_girl (4.3.0)
       activesupport (>= 3.0.0)
@@ -107,6 +108,11 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -136,4 +142,5 @@ DEPENDENCIES
   factory_girl_rails
   fwt_push_notification_server!
   rspec-rails
+  simplecov
   sqlite3
