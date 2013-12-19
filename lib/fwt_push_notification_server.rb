@@ -1,4 +1,5 @@
 require "fwt_push_notification_server/engine"
+require 'models/notification'
 require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
@@ -39,20 +40,9 @@ module FwtPushNotificationServer
     :apns => Notifier::APNS.new,
     :gcm => Notifier::GCM.new
   }
-  
-  mattr_accessor :notifier_handles
-  @@notifier_handles = {
-    Notifier::APNS => :apns,
-    Notifier::GCM => :gcm
-  }
-  
-  mattr_accessor :deliveries_store
-  @@deliveries_store = {}
-  
-  def self.deliveries
-    @@notifiers.keys.each{|h| @@deliveries_store[h] = []} if @@deliveries_store.empty?
-    @@deliveries_store
-  end
+
+  mattr_accessor :deliveries
+  @@deliveries = []
 
   def self.apns_config
     {

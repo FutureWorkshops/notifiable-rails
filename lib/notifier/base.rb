@@ -19,16 +19,16 @@ module FwtPushNotificationServer
 			end
 
 			def notify_once(message, device_tokens, payload = nil)
-				if FwtPushNotificationServer.delivery_method == :test
-					FwtPushNotificationServer.deliveries[FwtPushNotificationServer.notifier_handles[self.class]] << message
-				else
-					send_notify_once(message, device_tokens, payload)  
-				end
-			end
-	  
-			protected
-			def send_notify_once(message, device_tokens, payload = nil)
-			
+        return if device_tokens.empty?
+        
+        if FwtPushNotificationServer.delivery_method == :test
+          n = FwtPushNotificationServer::Notification.new
+          n.message = message
+          n.recipients = device_tokens
+          FwtPushNotificationServer.deliveries << n
+        else
+          send_notify_once(message, device_tokens, payload)  
+        end
 			end
 		end
 
