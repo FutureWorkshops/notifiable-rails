@@ -19,6 +19,8 @@ module FwtPushNotificationServer
 			end
 
 			def notify_once(message, device_tokens, payload = nil)
+        return if device_tokens.empty?
+        
         if FwtPushNotificationServer.delivery_method == :test
           n = FwtPushNotificationServer::Notification.new
           n.message = message
