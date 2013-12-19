@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-  devise :notifiable, :database_authenticatable
+  notifiable
 end
