@@ -1,3 +1,5 @@
+require "fwt_push_notification_server/notifiable"
+require 'fwt_push_notification_server/railtie' if defined?(Rails)
 require "fwt_push_notification_server/engine"
 require 'models/notification'
 require 'notifier/base'
@@ -61,5 +63,12 @@ module FwtPushNotificationServer
       notifier.commit_transaction
     end
   end
+end
 
+module FwtPushNotificationServer
+  module Model
+    def notifiable(options = {})
+      include Notifiable
+    end
+  end
 end

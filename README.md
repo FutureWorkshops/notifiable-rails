@@ -82,10 +82,6 @@ This transactional method minimises the amount of connections. This is preferred
 
 ```
 
-## REQUIREMENTS
-
-The module relies on <a href="https://github.com/plataformatec/devise">devise</a> for authentication.
-
 ## INSTALLATION
 
 1. Add the gem to your bundle

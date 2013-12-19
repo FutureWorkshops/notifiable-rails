@@ -5,7 +5,6 @@ require File.expand_path("../../lib/fwt_push_notification_server.rb",  __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
-require 'devise'
 
 Rails.backtrace_cleaner.remove_silencers!
 
