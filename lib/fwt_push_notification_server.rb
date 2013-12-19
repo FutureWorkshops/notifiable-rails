@@ -1,7 +1,9 @@
 require "fwt_push_notification_server/notifiable"
 require 'fwt_push_notification_server/railtie' if defined?(Rails)
 require "fwt_push_notification_server/engine"
-require 'models/notification'
+require 'fwt_push_notification_server/notification'
+require 'fwt_push_notification_server/device_token'
+
 require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
