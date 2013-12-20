@@ -1,4 +1,3 @@
-
 FwtPushNotificationServer.configure do |config|
 
   #
