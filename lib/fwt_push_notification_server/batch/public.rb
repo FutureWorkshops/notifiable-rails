@@ -5,6 +5,7 @@ module FwtPushNotificationServer
       attr_accessor :device_tokens
       
       def initialize(options)
+        super(options)
         @device_tokens = []
         @notification = options[:notification]
       end
@@ -26,14 +27,11 @@ module FwtPushNotificationServer
           tokens_map[provider_sym] << device_token
         end
       
-        tokens_map.each_pair do |provider, device_tokens|
-          next if device_tokens.empty?
-        
-          if FwtPushNotificationServer.delivery_method == :test
-            FwtPushNotificationServer.deliveries << self
-          else
-            notifier = @notifiers[provider]
-        		notifier.send_public_notification(notification, device_tokens) unless notifier.nil?          
+        tokens_map.each_pair do |provider, device_tokens|          
+          notifier = @notifiers[provider]
+          unless notifier.nil? 
+      		  notifier.send_public_notifications(notification, device_tokens) 
+            FwtPushNotificationServer.deliveries << self if FwtPushNotificationServer.delivery_method == :test
           end
         end        
       end
