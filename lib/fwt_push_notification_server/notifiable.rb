@@ -2,18 +2,12 @@ module FwtPushNotificationServer
 	module Notifiable
 		extend ActiveSupport::Concern
 
-		def notify_once(message, payload = nil)
-			device_tokens.each do |dt|
-				dt.notifier.notify_once(message, [dt], payload) if dt.is_valid && !dt.notifier.nil?
-			end
+		def notify_once(notification)
+      FwtPushNotificationServer::Batch::Public.begin(:notification => notification) do |n|
+        n.add_user(self)
+      end
 		end
     
-		def schedule_notification
-			device_tokens.each do |dt|
-				dt.notifier.add_device_token(dt) if dt.is_valid && !dt.notifier.nil?
-			end
-		end
-
 		def device_tokens
 			key = FwtPushNotificationServer.user_key
 			FwtPushNotificationServer::DeviceToken.where(:user_id => send(key))
