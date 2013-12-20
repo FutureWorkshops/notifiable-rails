@@ -1,6 +1,6 @@
 require 'simplecov'
 SimpleCov.start do
-  minimum_coverage 70
+  minimum_coverage 80
   add_filter "/spec/"
   add_filter "/config/"
 end
