@@ -12,16 +12,8 @@ module FwtPushNotificationServer
       
 			protected      
 			def enqueue(notification, device_token)        				
-        
-        # todo - should be moved to a validation, or moved into the notification class so its run once
-        alert = notification.message
-				if alert.bytesize > 232
-          alert.byteslice(0, 229)
-          alert += '...'
-				  Rails.logger.warn("Truncated message: #{notification.message}")
-        end
-                
-        grocer_notification = Grocer::Notification.new(device_token: device_token.token, alert: alert, custom: notification.payload)
+          
+        grocer_notification = Grocer::Notification.new(device_token: device_token.token, alert: notification.apns_message, custom: notification.payload)
 				grocer_pusher.push(grocer_notification) unless FwtPushNotificationServer.delivery_method == :test
 
         processed(notification, device_token)
