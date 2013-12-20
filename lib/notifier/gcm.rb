@@ -20,13 +20,13 @@ module FwtPushNotificationServer
       
       def flush
         @batch.each_pair do |notification, device_tokens|
-          send_batch(notifiction, device_tokens)
+          send_batch(notification, device_tokens)
         end
       end
 
 			private
 			def send_batch(notification, device_tokens)
-        if FwtPushNotificationServer.delivery_method = :test
+        if FwtPushNotificationServer.delivery_method == :test || FwtPushNotificationServer.env == 'test'
           device_tokens.each {|d| processed(notification, d)}
         else
   				gcm = ::GCM.new(FwtPushNotificationServer.gcm_api_key)
