@@ -34,4 +34,14 @@ describe FwtPushNotificationServer do
     FwtPushNotificationServer.deliveries[1][:notification].message.should eql "Second test message"
     FwtPushNotificationServer.deliveries[1][:device_token].should eql user2.device_tokens[0]
   end
+  
+  it "doesnt send notifications if the delivery_method is set to :test" do
+    FwtPushNotificationServer.delivery_method = :test
+    
+    user1.send_notification(notification1)
+    
+    FwtPushNotificationServer.deliveries.count.should == 1
+    @grocer.notifications.size.should == 0
+    
+  end
 end
