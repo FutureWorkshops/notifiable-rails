@@ -6,14 +6,22 @@ module FwtPushNotificationServer
       
 			protected
       def grocer_pusher
-        @grocer_pusher ||= Grocer.pusher(FwtPushNotificationServer.apns_config)
+        @grocer_pusher ||= Grocer.pusher(FwtPushNotificationServer.apns_gateway_config)
       end
       
       def grocer_feedback
-				@grocer_feedback ||= Grocer.feedback({
-					:gateway => config[:gateway].gsub('gateway', 'feedback'),
-					:certificate => config[:certificate]
-				})
+				@grocer_feedback ||= Grocer.feedback(FwtPushNotificationServer.apns_feedback_config)
+      end
+      
+      def process_feedback
+				self.grocer_feedback.each do |attempt|
+					token = attempt.device_token
+					device_token = DeviceToken.find_by_token(token)
+					if device_token
+						device_token.update_attribute("is_valid", false) if device_token.updated_at < attempt.timestamp
+						Rails.logger.info("Device #{token} (#{device_token.user_id}) failed at #{attempt.timestamp}")
+					end
+				end
       end
       
 			def protected_send_public_notifications(notification, device_tokens = [])        				
@@ -33,14 +41,7 @@ module FwtPushNotificationServer
           )) if device.is_valid
 				end
 
-				self.grocer_feedback.each do |attempt|
-					token = attempt.device_token
-					device_token = DeviceToken.find_by_token(token)
-					if device_token
-						device_token.update_attribute("is_valid", false) if device_token.updated_at < attempt.timestamp
-						Rails.logger.info("Device #{token} (#{device_token.user_id}) failed at #{attempt.timestamp}")
-					end
-				end
+        process_feedback unless FwtPushNotificationServer.delivery_method == :test
 			end
 		end
 
