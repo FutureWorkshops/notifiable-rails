@@ -44,5 +44,13 @@ FwtPushNotificationServer.configure do |config|
   # The batch size
   # Defaults to 1000
   #config.gcm_batch_size = 1000
+  
+  #
+  # Global
+  #
+  
+  # Set the delivery method to test, preventing notifications from being sent
+  # Defaults to :send
+  #config.delivery_method = :test
 
 end
