@@ -13,7 +13,7 @@ module FwtPushNotificationServer
 			def enqueue(notification, device_token)
         @batch[notification] ||= [device_token]        								
         tokens = @batch[notification]
-        if tokens.count >= 1000
+        if tokens.count >= FwtPushNotificationServer.gcm_batch_size
           send_batch(notification, tokens)
         end
   		end

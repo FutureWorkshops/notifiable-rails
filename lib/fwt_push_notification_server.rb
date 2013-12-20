@@ -19,16 +19,19 @@ module FwtPushNotificationServer
   mattr_accessor :permitted_user_attributes
 
   mattr_accessor :user_key
-  @@user_key = :user_id  
+  @@user_key = :email  
 
   mattr_accessor :apns_gateway
-  @@apns_gateway = 'sandbox.push.apple.com'
+  @@apns_gateway = 'gateway.push.apple.com'
 
   mattr_accessor :apns_certificate
 
   mattr_accessor :apns_passphrase
 
   mattr_accessor :gcm_api_key
+
+  mattr_accessor :gcm_batch_size
+  @@gcm_batch_size = 1000
   
   mattr_accessor :delivery_method
   @@delivery_method = :send
@@ -44,7 +47,7 @@ module FwtPushNotificationServer
     if self.delivery_method == :test
       {
         :gateway => 'localhost',
-        :certificate => File.join(Rails.root, 'config', 'APNSDevelopment.pem'),
+        :certificate => File.join(Rails.root, 'config', 'apns-development.pem'),
         :passphrase => nil
       }
     else
