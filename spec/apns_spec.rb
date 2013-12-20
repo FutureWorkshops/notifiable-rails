@@ -10,7 +10,7 @@ describe FwtPushNotificationServer::Notifier::APNS do
     
     Timeout.timeout(3) {
       notification = @grocer.notifications.pop
-      expect(notification.alert).to eq("Test message")
+      notification.alert.should eql "Test message"
     }
   end
   

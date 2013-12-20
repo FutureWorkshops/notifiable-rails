@@ -44,7 +44,7 @@ module FwtPushNotificationServer
   @@deliveries = []
 
   def self.apns_gateway_config
-    if self.delivery_method == :test
+    if self.env == 'test'
       {
         :gateway => 'localhost',
         :certificate => File.join(Rails.root, 'config', 'apns-development.pem'),
@@ -71,6 +71,10 @@ module FwtPushNotificationServer
     b = Batch.new
     yield(b)
     b.close
+  end
+  
+  def self.env
+    ENV['RAILS_ENV'] || 'Development'
   end
 
 end

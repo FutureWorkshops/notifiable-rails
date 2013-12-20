@@ -24,7 +24,7 @@ FwtPushNotificationServer.configure do |config|
   #
   
   # The path to your apns private key
-	config.apns_certificate = File.join(Rails.root, 'config', 'apns-production.pem')
+	config.apns_certificate = File.join(Rails.root, 'config', 'apns-development.pem')
   
   # The passphrase for your private key
   # Defaults to nil
