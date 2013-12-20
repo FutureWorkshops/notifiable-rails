@@ -4,7 +4,28 @@ module FwtPushNotificationServer
 
 		class APNS < Notifier::Base
       
-			protected
+			protected      
+			def do_send_public_notifications(notification, device_tokens = [])        				
+        alert = notification.message
+				if alert.bytesize > 232
+          alert.byteslice(0, 229)
+          alert += '...'
+				  Rails.logger.warn("Truncated message: #{notification.message}")
+        end
+
+				device_tokens = [device_tokens] unless device_tokens.is_a?(Array)
+				device_tokens.each do |device|
+					grocer_pusher.push(Grocer::Notification.new(
+            device_token: device.token, 
+            alert: alert, 
+            custom: notification.payload
+          )) if device.is_valid
+				end
+
+        process_feedback unless FwtPushNotificationServer.delivery_method == :test
+			end
+      
+      private 
       def grocer_pusher
         @grocer_pusher ||= Grocer.pusher(FwtPushNotificationServer.apns_gateway_config)
       end
@@ -23,26 +44,6 @@ module FwtPushNotificationServer
 					end
 				end
       end
-      
-			def protected_send_public_notifications(notification, device_tokens = [])        				
-        alert = notification.message
-				if alert.bytesize > 232
-          alert.byteslice(0, 229)
-          alert += '...'
-				  Rails.logger.warn("Truncated message: #{notification.message}")
-        end
-
-				device_tokens = [device_tokens] unless device_tokens.is_a?(Array)
-				device_tokens.each do |device|
-					self.grocer_pusher.push(Grocer::Notification.new(
-            device_token: device.token, 
-            alert: alert, 
-            custom: notification.payload
-          )) if device.is_valid
-				end
-
-        process_feedback unless FwtPushNotificationServer.delivery_method == :test
-			end
 		end
 
 	end

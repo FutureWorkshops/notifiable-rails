@@ -4,7 +4,7 @@ module FwtPushNotificationServer
 
 		class FwtPushNotificationServer::Notifier::GCM < Notifier::Base
       protected 
-			def send_public_notifications(notification, device_tokens = [])        				
+			def do_send_public_notifications(notification, device_tokens = [])        				
 
   				@device_tokens = device_tokens.is_a?(Array) ? device_tokens : [device_tokens]
 				
