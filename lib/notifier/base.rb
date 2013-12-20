@@ -3,8 +3,12 @@ module FwtPushNotificationServer
 	module Notifier
 
 		class Base
-			def notify_once(message, device_tokens = [], payload = nil)        
-        send_notify_once(message, device_tokens, payload)  
+			def send_public_notifications(notification, device_tokens = [])
+        protected_send_public_notifications(notification, device_tokens)       				
+      end
+            
+			def send_private_notifications(notifications, device_tokens = []) 
+        throw "Not implemented"       
 			end
 		end
 
