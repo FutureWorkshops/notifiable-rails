@@ -13,10 +13,10 @@ describe FwtPushNotificationServer do
     end
     FwtPushNotificationServer.deliveries.count.should == 2
     
-    FwtPushNotificationServer.deliveries[0][:notification].message.should eql "First test message"
+    FwtPushNotificationServer.deliveries[0][:notification].apns_message.should eql "First test message"
     FwtPushNotificationServer.deliveries[0][:device_token].should eql user1.device_tokens[0]
     
-    FwtPushNotificationServer.deliveries[1][:notification].message.should eql "First test message"
+    FwtPushNotificationServer.deliveries[1][:notification].apns_message.should eql "First test message"
     FwtPushNotificationServer.deliveries[1][:device_token].should eql user2.device_tokens[0]
   end
   
@@ -28,10 +28,10 @@ describe FwtPushNotificationServer do
     
     FwtPushNotificationServer.deliveries.count.should == 2
     
-    FwtPushNotificationServer.deliveries[0][:notification].message.should eql "First test message"
+    FwtPushNotificationServer.deliveries[0][:notification].apns_message.should eql "First test message"
     FwtPushNotificationServer.deliveries[0][:device_token].should eql user1.device_tokens[0]
     
-    FwtPushNotificationServer.deliveries[1][:notification].message.should eql "Second test message"
+    FwtPushNotificationServer.deliveries[1][:notification].apns_message.should eql "Second test message"
     FwtPushNotificationServer.deliveries[1][:device_token].should eql user2.device_tokens[0]
   end
   
@@ -41,7 +41,20 @@ describe FwtPushNotificationServer do
     user1.send_notification(notification1)
     
     FwtPushNotificationServer.deliveries.count.should == 1
-    @grocer.notifications.size.should == 0
     
+    #Timeout.timeout(2) {
+    #  @grocer.notifications.size.should == 0
+    #}
+  end
+  
+  it "truncates long apns messages" do
+    
+    long_notification = FwtPushNotificationServer::Notification.new(:message => "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message end")
+    
+    
+    user1.send_notification(long_notification)
+    
+    FwtPushNotificationServer.deliveries.count.should == 1
+    FwtPushNotificationServer.deliveries[0][:notification].apns_message.should eql "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message F..."
   end
 end
