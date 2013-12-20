@@ -50,15 +50,6 @@ module FwtPushNotificationServer
     }
   end
 
-  def self.begin_transaction(message, payload = nil)
-    notifiers.each_value do |notifier|
-      notifier.begin_transaction(message, payload)
-    end
-    yield
-    notifiers.each_value do |notifier|
-      notifier.commit_transaction
-    end
-  end
 end
 
 module FwtPushNotificationServer
