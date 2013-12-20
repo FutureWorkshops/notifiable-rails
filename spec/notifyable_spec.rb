@@ -25,6 +25,17 @@ describe User do
     user.notify_once "Test"
     
     FwtPushNotificationServer.deliveries.count.should == 0
+  end
+  
+  it "doesn't send multiple notifications to the same device" do
+    
+    FwtPushNotificationServer.begin_transaction("Test push message") do
+      user1.schedule_notification
+      user1.schedule_notification
+    end
+    
+    FwtPushNotificationServer.deliveries.count.should == 1
+    FwtPushNotificationServer.deliveries[0].recipients.count.should == 1
     
   end
   
