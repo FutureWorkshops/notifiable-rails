@@ -2,7 +2,7 @@ module FwtPushNotificationServer
 	module Notifiable
 		extend ActiveSupport::Concern
 
-		def notify_once(notification)
+		def send_notification(notification)
       FwtPushNotificationServer::Batch::Public.begin(:notification => notification) do |n|
         n.add_user(self)
       end
