@@ -15,7 +15,7 @@ module FwtPushNotificationServer
         end
       end
   
-      def send
+      def send_notifications
         @device_tokens.uniq!
         
         # turn device tokens into map
@@ -33,7 +33,7 @@ module FwtPushNotificationServer
             FwtPushNotificationServer.deliveries << self
           else
             notifier = @notifiers[provider]
-        		notifier.notify_once(notification.message, device_tokens, notification.payload) unless notifier.nil?          
+        		notifier.send_public_notification(notification, device_tokens) unless notifier.nil?          
           end
         end        
       end

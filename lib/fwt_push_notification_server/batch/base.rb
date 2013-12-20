@@ -3,7 +3,7 @@ module FwtPushNotificationServer
     class Base
       attr_accessor :notifiers
     
-      def initialize
+      def initialize(options)
         @notifiers = {
           :apns => Notifier::APNS.new,
           :gcm => Notifier::GCM.new
@@ -13,7 +13,7 @@ module FwtPushNotificationServer
       def self.begin(options = {})
         b = self.new(options)
         yield(b)
-        b.send
+        b.send_notifications
       end
     end
   end
