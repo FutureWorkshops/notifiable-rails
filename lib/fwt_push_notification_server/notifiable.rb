@@ -3,8 +3,8 @@ module FwtPushNotificationServer
 		extend ActiveSupport::Concern
 
 		def send_notification(notification)
-      FwtPushNotificationServer::Batch::Public.begin(:notification => notification) do |n|
-        n.add_user(self)
+      FwtPushNotificationServer.batch do |b|
+        b.add(notification, self)
       end
 		end
     
