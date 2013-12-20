@@ -1,12 +1,16 @@
-require "fwt_push_notification_server/notifiable"
-require 'fwt_push_notification_server/railtie' if defined?(Rails)
-require "fwt_push_notification_server/engine"
-require 'fwt_push_notification_server/notification'
-require 'fwt_push_notification_server/device_token'
-
 require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
+
+require 'fwt_push_notification_server/notifiable'
+require 'fwt_push_notification_server/railtie' if defined?(Rails)
+require 'fwt_push_notification_server/engine'
+require 'fwt_push_notification_server/notification'
+require 'fwt_push_notification_server/batch/base'
+require 'fwt_push_notification_server/batch/public'
+require 'fwt_push_notification_server/batch/private'
+require 'fwt_push_notification_server/device_token'
+
 
 module FwtPushNotificationServer
 
