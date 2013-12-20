@@ -3,13 +3,24 @@ module FwtPushNotificationServer
 	module Notifier
 
 		class Base
-			def send_public_notifications(notification, device_tokens = [])
-        do_send_public_notifications(notification, device_tokens)       				
+			def send_notification(notification, device_token)
+        # todo - add before hook
+        enqueue(notification, device_token)
+        # todo - add after hook       				
       end
-            
-			def send_private_notifications(notifications, device_tokens = []) 
-        throw "Not implemented"       
-			end
+      
+      def close
+        flush
+      end
+      
+      protected
+      def flush
+        
+      end
+      
+      def processed(notification, device_token)
+        FwtPushNotificationServer.deliveries << {:notification => notification, :device_token => device_token}
+      end
 		end
 
 	end
