@@ -1,12 +1,16 @@
-require "fwt_push_notification_server/notifiable"
-require 'fwt_push_notification_server/railtie' if defined?(Rails)
-require "fwt_push_notification_server/engine"
-require 'fwt_push_notification_server/notification'
-require 'fwt_push_notification_server/device_token'
-
 require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
+
+require 'fwt_push_notification_server/notifiable'
+require 'fwt_push_notification_server/railtie' if defined?(Rails)
+require 'fwt_push_notification_server/engine'
+require 'fwt_push_notification_server/notification'
+require 'fwt_push_notification_server/batch/base'
+require 'fwt_push_notification_server/batch/public'
+require 'fwt_push_notification_server/batch/private'
+require 'fwt_push_notification_server/device_token'
+
 
 module FwtPushNotificationServer
 
@@ -35,16 +39,6 @@ module FwtPushNotificationServer
     yield self
   end
 
-  ###
-  # Push Notifications
-  ###
-
-  mattr_accessor :notifiers
-  @@notifiers = {
-    :apns => Notifier::APNS.new,
-    :gcm => Notifier::GCM.new
-  }
-
   mattr_accessor :deliveries
   @@deliveries = []
 
@@ -56,15 +50,6 @@ module FwtPushNotificationServer
     }
   end
 
-  def self.begin_transaction(message, payload = nil)
-    notifiers.each_value do |notifier|
-      notifier.begin_transaction(message, payload)
-    end
-    yield
-    notifiers.each_value do |notifier|
-      notifier.commit_transaction
-    end
-  end
 end
 
 module FwtPushNotificationServer
