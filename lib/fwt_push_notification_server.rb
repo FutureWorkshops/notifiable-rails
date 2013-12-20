@@ -39,16 +39,6 @@ module FwtPushNotificationServer
     yield self
   end
 
-  ###
-  # Push Notifications
-  ###
-
-  mattr_accessor :notifiers
-  @@notifiers = {
-    :apns => Notifier::APNS.new,
-    :gcm => Notifier::GCM.new
-  }
-
   mattr_accessor :deliveries
   @@deliveries = []
 
