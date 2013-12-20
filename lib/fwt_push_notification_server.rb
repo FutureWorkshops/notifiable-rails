@@ -6,9 +6,7 @@ require 'fwt_push_notification_server/notifiable'
 require 'fwt_push_notification_server/railtie' if defined?(Rails)
 require 'fwt_push_notification_server/engine'
 require 'fwt_push_notification_server/notification'
-require 'fwt_push_notification_server/batch/base'
-require 'fwt_push_notification_server/batch/public'
-require 'fwt_push_notification_server/batch/private'
+require 'fwt_push_notification_server/batch'
 require 'fwt_push_notification_server/device_token'
 
 
@@ -64,6 +62,12 @@ module FwtPushNotificationServer
       :certificate => self.apns_gateway_config[:certificate],
       :passphrase => self.apns_gateway_config[:passphrase]
     }
+  end
+  
+  def self.batch()
+    b = Batch.new
+    yield(b)
+    b.close
   end
 
 end
