@@ -20,12 +20,15 @@ module FwtPushNotificationServer
           alert += '...'
 				  Rails.logger.warn("Truncated message: #{notification.message}")
         end
-				grocer_pusher.push(Grocer::Notification.new(device_token: device_token.token, alert: alert, custom: notification.payload)) 
+                
+        grocer_notification = Grocer::Notification.new(device_token: device_token.token, alert: alert, custom: notification.payload)
+				grocer_pusher.push(grocer_notification) unless FwtPushNotificationServer.delivery_method == :test
+
         processed(notification, device_token)
 			end
       
       def flush
-        process_feedback unless FwtPushNotificationServer.delivery_method == :test
+        process_feedback unless FwtPushNotificationServer.env == 'test'
       end
 
       private 
@@ -38,7 +41,7 @@ module FwtPushNotificationServer
       end
       
       def process_feedback
-				self.grocer_feedback.each do |attempt|
+				grocer_feedback.each do |attempt|
 					token = attempt.device_token
 					device_token = DeviceToken.find_by_token(token)
 					if device_token
