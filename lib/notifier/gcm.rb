@@ -4,14 +4,14 @@ module FwtPushNotificationServer
 
 		class FwtPushNotificationServer::Notifier::GCM < Notifier::Base
       protected 
-  			def send_notify_once(message, device_tokens, payload = nil)
+			def send_public_notifications(notification, device_tokens = [])        				
 
   				@device_tokens = device_tokens.is_a?(Array) ? device_tokens : [device_tokens]
 				
   				@gcm = ::GCM.new(FwtPushNotificationServer.gcm_api_key)
 
   				@registration_ids = []
-  				@payload = { :data => { :message => message } }
+  				@payload = { :data => { :message => notification.message } }
   				@device_tokens.each do |device|
   					@registration_ids << device.token
   					if @registration_ids.count == 1000

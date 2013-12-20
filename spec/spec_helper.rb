@@ -25,7 +25,17 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
   
+  config.before(:all) {
+    @grocer = Grocer.server(port: 2195)
+    @grocer.accept
+  }
+  
   config.before(:each) {
     FwtPushNotificationServer.deliveries.clear
+    @grocer.notifications.clear
+  }
+  
+  config.after(:all) {
+    @grocer.close
   }
 end

@@ -42,11 +42,27 @@ module FwtPushNotificationServer
   mattr_accessor :deliveries
   @@deliveries = []
 
-  def self.apns_config
+  def self.apns_gateway_config
+    if self.delivery_method == :test
+      {
+        :gateway => 'localhost',
+        :certificate => File.join(Rails.root, 'config', 'APNSDevelopment.pem'),
+        :passphrase => nil
+      }
+    else
+      {
+        :gateway => apns_gateway,
+        :certificate => apns_certificate,
+        :passphrase => apns_passphrase
+      }
+    end
+  end
+  
+  def self.apns_feedback_config
     {
-      :gateway => apns_gateway,
-      :certificate => apns_certificate,
-      :passphrase => apns_passphrase
+      :gateway => self.apns_gateway_config[:gateway].gsub('gateway', 'feedback'),
+      :certificate => self.apns_gateway_config[:certificate],
+      :passphrase => self.apns_gateway_config[:passphrase]
     }
   end
 
