@@ -24,7 +24,7 @@ module FwtPushNotificationServer
         if FwtPushNotificationServer.delivery_method == :test
           n = FwtPushNotificationServer::Notification.new
           n.message = message
-          n.recipients = device_tokens
+          n.device_tokens = device_tokens
           FwtPushNotificationServer.deliveries << n
         else
           send_notify_once(message, device_tokens, payload)  

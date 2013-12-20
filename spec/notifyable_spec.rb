@@ -16,7 +16,7 @@ describe User do
       user2.schedule_notification
     end
     FwtPushNotificationServer.deliveries.count.should == 1
-    FwtPushNotificationServer.deliveries[0].recipients.count.should == 2
+    FwtPushNotificationServer.deliveries[0].device_tokens.count.should == 2
   end
   
   it "sends zero notifications if the device is not valid" do
@@ -35,7 +35,7 @@ describe User do
     end
     
     FwtPushNotificationServer.deliveries.count.should == 1
-    FwtPushNotificationServer.deliveries[0].recipients.count.should == 1
+    FwtPushNotificationServer.deliveries[0].device_tokens.count.should == 1
     
   end
   
