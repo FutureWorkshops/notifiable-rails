@@ -17,8 +17,6 @@ Rails.backtrace_cleaner.remove_silencers!
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-FwtPushNotificationServer.delivery_method = :test
-
 RSpec.configure do |config|  
   config.mock_with :rspec
   config.use_transactional_fixtures = true
@@ -31,6 +29,7 @@ RSpec.configure do |config|
   }
   
   config.before(:each) {
+    FwtPushNotificationServer.delivery_method = :send
     FwtPushNotificationServer.deliveries.clear
     @grocer.notifications.clear
   }
