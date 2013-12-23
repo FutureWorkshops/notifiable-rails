@@ -7,8 +7,9 @@ end
 
 ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path("../test_app/config/environment.rb",  __FILE__)
-require File.expand_path("../../lib/fwt_push_notification_server.rb",  __FILE__)
+require File.expand_path("../test_app/config/environment",  __FILE__)
+require File.expand_path("../../lib/fwt_push_notification_server",  __FILE__)
+require File.expand_path("../../app/controllers/fwt_push_notification_server/device_tokens_controller",  __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
@@ -22,6 +23,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  config.include EngineControllerTestMonkeyPatch, :type => :controller
   
   config.before(:all) {
     @grocer = Grocer.server(port: 2195)
