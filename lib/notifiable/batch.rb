@@ -1,17 +1,21 @@
 module Notifiable
   class Batch
     attr_accessor :notifiers
-  
+    
     def initialize
-      @notifiers = {
-        :apns => Notifier::APNS.new,
-        :gcm => Notifier::GCM.new
-      }
+      @notifiers = {}
     end
     
     def add(notification, user)
       user.device_tokens.each do |d|
-        notifier = @notifiers[d.provider.to_sym]
+        provider = d.provider.to_sym
+        notifier = @notifiers[provider]
+        
+        unless notifier
+          notifier = Notifier::Base.create provider
+          @notifiers[provider] = notifier
+        end
+        
         if d.is_valid? && !notifier.nil? 
     		  notifier.send_notification(notification, d) 
         end
