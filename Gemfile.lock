@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    notifiable (0.2.0)
+    notifiable-rails (0.1.0)
       gcm
       grocer
       rails (~> 4.0.0)
@@ -127,7 +127,7 @@ PLATFORMS
 DEPENDENCIES
   debugger
   factory_girl_rails
-  notifiable!
+  notifiable-rails!
   rspec-rails
   simplecov
   sqlite3
