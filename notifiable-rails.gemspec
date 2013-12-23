@@ -5,10 +5,10 @@ require "notifiable/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "notifiable"
+  s.name        = "notifiable-rails"
   s.version     = Notifiable::VERSION
-  s.authors     = ["Kamil Kocemba"]
-  s.email       = ["kamil@futureworkshops.com"]
+  s.authors     = ["Kamil Kocemba", "Matt Brooke-Smith"]
+  s.email       = ["kamil@futureworkshops.com", "matt@futureworkshops.com"]
   s.homepage    = "http://www.futureworkshops.com"
   s.summary     = "Rails engine to make push notifications a bit easier."
   s.description = "Rails engine to make push notifications a bit easier. "
