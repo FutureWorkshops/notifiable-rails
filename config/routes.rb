@@ -1,6 +1,6 @@
   
 FwtPushNotificationServer::Engine.routes.draw do
 
-	resources :device_tokens, only: [:create]
+	resources :device_tokens, :only => :create
 
 end
