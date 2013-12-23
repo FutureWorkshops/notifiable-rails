@@ -21,10 +21,6 @@ module FwtPushNotificationServer
     end
 
     private
-      def device_token_params
-        params.permit(:token, :user_id, :provider)
-      end
-
       def user_info_params
         unless params[:user].nil? || FwtPushNotificationServer.permitted_user_attributes.nil?
           params[:user].permit(FwtPushNotificationServer.permitted_user_attributes)
