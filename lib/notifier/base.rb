@@ -3,6 +3,15 @@ module Notifiable
 	module Notifier
 
 		class Base
+      def self.create(provider)
+        case provider
+        when :apns
+          Notifiable.apns_class_name.constantize.new
+        when :gcm
+          Notifiable.gcm_class_name.constantize.new
+        end
+      end
+      
 			def send_notification(notification, device_token)
         # todo - add before hook
         enqueue(notification, device_token)
