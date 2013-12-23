@@ -1,6 +1,6 @@
 require 'rails/generators/migration'
 
-module FwtPushNotificationServer
+module Notifiable
   module Generators
   
     class InstallGenerator < ::Rails::Generators::Base
@@ -21,8 +21,7 @@ module FwtPushNotificationServer
       end
 
       def copy_migrations
-        migration_template "create_fwt_push_notification_server_device_tokens.rb", "db/migrate/create_fwt_push_notification_server_device_tokens.rb"
-        migration_template "add_provider_to_push_notification_server_device_tokens.rb", "db/migrate/add_provider_to_push_notification_server_device_tokens.rb"
+        migration_template "create_notifiable_device_tokens.rb", "db/migrate/create_notifiable_device_tokens.rb"
       end
 
       desc "Add initializer"
@@ -33,7 +32,7 @@ module FwtPushNotificationServer
     
       private
         def app_name
-          "fwt_push_notification_server"
+          "notifiable"
         end
 
     end

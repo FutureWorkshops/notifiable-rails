@@ -1,7 +1,7 @@
 
-module FwtPushNotificationServer
+module Notifiable
   
-  class DeviceTokensController < FwtPushNotificationServer.api_controller_class
+  class DeviceTokensController < Notifiable.api_controller_class
 
     def create
       @device_token = DeviceToken.find_or_create_by_token(params[:token])
@@ -22,8 +22,8 @@ module FwtPushNotificationServer
 
     private
       def user_info_params
-        unless params[:user].nil? || FwtPushNotificationServer.permitted_user_attributes.nil?
-          params[:user].permit(FwtPushNotificationServer.permitted_user_attributes)
+        unless params[:user].nil? || Notifiable.permitted_user_attributes.nil?
+          params[:user].permit(Notifiable.permitted_user_attributes)
         else
           nil
         end

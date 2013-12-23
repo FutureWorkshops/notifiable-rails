@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
 
 	module Notifier
 
@@ -13,7 +13,7 @@ module FwtPushNotificationServer
 			def enqueue(notification, device_token)
         @batch[notification] ||= [device_token]        								
         tokens = @batch[notification]
-        if tokens.count >= FwtPushNotificationServer.gcm_batch_size
+        if tokens.count >= Notifiable.gcm_batch_size
           send_batch(notification, tokens)
         end
   		end
@@ -26,10 +26,10 @@ module FwtPushNotificationServer
 
 			private
 			def send_batch(notification, device_tokens)
-        if FwtPushNotificationServer.delivery_method == :test || FwtPushNotificationServer.env == 'test'
+        if Notifiable.delivery_method == :test || Notifiable.env == 'test'
           device_tokens.each {|d| processed(notification, d)}
         else
-  				gcm = ::GCM.new(FwtPushNotificationServer.gcm_api_key)
+  				gcm = ::GCM.new(Notifiable.gcm_api_key)
   				response = gcm.send_notification(device_tokens.collect{|dt| dt.token}, {:data => {:message => notification.message}})
   				body = JSON.parse(response.fetch(:body, "{}"))
   				results = body.fetch("results", [])

@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
   class Notification
     attr_accessor :message
     attr_accessor :payload

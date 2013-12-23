@@ -1,6 +1,6 @@
-# FwtPushNotificationServer
+# Notifiable
 
-<b>FwtPushNotificationServer</b> is a Rails engine which handles sending push notifications and  device registrations.
+<b>Notifiable</b> is a Rails engine which handles sending push notifications and  device registrations.
 
 Currently supported platforms:
 
@@ -64,7 +64,7 @@ Push notifications will be sent to all active devices of the user using appropri
 ```ruby
 	alert = "Hi all!"
     users = User.all
-	FwtPushNotificationServer.begin_transaction(alert) do
+	Notifiable.begin_transaction(alert) do
         user.each do |u|
         	u.schedule_notification
         end
@@ -77,7 +77,7 @@ This transactional method minimises the amount of connections. This is preferred
 ```ruby
 	u = User.first
     tokens = u.device_tokens
-    notifier = FwtPushNotificationServer.notifiers[:gcm]
+    notifier = Notifiable.notifiers[:gcm]
     notifier.notify_once("Hi!", tokens)
 
 ```
@@ -91,7 +91,7 @@ gem 'fwt_push_notification_server'
 
 2. Mount engine routes in <i>routes.rb</i>
 ```ruby
-mount FwtPushNotificationServer::Engine => "/"
+mount Notifiable::Engine => "/"
 ```
 3. Run the install generator
 ```ruby
@@ -116,7 +116,7 @@ rake db:migrate
 The module is configured in <i>config/initializers/fwt_push_notification_server.rb</i>.
 
 ```ruby
-FwtPushNotificationServer.configure do |config|
+Notifiable.configure do |config|
 
 	# APNS
 	config.apns_certificate = File.join(Rails.root, 'config', 'apns-development.pem')

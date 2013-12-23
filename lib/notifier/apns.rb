@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
 
 	module Notifier
 
@@ -14,22 +14,22 @@ module FwtPushNotificationServer
 			def enqueue(notification, device_token)        				
           
         grocer_notification = Grocer::Notification.new(device_token: device_token.token, alert: notification.apns_message, custom: notification.payload)
-				grocer_pusher.push(grocer_notification) unless FwtPushNotificationServer.delivery_method == :test
+				grocer_pusher.push(grocer_notification) unless Notifiable.delivery_method == :test
 
         processed(notification, device_token)
 			end
       
       def flush
-        process_feedback unless FwtPushNotificationServer.env == 'test'
+        process_feedback unless Notifiable.env == 'test'
       end
 
       private 
       def grocer_pusher
-        @grocer_pusher ||= Grocer.pusher(FwtPushNotificationServer.apns_gateway_config)
+        @grocer_pusher ||= Grocer.pusher(Notifiable.apns_gateway_config)
       end
       
       def grocer_feedback
-				@grocer_feedback ||= Grocer.feedback(FwtPushNotificationServer.apns_feedback_config)
+				@grocer_feedback ||= Grocer.feedback(Notifiable.apns_feedback_config)
       end
       
       def process_feedback

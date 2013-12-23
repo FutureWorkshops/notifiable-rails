@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
   class Batch
     attr_accessor :notifiers
   

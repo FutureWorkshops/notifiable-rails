@@ -1,4 +1,4 @@
-FwtPushNotificationServer.configure do |config|
+Notifiable.configure do |config|
 
   #
 	# Rails Engine

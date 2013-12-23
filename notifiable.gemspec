@@ -1,12 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "fwt_push_notification_server/version"
+require "notifiable/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "fwt_push_notification_server"
-  s.version     = FwtPushNotificationServer::VERSION
+  s.name        = "notifiable"
+  s.version     = Notifiable::VERSION
   s.authors     = ["Kamil Kocemba"]
   s.email       = ["kamil@futureworkshops.com"]
   s.homepage    = "http://www.futureworkshops.com"

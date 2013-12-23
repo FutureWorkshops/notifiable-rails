@@ -8,8 +8,8 @@ end
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path("../test_app/config/environment",  __FILE__)
-require File.expand_path("../../lib/fwt_push_notification_server",  __FILE__)
-require File.expand_path("../../app/controllers/fwt_push_notification_server/device_tokens_controller",  __FILE__)
+require File.expand_path("../../lib/notifiable",  __FILE__)
+require File.expand_path("../../app/controllers/notifiable/device_tokens_controller",  __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl_rails'
@@ -31,8 +31,8 @@ RSpec.configure do |config|
   }
   
   config.before(:each) {
-    FwtPushNotificationServer.delivery_method = :send
-    FwtPushNotificationServer.deliveries.clear
+    Notifiable.delivery_method = :send
+    Notifiable.deliveries.clear
     @grocer.notifications.clear
   }
   

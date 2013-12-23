@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
   
   class DeviceToken < ActiveRecord::Base
   
@@ -7,7 +7,7 @@ module FwtPushNotificationServer
     validates_presence_of :provider
 
   	def user
-  		user_id.blank? ? nil : FwtPushNotificationServer.user_class.find_or_create_by(FwtPushNotificationServer.user_key => user_id)
+  		user_id.blank? ? nil : Notifiable.user_class.find_or_create_by(Notifiable.user_key => user_id)
   	end
 
   end
