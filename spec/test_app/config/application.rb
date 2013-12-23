@@ -8,7 +8,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
-require "fwt_push_notification_server"
+require "notifiable"
 
 module TestApp
   class Application < Rails::Application

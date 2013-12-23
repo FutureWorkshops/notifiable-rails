@@ -22,6 +22,6 @@ module EngineControllerTestMonkeyPatch
 
   def process_action(action, parameters = nil, session = nil, flash = nil, method = "GET")
     parameters ||= {}
-    process(action, method, parameters.merge!(:use_route => :fwt_push_notification_server), session, flash, )
+    process(action, method, parameters.merge!(:use_route => :notifiable), session, flash, )
   end
 end

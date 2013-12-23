@@ -1,4 +1,4 @@
-module FwtPushNotificationServer
+module Notifiable
 
 	module Notifier
 
@@ -19,7 +19,7 @@ module FwtPushNotificationServer
       end
       
       def processed(notification, device_token)
-        FwtPushNotificationServer.deliveries << {:notification => notification, :device_token => device_token}
+        Notifiable.deliveries << {:notification => notification, :device_token => device_token}
       end
 		end
 

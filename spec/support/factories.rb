@@ -1,11 +1,11 @@
 FactoryGirl.define do
 
-  factory :apns_token, :class => FwtPushNotificationServer::DeviceToken do
+  factory :apns_token, :class => Notifiable::DeviceToken do
     provider :apns
     token
   end
   
-  factory :gcm_token, :class => FwtPushNotificationServer::DeviceToken do
+  factory :gcm_token, :class => Notifiable::DeviceToken do
     provider :gcm
     token
   end

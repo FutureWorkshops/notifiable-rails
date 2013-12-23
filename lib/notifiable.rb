@@ -2,15 +2,15 @@ require 'notifier/base'
 require 'notifier/apns'
 require 'notifier/gcm'
 
-require 'fwt_push_notification_server/notifiable'
-require 'fwt_push_notification_server/railtie' if defined?(Rails)
-require 'fwt_push_notification_server/engine'
-require 'fwt_push_notification_server/notification'
-require 'fwt_push_notification_server/batch'
-require 'fwt_push_notification_server/device_token'
+require 'notifiable/notifiable_concern'
+require 'notifiable/railtie' if defined?(Rails)
+require 'notifiable/engine'
+require 'notifiable/notification'
+require 'notifiable/batch'
+require 'notifiable/device_token'
 
 
-module FwtPushNotificationServer
+module Notifiable
 
   mattr_accessor :api_controller_class
 
@@ -79,10 +79,10 @@ module FwtPushNotificationServer
 
 end
 
-module FwtPushNotificationServer
+module Notifiable
   module Model
     def notifiable(options = {})
-      include Notifiable
+      include Notifiable::Concern
     end
   end
 end

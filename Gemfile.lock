@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fwt_push_notification_server (0.2.0)
+    notifiable (0.2.0)
       gcm
       grocer
       rails (~> 4.0.0)
@@ -127,7 +127,7 @@ PLATFORMS
 DEPENDENCIES
   debugger
   factory_girl_rails
-  fwt_push_notification_server!
+  notifiable!
   rspec-rails
   simplecov
   sqlite3

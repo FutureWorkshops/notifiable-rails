@@ -1,10 +1,10 @@
 require "grocer"
 require "gcm"
 
-module FwtPushNotificationServer
+module Notifiable
   
   class Engine < ::Rails::Engine
-    isolate_namespace FwtPushNotificationServer
+    isolate_namespace Notifiable
     
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false
