@@ -1,6 +1,6 @@
 # Notifiable
 
-<b>Notifiable</b> is a Rails engine which handles sending push notifications and  device registrations.
+<b>Notifiable</b> is a Rails engine which handles sending push notifications and device registrations.
 
 Currently supported platforms:
 
@@ -50,8 +50,7 @@ It is however important to note that mixing sandbox and production APNS tokens i
 
 Integration on iOS is handled via <a href="https://github.com/FutureWorkshops/FWTPushNotifications">FWTPushNotifications</a> cocoapod.
 
-
-### Notifying single user
+### Notifying a single user
 
 ```ruby
 	u = User.find_by_email("kamil@futureworkshops.com")
@@ -86,54 +85,25 @@ This transactional method minimises the amount of connections. This is preferred
 
 1. Add the gem to your bundle
 ```ruby 
-gem 'fwt_push_notification_server'
+gem 'notifiable'
 ```
 
-2. Mount engine routes in <i>routes.rb</i>
+1. Require notifiable in <i>application.rb</i>
+```
+require 'notifiable'
+```
+
+1. Mount engine routes in <i>routes.rb</i>
 ```ruby
 mount Notifiable::Engine => "/"
 ```
-3. Run the install generator
+
+1. Run the install generator
 ```ruby
-rails g fwt_push_notification_server:install
+rails g notifiable:install
 ```
 
-4. Make your devise users <b>notifiable</b>.<br/>
-Add <i>:notifiable</i> concern to your user model and in <i>config/initializers/devise.rb</i>:
-```ruby
-require 'devise/models/notifiable'
-```
-
-5. Customise settings in <i>config/initializers/fwt_push_notification_server.rb</i>.
-
-6. Migrate your database
-```ruby
-rake db:migrate
-```
-
-## CONFIGURATION
-
-The module is configured in <i>config/initializers/fwt_push_notification_server.rb</i>.
-
-```ruby
-Notifiable.configure do |config|
-
-	# APNS
-	config.apns_certificate = File.join(Rails.root, 'config', 'apns-development.pem')
-	config.apns_passphrase = 'PEM_PASSPHRASE'
-	config.apns_gateway = 'gateway.sandbox.push.apple.com' # gateway.push.apple.com for production
-	
-	# GCM
-	config.gcm_api_key = 'YOUR-GCM-API-KEY-HERE'
-
-	# Devise integration
-	config.api_controller_class = ApplicationController # base controller class to use for token registrations
-	config.authentication_filter = :authenticate_user! # before_filter to use for authentication
-	config.user_class = User
-	config.user_key = :user_id # foreign key name to join tokens with users during token registration from mobile client
-
-end
-```
+1. Customise settings in <i>config/initializers/notifiable.rb</i>.
 
 ## LICENSE
 
