@@ -28,7 +28,7 @@ module Notifiable
       end
       
       def processed(notification, device_token)
-        Notifiable.deliveries << {:notification => notification, :device_token => device_token}
+        Notifiable::NotificationDeviceToken.create :notification => notification, :device_token => device_token
       end
 		end
 

@@ -7,17 +7,17 @@ module Notifiable
         protected 
   			def enqueue(notification, device_token)
           @batch ||= {}
-          @batch[notification.message] = [] if @batch[notification].nil?
-          @batch[notification.message] << device_token        								
-          tokens = @batch[notification.message]
+          @batch[notification.id] = [] if @batch[notification].nil?
+          @batch[notification.id] << device_token        								
+          tokens = @batch[notification.id]
           if tokens.count >= Notifiable.gcm_batch_size
             send_batch(notification, tokens)
           end
     		end
       
         def flush
-          @batch.each_pair do |notification, device_tokens|
-            send_batch(notification, device_tokens)
+          @batch.each_pair do |notification_id, device_tokens|
+            send_batch(Notifiable::Notification.find(notification_id), device_tokens)
           end
         end
 
@@ -38,7 +38,7 @@ module Notifiable
               end
     				end          
           end
-          @batch[notification] = nil
+          @batch.delete(notification.id)
   			end
   		end
     end
