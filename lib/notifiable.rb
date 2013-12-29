@@ -6,6 +6,7 @@ require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
 require 'notifiable/notification'
+require 'notifiable/notification_device_token'
 require 'notifiable/batch'
 require 'notifiable/device_token'
 
@@ -43,9 +44,6 @@ module Notifiable
   def self.configure
     yield self
   end
-
-  mattr_accessor :deliveries
-  @@deliveries = []
 
   def self.apns_gateway_config
     if self.env == 'test'

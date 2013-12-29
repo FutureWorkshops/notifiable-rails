@@ -11,13 +11,16 @@ describe Notifiable do
       b.add(notification1, user1)
       b.add(notification1, user2)
     end
-    Notifiable.deliveries.count.should == 2
+    Notifiable::NotificationDeviceToken.count.should == 2
     
-    Notifiable.deliveries[0][:notification].apns_message.should eql "First test message"
-    Notifiable.deliveries[0][:device_token].should eql user1.device_tokens[0]
+    all_notifications = Notifiable::NotificationDeviceToken.all
+    first_notification_token = all_notifications[0]
+    first_notification_token.notification.apns_message.should eql "First test message"
+    first_notification_token.device_token.should eql user1.device_tokens[0]
     
-    Notifiable.deliveries[1][:notification].apns_message.should eql "First test message"
-    Notifiable.deliveries[1][:device_token].should eql user2.device_tokens[0]
+    second_notification_token = all_notifications[1]
+    second_notification_token.notification.apns_message.should eql "First test message"
+    second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
   it "sends two different push notifications" do
@@ -26,13 +29,16 @@ describe Notifiable do
       b.add(notification2, user2)
     end
     
-    Notifiable.deliveries.count.should == 2
+    Notifiable::NotificationDeviceToken.count.should == 2
     
-    Notifiable.deliveries[0][:notification].apns_message.should eql "First test message"
-    Notifiable.deliveries[0][:device_token].should eql user1.device_tokens[0]
+    all_notifications = Notifiable::NotificationDeviceToken.all
+    first_notification_token = all_notifications[0]
+    first_notification_token.notification.apns_message.should eql "First test message"
+    first_notification_token.device_token.should eql user1.device_tokens[0]
     
-    Notifiable.deliveries[1][:notification].apns_message.should eql "Second test message"
-    Notifiable.deliveries[1][:device_token].should eql user2.device_tokens[0]
+    second_notification_token = all_notifications[1]
+    second_notification_token.notification.apns_message.should eql "Second test message"
+    second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
   it "doesnt send notifications if the delivery_method is set to :test" do
@@ -40,7 +46,7 @@ describe Notifiable do
     
     user1.send_notification(notification1)
     
-    Notifiable.deliveries.count.should == 1
+    Notifiable::NotificationDeviceToken.count.should == 1
     
     #Timeout.timeout(2) {
     #  @grocer.notifications.size.should == 0
@@ -54,7 +60,10 @@ describe Notifiable do
     
     user1.send_notification(long_notification)
     
-    Notifiable.deliveries.count.should == 1
-    Notifiable.deliveries[0][:notification].apns_message.should eql "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message F..."
+    Notifiable::NotificationDeviceToken.count.should == 1
+    
+    all_notifications = Notifiable::NotificationDeviceToken.all
+    first_notification_token = all_notifications[0]
+    first_notification_token.notification.apns_message.should eql "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message F..."
   end
 end
