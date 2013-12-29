@@ -11,15 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210125702) do
+ActiveRecord::Schema.define(version: 20131228225140) do
 
   create_table "notifiable_device_tokens", force: true do |t|
     t.string   "token"
     t.string   "user_id"
+    t.string   "provider"
     t.boolean  "is_valid",   default: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider"
+  end
+
+  create_table "notifiable_notifications", force: true do |t|
+    t.text     "message"
+    t.text     "payload"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
