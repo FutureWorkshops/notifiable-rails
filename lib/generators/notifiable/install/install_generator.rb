@@ -22,6 +22,7 @@ module Notifiable
 
       def copy_migrations
         migration_template "create_notifiable_device_tokens.rb", "db/migrate/create_notifiable_device_tokens.rb"
+        migration_template "create_notifiable_notifications.rb", "db/migrate/create_notifiable_notifications.rb"
       end
 
       desc "Add initializer"
