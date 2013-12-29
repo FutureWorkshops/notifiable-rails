@@ -32,7 +32,6 @@ RSpec.configure do |config|
   
   config.before(:each) {
     Notifiable.delivery_method = :send
-    Notifiable.deliveries.clear
     @grocer.notifications.clear
   }
   

@@ -8,7 +8,7 @@ describe Notifiable::Notifier::APNS do
     
     user1.send_notification(notification)
         
-    Notifiable.deliveries.count.should == 1
+    Notifiable::NotificationDeviceToken.count.should == 1
     
     #Timeout.timeout(2) {
     #  notification = @grocer.notifications.pop
