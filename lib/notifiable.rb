@@ -76,7 +76,7 @@ module Notifiable
   end
   
   def self.env
-    ENV['RAILS_ENV'] || 'Development'
+    Rails.env|| 'development'
   end
 
 end

@@ -4,7 +4,7 @@ module Notifiable
   class DeviceTokensController < Notifiable.api_controller_class
 
     def create
-      @device_token = DeviceToken.find_or_create_by_token(params[:token])
+      @device_token = DeviceToken.find_or_create_by(:token => params[:token])
       @device_token.update_attributes({
         :user_id => params[:user_id],
         :provider => params[:provider]
