@@ -80,6 +80,18 @@ Push notifications will be sent to all active devices of the user using appropri
 This transactional method minimises the amount of connections. This is preferred way of sending large amounts of notifications.
 
 
+### Security
+
+To prevent token forgery base controller class for Notifiable is expected to handle authentication and implement ```can_update?(user_id) -> true or false``` method.
+
+
+Example implementation allowing only modifications of tokens belonging to currently authenticaticated user:
+
+```ruby
+def can_update?(user_id)
+    current_user && current_user.email == user_id
+end
+```
 
 ## INSTALLATION
 
