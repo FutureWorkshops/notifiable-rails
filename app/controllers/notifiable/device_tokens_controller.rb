@@ -20,6 +20,15 @@ module Notifiable
       end
     end
 
+    def destroy
+      @device_token = DeviceToken.find_by(:token => params[:id])
+      if @device_token.nil? || @device_token.update_attribute(:user_id, nil)
+        render :json => { :status => 0 }
+      else
+        render :json => { :errors => @device_token.errors.full_messages }
+      end
+    end
+
     private
       def user_info_params
         unless params[:user].nil? || Notifiable.permitted_user_attributes.nil?
