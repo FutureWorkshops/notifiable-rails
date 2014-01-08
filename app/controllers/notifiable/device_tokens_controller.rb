@@ -3,6 +3,8 @@ module Notifiable
   
   class DeviceTokensController < Notifiable.api_controller_class
 
+    before_filter :verify_permissions
+
     def create
       @device_token = DeviceToken.find_or_create_by(:token => params[:token])
       @device_token.update_attributes({
@@ -30,6 +32,15 @@ module Notifiable
     end
 
     private
+
+      def verify_permissions
+        unless self.respond_to?(:can_update?)
+          raise "Base controller class for Notifiable has to implement 'can_update?(user_id) -> true or false'"
+        else
+          head :unauthorized unless params[:user_id] && can_update?(params[:user_id])
+        end
+      end
+
       def user_info_params
         unless params[:user].nil? || Notifiable.permitted_user_attributes.nil?
           params[:user].permit(Notifiable.permitted_user_attributes)
