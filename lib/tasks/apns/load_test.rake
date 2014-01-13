@@ -4,11 +4,9 @@ require 'benchmark'
 
 include Benchmark
 
-
 namespace :apns do
 	desc "Load tests the notification deliver against stub APNS server"
 	task :load_test => :environment do
-		Rails.env = 'test'
 		ActiveRecord::Base.establish_connection('production')
 		test_apns
     	ActiveRecord::Base.establish_connection(ENV['RAILS_ENV']) 
@@ -17,6 +15,12 @@ end
 
 private 
 def test_apns
+
+	Notifiable.configure do |config|
+		config.apns_certificate = nil
+		config.apns_gateway = ENV["NOTIFIABLE_APNS_STUB_HOST"] || "localhost"
+		config.apns_passphrase = nil
+	end
 
 	notification = Notifiable::Notification.create(:message => 'Test notification')
 	user = User.create({ :email => 'test@example.com' })
@@ -49,3 +53,23 @@ def test_apns
 	notification.destroy
 
 end
+
+# Hack to disable server cert verfification
+
+module Grocer
+  class SSLConnection
+   
+    def connect
+      context = OpenSSL::SSL::SSLContext.new
+      context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      @sock            = TCPSocket.new(gateway, port)
+      @sock.setsockopt   Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true
+      @ssl             = OpenSSL::SSL::SSLSocket.new(@sock, context)
+      @ssl.sync        = true
+      @ssl.connect
+    end
+
+  end
+end
+
+
