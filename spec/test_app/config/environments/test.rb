@@ -33,4 +33,11 @@ TestApp::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  Notifiable.configure do |config|
+    config.apns_certificate = nil
+    config.apns_gateway = "localhost"
+    config.apns_passphrase = nil
+  end
+
 end

@@ -46,19 +46,11 @@ module Notifiable
   end
 
   def self.apns_gateway_config
-    if self.env == 'test'
-      {
-        :gateway => 'localhost',
-        :certificate => File.join(Rails.root, 'config', 'apns-development.pem'),
-        :passphrase => nil
-      }
-    else
-      {
-        :gateway => apns_gateway,
-        :certificate => apns_certificate,
-        :passphrase => apns_passphrase
-      }
-    end
+    {
+      :gateway => apns_gateway,
+      :certificate => apns_certificate,
+      :passphrase => apns_passphrase
+    }
   end
   
   def self.apns_feedback_config

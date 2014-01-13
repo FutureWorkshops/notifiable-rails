@@ -7,6 +7,7 @@ include Benchmark
 namespace :apns do
 	desc "Load tests the notification deliver against stub APNS server"
 	task :load_test => :environment do
+		Rails.env = "test"
 		ActiveRecord::Base.establish_connection('production')
 		test_apns
     	ActiveRecord::Base.establish_connection(ENV['RAILS_ENV']) 
