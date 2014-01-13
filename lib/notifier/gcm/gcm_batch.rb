@@ -2,13 +2,16 @@ module Notifiable
 	module Notifier
     module GCM
   		class GCMBatch < Base
-      
+        
+        def batch
+          @batch ||= {}
+        end
+        
         # todo should be made threadsafe
         protected 
   			def enqueue(notification, device_token)
-          @batch ||= {}
-          @batch[notification.id] = [] if @batch[notification].nil?
-          @batch[notification.id] << device_token        								
+          self.batch[notification.id] = [] if @batch[notification].nil?
+          self.batch[notification.id] << device_token        								
           tokens = @batch[notification.id]
           if tokens.count >= Notifiable.gcm_batch_size
             send_batch(notification, tokens)
@@ -16,7 +19,7 @@ module Notifiable
     		end
       
         def flush
-          @batch.each_pair do |notification_id, device_tokens|
+          self.batch.each_pair do |notification_id, device_tokens|
             send_batch(Notifiable::Notification.find(notification_id), device_tokens)
           end
         end
