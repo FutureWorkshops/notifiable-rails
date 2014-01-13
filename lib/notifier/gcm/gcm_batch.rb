@@ -10,9 +10,9 @@ module Notifiable
         # todo should be made threadsafe
         protected 
   			def enqueue(notification, device_token)
-          self.batch[notification.id] = [] if @batch[notification].nil?
+          self.batch[notification.id] = [] if self.batch[notification.id].nil?
           self.batch[notification.id] << device_token        								
-          tokens = @batch[notification.id]
+          tokens = self.batch[notification.id]
           if tokens.count >= Notifiable.gcm_batch_size
             send_batch(notification, tokens)
           end
@@ -41,7 +41,7 @@ module Notifiable
               end
     				end          
           end
-          @batch.delete(notification.id)
+          self.batch.delete(notification.id)
   			end
   		end
     end
