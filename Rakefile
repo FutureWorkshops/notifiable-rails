@@ -29,6 +29,6 @@ RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 
 task :default => :spec
 
-namspace :ci do
+namespace :ci do
   task :test => :spec
 end
