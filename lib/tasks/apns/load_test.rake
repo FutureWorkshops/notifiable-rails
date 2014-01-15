@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'grocer'
 require 'benchmark'
+require 'ruby-prof'
 
 include Benchmark
 
@@ -8,14 +9,20 @@ namespace :apns do
 	desc "Load tests the notification deliver against stub APNS server"
 	task :load_test => :environment do
 		Rails.env = "test"
-		ActiveRecord::Base.establish_connection('production')
+    
+		ActiveRecord::Base.establish_connection('load_test_sqlite')
+    
+		#ActiveRecord::Base.establish_connection('load_test_pg')
+		#ActiveRecord::Base.establish_connection('load_test_mysql')
+    
 		test_apns
-    	ActiveRecord::Base.establish_connection(ENV['RAILS_ENV']) 
 	end
 end
 
 private 
 def test_apns
+
+  RubyProf.start
 
 	Notifiable.configure do |config|
 		config.apns_certificate = nil
@@ -49,6 +56,10 @@ def test_apns
 	device_token.destroy
 	user.destroy
 	notification.destroy
+  
+  result = RubyProf.stop
+  printer = RubyProf::GraphHtmlPrinter.new(result)
+  printer.print(File.new('/tmp/profile.html', 'w'), :min_percent => 2)
 
 end
 
