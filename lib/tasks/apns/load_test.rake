@@ -29,23 +29,20 @@ def test_apns
 
 	iterations = 10
 	batch_size = 10000
-	log_every = 1000
-	n = batch_size / log_every
 
 	tt = Benchmark::Tms.new
 
 	Benchmark.benchmark(CAPTION, 9, FORMAT, "> TOTAL: ", "> BATCH:") do |x|
 		iterations.times do ;
 
-			Notifiable.batch do |batch|
-				n.times do ;
-					tt = tt + x.report("#{log_every}:") { 
-						log_every.times do ;
-							batch.add(notification, user)			
-						end
-					}
+			tt = tt + x.report("#{batch_size}:") {
+				Notifiable.batch do |batch|
+					batch_size.times do ;
+						batch.add(notification, user)			
+					end
 				end
-			end
+			}
+
 		end
 		[tt, tt / iterations]
 	end
