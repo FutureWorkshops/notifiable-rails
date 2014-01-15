@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131229104039) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "notifiable_device_tokens", force: true do |t|
     t.string   "token"
     t.string   "user_id"

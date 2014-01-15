@@ -2,6 +2,7 @@ require 'notifier/base'
 require 'notifier/apns/grocer_stream'
 require 'notifier/gcm/gcm_batch'
 
+require 'notifiable/active_record'
 require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
