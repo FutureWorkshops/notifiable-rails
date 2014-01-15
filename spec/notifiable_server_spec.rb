@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Notifiable do
   let(:user1) { FactoryGirl.build(:user_with_apns_token) }
   let(:user2) { FactoryGirl.build(:user_with_apns_token) }
-  let(:notification1) { Notifiable::Notification.new(:message => "First test message")}
-  let(:notification2) { Notifiable::Notification.new(:message => "Second test message")}
+  let(:notification1) { Notifiable::Notification.create(:message => "First test message")}
+  let(:notification2) { Notifiable::Notification.create(:message => "Second test message")}
   
   it "sends two identical push notifications" do
     Notifiable.batch do |b|
@@ -55,7 +55,7 @@ describe Notifiable do
   
   it "truncates long apns messages" do
     
-    long_notification = Notifiable::Notification.new(:message => "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message end")
+    long_notification = Notifiable::Notification.create(:message => "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message end")
     
     
     user1.send_notification(long_notification)
