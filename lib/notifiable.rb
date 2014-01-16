@@ -38,6 +38,9 @@ module Notifiable
   mattr_accessor :delivery_method
   @@delivery_method = :send
   
+  mattr_accessor :notifier_classes
+  @@notifier_classes = {}
+  
   def self.configure
     yield self
   end
