@@ -25,17 +25,7 @@ RSpec.configure do |config|
   config.order = "random"
   config.include EngineControllerTestMonkeyPatch, :type => :controller
   
-  config.before(:all) {
-    @grocer = Grocer.server(port: 2195)
-    @grocer.accept
-  }
-  
   config.before(:each) {
     Notifiable.delivery_method = :send
-    @grocer.notifications.clear
-  }
-  
-  config.after(:all) {
-    @grocer.close
   }
 end

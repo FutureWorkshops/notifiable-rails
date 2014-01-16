@@ -1,7 +1,3 @@
-require 'notifier/base'
-require 'notifier/apns/grocer_stream'
-require 'notifier/gcm/gcm_batch'
-
 require 'notifiable/active_record'
 require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
@@ -10,7 +6,7 @@ require 'notifiable/notification'
 require 'notifiable/notification_device_token'
 require 'notifiable/batch'
 require 'notifiable/device_token'
-
+require 'notifiable/notifier_base'
 
 module Notifiable
 
@@ -41,6 +37,9 @@ module Notifiable
   
   mattr_accessor :delivery_method
   @@delivery_method = :send
+  
+  mattr_accessor :notifier_classes
+  @@notifier_classes = {}
   
   def self.configure
     yield self
