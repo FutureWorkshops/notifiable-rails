@@ -9,13 +9,13 @@ module Notifiable
     def add(notification, user)
       user.device_tokens.each do |d|
         provider = d.provider.to_sym
-        notifier = @notifiers[provider]
         
-        unless notifier
-          notifier = Notifier::Base.create provider
-          @notifiers[provider] = notifier
+        unless @notifiers[provider]
+          clazz = Notifiable.notifier_classes[provider]
+          @notifiers[provider] = clazz.new
         end
         
+        notifier = @notifiers[provider]
         if d.is_valid? && !notifier.nil? 
     		  notifier.send_notification(notification, d) 
         end
