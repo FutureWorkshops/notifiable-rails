@@ -1,4 +1,3 @@
-require "grocer"
 require "gcm"
 
 module Notifiable
