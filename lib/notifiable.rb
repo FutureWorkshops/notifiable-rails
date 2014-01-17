@@ -68,7 +68,7 @@ module Notifiable
   end
   
   def self.env
-    Rails.env|| 'development'
+    Rails.env || 'development'
   end
 
 end
