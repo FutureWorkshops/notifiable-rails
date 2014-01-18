@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  # protect_from_forgery with: :exception
-
-  def can_update?(user_id)
-  	@current_user && @current_user.email == user_id
+  
+  respond_to :json
+  
+  def current_notifiable_user
+    User.find_by_email(params[:user_email])
   end
 
 end
