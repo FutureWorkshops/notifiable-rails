@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Notifiable::Concern do
-  let(:user1) { FactoryGirl.build(:user_with_mock_token) }
+  let(:user1) { FactoryGirl.create(:user_with_mock_token) }
   let(:notification) { Notifiable::Notification.new(:message => "Test message")}
   
   it "sends a single push notification" do    

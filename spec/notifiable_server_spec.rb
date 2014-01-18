@@ -11,6 +11,7 @@ describe Notifiable do
       b.add(notification1, user1)
       b.add(notification1, user2)
     end
+
     Notifiable::NotificationDeviceToken.count.should == 2
     
     all_notifications = Notifiable::NotificationDeviceToken.all
@@ -56,7 +57,7 @@ describe Notifiable do
   
   it "raises an error if it can't find the notification provider" do
     user = FactoryGirl.create(:user)
-    Notifiable::DeviceToken.create :user_id => user.email, :token => "DEF567", :provider => :gcm
+    Notifiable::DeviceToken.create :user_id => user.id, :token => "DEF567", :provider => :gcm
     
     expect { user.send_notification(notification1) }.to raise_error    
   end
