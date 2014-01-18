@@ -1,5 +1,3 @@
-require "gcm"
-
 module Notifiable
   
   class Engine < ::Rails::Engine
