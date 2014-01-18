@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Notifiable::Concern do
-  let(:user1) { FactoryGirl.build(:user_with_apns_token) }
+  let(:user1) { FactoryGirl.build(:user_with_mock_token) }
   let(:notification) { Notifiable::Notification.new(:message => "Test message")}
   
   it "sends a single push notification" do    
@@ -12,7 +12,7 @@ describe Notifiable::Concern do
   end
   
   it "sends zero notifications if the device is not valid" do
-    user = FactoryGirl.build(:user_with_invalid_apns_token)
+    user = FactoryGirl.build(:user_with_invalid_mock_token)
     
     user.send_notification(notification)
     

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Notifiable::DeviceTokensController do
   
   let(:user1) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user_with_apns_token) }
+  let(:user2) { FactoryGirl.create(:user_with_mock_token) }
   let(:device_token) { user2.device_tokens.first }
 
   it "creates a new device token" do

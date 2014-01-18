@@ -29,3 +29,11 @@ RSpec.configure do |config|
     Notifiable.delivery_method = :send
   }
 end
+
+class MockNotifier < Notifiable::NotifierBase
+  def enqueue(notification, device_token)
+    processed(notification, device_token)
+  end
+end
+
+Notifiable.notifier_classes[:mock] = MockNotifier
