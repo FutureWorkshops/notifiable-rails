@@ -12,14 +12,14 @@ FactoryGirl.define do
     email
     
     factory :user_with_mock_token do
-      after(:build) do |user, evaluator|
-        FactoryGirl.create(:mock_token, :user_id => user.email)
+      after(:create) do |user, evaluator|
+        FactoryGirl.create(:mock_token, :user_id => user.id)
       end
     end
   
     factory :user_with_invalid_mock_token do
-      after(:build) do |user, evaluator|
-        FactoryGirl.create(:mock_token, :user_id => user.email, :is_valid => false)
+      after(:create) do |user, evaluator|
+        FactoryGirl.create(:mock_token, :user_id => user.id, :is_valid => false)
       end
     end  
   end
