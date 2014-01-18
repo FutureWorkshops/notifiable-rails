@@ -8,7 +8,6 @@ module Notifiable::Concern
 	end
   
 	def device_tokens
-		key = Notifiable.user_key
-		Notifiable::DeviceToken.where(:user_id => send(key))
+		Notifiable::DeviceToken.where(:user_id => self.id)
 	end
 end
