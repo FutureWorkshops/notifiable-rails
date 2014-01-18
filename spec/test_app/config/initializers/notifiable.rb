@@ -9,15 +9,6 @@ Notifiable.configure do |config|
   
   # The class representing the holder of the device
 	config.user_class = User
-  
-  # The key of the user, stored on the DeviceToken
-  # Defaults to email
-	#config.user_key = :email
-  
-  # Attributes permitted in the DeviceToken creation route
-  # These provide a way to enrich your server side data about a User
-  # Defaults to nil
-	#config.permitted_user_attributes = :first_name, :last_name
 
   #
 	# APNS
