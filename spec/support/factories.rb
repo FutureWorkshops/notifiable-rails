@@ -1,12 +1,7 @@
 FactoryGirl.define do
 
-  factory :apns_token, :class => Notifiable::DeviceToken do
-    provider :apns
-    token
-  end
-  
-  factory :gcm_token, :class => Notifiable::DeviceToken do
-    provider :gcm
+  factory :mock_token, :class => Notifiable::DeviceToken do
+    provider :mock
     token
   end
   
@@ -16,21 +11,15 @@ FactoryGirl.define do
   factory :user do
     email
     
-    factory :user_with_apns_token do
+    factory :user_with_mock_token do
       after(:build) do |user, evaluator|
-        FactoryGirl.create(:apns_token, :user_id => user.email)
+        FactoryGirl.create(:mock_token, :user_id => user.email)
       end
     end
   
-    factory :user_with_gcm_token do
+    factory :user_with_invalid_mock_token do
       after(:build) do |user, evaluator|
-        FactoryGirl.create(:gcm_token, :user_id => user.email)
-      end
-    end
-  
-    factory :user_with_invalid_apns_token do
-      after(:build) do |user, evaluator|
-        FactoryGirl.create(:apns_token, :user_id => user.email, :is_valid => false)
+        FactoryGirl.create(:mock_token, :user_id => user.email, :is_valid => false)
       end
     end  
   end
