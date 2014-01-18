@@ -12,6 +12,7 @@ module Notifiable
         
         unless @notifiers[provider]
           clazz = Notifiable.notifier_classes[provider]
+          raise "Notifier #{provider} not configured" unless clazz
           @notifiers[provider] = clazz.new
         end
         

@@ -53,4 +53,11 @@ describe Notifiable do
     first_notification_token = all_notifications[0]
     first_notification_token.notification.apns_message.should eql "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message F..."
   end
+  
+  it "raises an error if it can't find the notification provider" do
+    user = FactoryGirl.create(:user)
+    Notifiable::DeviceToken.create :user_id => user.email, :token => "DEF567", :provider => :gcm
+    
+    expect { user.send_notification(notification1) }.to raise_error    
+  end
 end
