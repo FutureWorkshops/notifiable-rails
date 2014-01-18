@@ -13,17 +13,16 @@
 
 ActiveRecord::Schema.define(version: 20131229104039) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "notifiable_device_tokens", force: true do |t|
     t.string   "token"
-    t.string   "user_id"
     t.string   "provider"
     t.boolean  "is_valid",   default: true
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "notifiable_device_tokens", ["user_id"], name: "index_notifiable_device_tokens_on_user_id"
 
   create_table "notifiable_notification_device_tokens", force: true do |t|
     t.integer  "notification_id"
