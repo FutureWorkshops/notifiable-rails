@@ -62,8 +62,6 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
-    mysql2 (0.3.14)
-    pg (0.17.1)
     polyglot (0.3.3)
     puppet (3.4.2)
       facter (~> 1.6)
@@ -131,9 +129,7 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails
-  mysql2
   notifiable-rails!
-  pg
   puppet
   rspec-rails
   ruby-prof
