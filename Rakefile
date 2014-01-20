@@ -30,5 +30,6 @@ RSpec::Core::RakeTask.new(:spec => 'app:db:test:prepare')
 task :default => :spec
 
 namespace :ci do
+  desc "Run CI tests"
   task :test => :spec
 end
