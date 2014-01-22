@@ -1,6 +1,6 @@
-# FwtPushNotificationServer
+# Notifiable
 
-<b>FwtPushNotificationServer</b> is a Rails engine which handles sending push notifications and  device registrations.
+<b>Notifiable</b> is a Rails engine which handles sending push notifications and device registrations.
 
 Currently supported platforms:
 
@@ -28,7 +28,7 @@ Sample request:
 // POST /device_tokens
 // Content-Type: application/json
 {
-	"token" : "SADFD234GFSD7982321321",
+    "token" : "SADFD234GFSD7982321321",
     "user_id" : "user@example.com",
     "provider" : "apns"
 }
@@ -36,9 +36,9 @@ Sample request:
 Response:
 ```javascript
 {
-	"status" : 0
+    "status" : 0
 }
-// 0 means successful registration, -1 indicates an error.
+// 0 means successful registration, otherwise an error will be returned
 ```
 
 #### Inactive device tokens
@@ -46,98 +46,76 @@ Response:
 Invalid and inactive token registrations are handled automatically based on feedback from APNS and GCM.
 It is however important to note that mixing sandbox and production APNS tokens is not currently supported.
 
-#### iOS integration
+### Releasing device token
 
-Integration on iOS is handled via <a href="https://github.com/FutureWorkshops/FWTPushNotifications">FWTPushNotifications</a> cocoapod.
+To release device token from the user (e.g. after logout), the following request needs to be made:
+```javascript
+DELETE /device_tokens/:token
+```
 
+### iOS integration
 
-### Notifying single user
+Integration on iOS is handled via <a href="https://github.com/FutureWorkshops/Notifiable-iOS">Notifiable-iOS</a> cocoapod.
+
+### Notifying a single user
 
 ```ruby
-	u = User.find_by_email("kamil@futureworkshops.com")
-	u.notify_once("Hi there!")
+    n = Notifiable::Notification.create(:message => 'Hi there!')
+    u = User.find_by_email("kamil@futureworkshops.com")
+    u.send_notification(n)
 ```
 Push notifications will be sent to all active devices of the user using appropriate providers.
 
 ### Notifying multiple users
 
 ```ruby
-	alert = "Hi all!"
+    n = Notifiable::Notification.create(:message => 'Hi all!')
     users = User.all
-	FwtPushNotificationServer.begin_transaction(alert)
-    user.each do |u|
-    	u.schedule_notification
+    Notifiable.batch do |batch|
+        users.each do |u|
+            batch.add(n, u)    
+        end
     end
-    FwtPushNotificationServer.commit_transaction
 ```
 This transactional method minimises the amount of connections. This is preferred way of sending large amounts of notifications.
 
-### Manually sending a notification
+
+### Security
+
+To prevent token forgery base controller class for Notifiable is expected to handle authentication and implement ```can_update?(user_id) -> true or false``` method.
+
+
+Example implementation allowing only modifications of tokens belonging to currently authenticaticated user:
 
 ```ruby
-	u = User.first
-    tokens = u.device_tokens
-    notifier = FwtPushNotificationServer.notifiers[:gcm]
-    notifier.notify_once("Hi!", tokens)
-
+def can_update?(user_id)
+    current_user && current_user.email == user_id
+end
 ```
-
-## REQUIREMENTS
-
-The module relies on <a href="https://github.com/plataformatec/devise">devise</a> for authentication.
 
 ## INSTALLATION
 
 1. Add the gem to your bundle
 ```ruby 
-gem 'fwt_push_notification_server'
+gem 'notifiable'
 ```
 
-2. Mount engine routes in <i>routes.rb</i>
+1. Require notifiable in <i>application.rb</i>
+```
+require 'notifiable'
+```
+
+1. Mount engine routes in <i>routes.rb</i>
 ```ruby
-mount FwtPushNotificationServer::Engine => "/"
+mount Notifiable::Engine => "/"
 ```
-3. Run the install generator
+
+1. Run the install generator
 ```ruby
-rails g fwt_push_notification_server:install
+rails g notifiable:install
 ```
 
-4. Make your devise users <b>notifiable</b>.<br/>
-Add <i>:notifiable</i> concern to your user model and in <i>config/initializers/devise.rb</i>:
-```ruby
-require 'devise/models/notifiable'
-```
-
-5. Customise settings in <i>config/initializers/fwt_push_notification_server.rb</i>.
-
-6. Migrate your database
-```ruby
-rake db:migrate
-```
-
-## CONFIGURATION
-
-The module is configured in <i>config/initializers/fwt_push_notification_server.rb</i>.
-
-```ruby
-FwtPushNotificationServer.configure do |config|
-
-	# APNS
-	config.apns_certificate = File.join(Rails.root, 'config', 'apns-development.pem')
-	config.apns_passphrase = 'PEM_PASSPHRASE'
-	config.apns_gateway = 'gateway.sandbox.push.apple.com' # gateway.push.apple.com for production
-	
-	# GCM
-	config.gcm_api_key = 'YOUR-GCM-API-KEY-HERE'
-
-	# Devise integration
-	config.api_controller_class = ApplicationController # base controller class to use for token registrations
-	config.authentication_filter = :authenticate_user! # before_filter to use for authentication
-	config.user_class = User
-	config.user_key = :user_id # foreign key name to join tokens with users during token registration from mobile client
-
-end
-```
+1. Customise settings in <i>config/initializers/notifiable.rb</i>.
 
 ## LICENSE
 

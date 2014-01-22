@@ -8,27 +8,36 @@ require 'rdoc/task'
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'FwtPushNotificationServer'
+  rdoc.title    = 'Notifiable'
   rdoc.options << '--line-numbers'
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
+APP_RAKEFILE = File.expand_path("../spec/test_app/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
-
-
 
 Bundler::GemHelper.install_tasks
 
-require 'rake/testtask'
+Dir[File.join(File.dirname(__FILE__), 'lib/tasks/**/*.rake')].each {|f| load f }
 
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = false
+require 'rspec/core'
+require 'rspec/core/rake_task'
+
+namespace :ci do
+  desc "Prepare the CI environment"
+  task :prepare => ['db:drop', 'db:create', 'db:migrate']
+  
+  namespace :test do
+    desc "Run all specs in spec directory (excluding plugin specs)"
+    RSpec::Core::RakeTask.new(:spec)
+  
+    desc "Run Brakeman security tests"
+    task :security => ['brakeman:run']
+  end
+  
+  desc "Run all CI tests"
+  task :test => [:prepare, 'ci:test:spec', 'ci:test:security']
 end
 
-
-task default: :test
+task :default => ':ci:test'

@@ -18,13 +18,12 @@
 /vendor/ruby/
 
 # minimal Rails specific artifacts
-db/*.sqlite3
+*.sqlite3
 /log/*
 /tmp/*
 
 /test/dummy/tmp/**
 /test/dummy/log/**
-/test/dummy/db/*.sqlite3
 
 # various artifacts
 **.war
@@ -37,7 +36,6 @@ db/*.sqlite3
 /coverage.data
 /coverage/
 /db/*.javadb/
-/db/*.sqlite3
 /doc/api/
 /doc/app/
 /doc/features.html
@@ -81,3 +79,5 @@ public/development
 **.swp
 
 /config/database.yml
+*.log
+
