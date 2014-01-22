@@ -1,27 +1,33 @@
-# Notifiable
+# Notifiable Rails
 
-<b>Notifiable</b> is a Rails engine which handles sending push notifications and device registrations.
+<b>Notifiable-Rails</b> is a Rails engine which handles push notifications. It is:
 
-Currently supported platforms:
+- Stable
+- Production Tested
+- Performant
+- Actively Maintained
 
--  **APNS** (Apple Push Notification Service)
--  **GCM** (Google Cloud Messaging)
- 
- 
-Only text alerts are supported at this time. 
- 
+### Services
+Services supported by official plugins: 
+
+| Service       | Server Plugin            | Client Plugin  | Throughput |
+| ------------- |:------------------------:| --------------:| ----------:|
+| APNS          | <a href="https://github.com/FutureWorkshops/notifiable-apns-grocer">notifiable-apns-grocer</a>   | <a href="https://github.com/FutureWorkshops/Notifiable-iOS">Notifiable-iOS</a> | 2000 p/s   |
+| GCM           | <a href="https://github.com/FutureWorkshops/notifiable-gcm-spacialdb">notifiable-gcm-spacialdb</a> |                |            |
+### Limitations
+
+- Only text alerts are supported at this time. 
 
 ## USAGE
 
-### Registering device token
+### Registering device tokens
 
 Registering a new device token is done by POSTing to <b>/device_tokens</b> endpoint.
 
 Supported fields:
 
-- <b>token</b> - device token retrieved from APNS or GCM
-- <b>user_id</b> - unique key of user whose device is being registered. This field is used to connect <i>DeviceToken</i> objects to users.
-- <b>provider</b> - either <i>apns</i> or <i>gcm</i>
+- <b>token</b> - device token (i.e. the token retrieved from APNS or GCM)
+- <b>provider</b> - lowercase service name (i.e. <i>apns</i> or <i>gcm</i>)
 
 Sample request:
 ```javascript
@@ -29,33 +35,21 @@ Sample request:
 // Content-Type: application/json
 {
     "token" : "SADFD234GFSD7982321321",
-    "user_id" : "user@example.com",
     "provider" : "apns"
 }
 ```
-Response:
-```javascript
-{
-    "status" : 0
-}
-// 0 means successful registration, otherwise an error will be returned
-```
 
-#### Inactive device tokens
+### Inactive device tokens
 
 Invalid and inactive token registrations are handled automatically based on feedback from APNS and GCM.
 It is however important to note that mixing sandbox and production APNS tokens is not currently supported.
 
-### Releasing device token
+### Releasing a device token
 
 To release device token from the user (e.g. after logout), the following request needs to be made:
 ```javascript
 DELETE /device_tokens/:token
 ```
-
-### iOS integration
-
-Integration on iOS is handled via <a href="https://github.com/FutureWorkshops/Notifiable-iOS">Notifiable-iOS</a> cocoapod.
 
 ### Notifying a single user
 
@@ -82,14 +76,13 @@ This transactional method minimises the amount of connections. This is preferred
 
 ### Security
 
-To prevent token forgery base controller class for Notifiable is expected to handle authentication and implement ```can_update?(user_id) -> true or false``` method.
-
+To prevent token forgery base controller class for Notifiable is expected to handle authentication provide the current user (if any) via the ```current_notifiable_user``` method.
 
 Example implementation allowing only modifications of tokens belonging to currently authenticaticated user:
 
 ```ruby
-def can_update?(user_id)
-    current_user && current_user.email == user_id
+def current_notifiable_user
+    current_user
 end
 ```
 
@@ -97,12 +90,7 @@ end
 
 1. Add the gem to your bundle
 ```ruby 
-gem 'notifiable'
-```
-
-1. Require notifiable in <i>application.rb</i>
-```
-require 'notifiable'
+gem 'notifiable-rails'
 ```
 
 1. Mount engine routes in <i>routes.rb</i>
