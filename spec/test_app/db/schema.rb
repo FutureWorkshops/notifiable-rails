@@ -32,14 +32,15 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   end
 
   create_table "notifiable_notifications", force: true do |t|
-    t.text     "message"
+    t.text     "i18n"
     t.text     "payload"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
-    t.string "email", default: "", null: false
+    t.string "email",  default: "", null: false
+    t.string "locale"
   end
 
 end
