@@ -1,3 +1,5 @@
+ENV['RAILS_ENV'] ||= 'test'
+
 require 'simplecov'
 require 'simplecov-rcov'
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -6,8 +8,6 @@ SimpleCov.start do
   add_filter "/spec/"
   add_filter "/config/"
 end
-
-ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path("../test_app/config/environment",  __FILE__)
 require File.expand_path("../../lib/notifiable",  __FILE__)
