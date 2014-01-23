@@ -16,11 +16,11 @@ describe Notifiable do
     
     all_notifications = Notifiable::NotificationDeviceToken.all
     first_notification_token = all_notifications[0]
-    first_notification_token.notification.apns_message.should eql "First test message"
+    first_notification_token.notification.localized_provider_message(user1.device_tokens.first).should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
     
     second_notification_token = all_notifications[1]
-    second_notification_token.notification.apns_message.should eql "First test message"
+    second_notification_token.notification.localized_provider_message(user1.device_tokens.first).should eql "First test message"
     second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
@@ -34,25 +34,12 @@ describe Notifiable do
     
     all_notifications = Notifiable::NotificationDeviceToken.all
     first_notification_token = all_notifications[0]
-    first_notification_token.notification.apns_message.should eql "First test message"
+    first_notification_token.notification.localized_provider_message(user1.device_tokens.first).should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
     
     second_notification_token = all_notifications[1]
-    second_notification_token.notification.apns_message.should eql "Second test message"
+    second_notification_token.notification.localized_provider_message(user1.device_tokens.first).should eql "Second test message"
     second_notification_token.device_token.should eql user2.device_tokens[0]
-  end
-  
-  it "truncates long apns messages" do
-    
-    long_notification = Notifiable::Notification.create(:message => "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message end")
-    
-    user1.send_notification(long_notification)
-    
-    Notifiable::NotificationDeviceToken.count.should == 1
-    
-    all_notifications = Notifiable::NotificationDeviceToken.all
-    first_notification_token = all_notifications[0]
-    first_notification_token.notification.apns_message.should eql "First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message First test message F..."
   end
   
   it "raises an error if it can't find the notification provider" do
