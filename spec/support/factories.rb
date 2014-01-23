@@ -5,12 +5,21 @@ FactoryGirl.define do
     token
   end
   
+  factory :notification, :class => Notifiable::Notification do
+    factory :localized_notification do
+      after(:build) do |n, evaluator|
+        n.set_localized_attribute(:message, :en, "Test Message")
+        n.set_localized_attribute(:message, :ar, "رسالة")
+      end    
+    end
+  end
+  
   sequence(:email) {|n| "person-#{n}@example.com" }
   sequence(:token) {|n| "ABCD#{n}" }
   
   factory :user do
     email
-    
+    locale :en
     factory :user_with_mock_token do
       after(:create) do |user, evaluator|
         FactoryGirl.create(:mock_token, :user_id => user.id)
