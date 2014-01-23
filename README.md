@@ -1,11 +1,16 @@
 # Notifiable Rails
-
 <b>Notifiable-Rails</b> is a Rails engine which handles push notifications. It is:
 
 - Stable
 - Production Tested
 - Performant
 - Actively Maintained
+
+### Features
+Features include:
+
+- A pluggable architecture in order to support new services
+- Message localisation
 
 ### Services
 Services supported by official plugins: 
@@ -54,7 +59,9 @@ DELETE /device_tokens/:token
 ### Notifying a single user
 
 ```ruby
-    n = Notifiable::Notification.create(:message => 'Hi there!')
+    n = Notifiable::Notification.create
+    n.set_localized_attribute(:message, :en, "Hi all!")
+    n.set_localized_attribute(:message, :ar, "مرحبا جميع")
     u = User.find_by_email("kamil@futureworkshops.com")
     u.send_notification(n)
 ```
