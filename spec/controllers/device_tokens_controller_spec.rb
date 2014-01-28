@@ -11,7 +11,7 @@ describe Notifiable::DeviceTokensController do
     @request.env["CONTENT_TYPE"] = "application/json"
   end
 
-  it "creates a new device token for a valid user" do
+  it "creates a new device token for an existing user" do
     post :create, :token => "ABC123", :user_email => user1.email, :provider => :apns
     
     expect(response).to be_success
@@ -22,7 +22,7 @@ describe Notifiable::DeviceTokensController do
     user1.device_tokens.first.provider.should.eql? :apns    
   end
   
-  it "creates a new device token for an anonymous" do
+  it "creates a new device token for an anonymous user" do
     post :create, :token => "ABC123", :provider => :apns
     
     expect(response).to be_success
