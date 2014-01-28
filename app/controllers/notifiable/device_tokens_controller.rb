@@ -11,7 +11,6 @@ module Notifiable
         @device_token.token = params[:token]                
       else
         @device_token = DeviceToken.find_or_create_by(:token => params[:token]) 
-        @device_token.device_id = params[:device_id]                       
       end
       
       @device_token.provider = params[:provider]
