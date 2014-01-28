@@ -6,7 +6,13 @@ module Notifiable
     before_filter :ensure_current_notifiable_user, :only => :destroy
     
     def create
-      @device_token = DeviceToken.find_or_create_by(:token => params[:token])
+      if params[:device_id]
+        @device_token = DeviceToken.find_or_create_by(:device_id => params[:device_id])
+        @device_token.token = params[:token]                
+      else
+        @device_token = DeviceToken.find_or_create_by(:token => params[:token]) 
+      end
+      
       @device_token.provider = params[:provider]
       @device_token.user_id = current_notifiable_user.id if current_notifiable_user
 

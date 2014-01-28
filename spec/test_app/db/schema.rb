@@ -16,12 +16,15 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   create_table "notifiable_device_tokens", force: true do |t|
     t.string   "token"
     t.string   "provider"
+    t.string   "device_id"
     t.boolean  "is_valid",   default: true
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "notifiable_device_tokens", ["device_id"], name: "index_notifiable_device_tokens_on_device_id", unique: true
+  add_index "notifiable_device_tokens", ["token"], name: "index_notifiable_device_tokens_on_token", unique: true
   add_index "notifiable_device_tokens", ["user_id"], name: "index_notifiable_device_tokens_on_user_id"
 
   create_table "notifiable_notification_device_tokens", force: true do |t|
