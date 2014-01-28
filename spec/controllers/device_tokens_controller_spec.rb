@@ -32,6 +32,34 @@ describe Notifiable::DeviceTokensController do
     Notifiable::DeviceToken.first.provider.should.eql? :apns   
     User.count.should == 0 
   end
+  
+  it "creates a new device token with a device_id" do
+    post :create, :token => "ABC123", :device_id => "DEF456", :user_email => user1.email, :provider => :mpns
+    
+    expect(response).to be_success
+    
+    Notifiable::DeviceToken.count.should == 1
+    user1.device_tokens.count.should == 1
+    dt = user1.device_tokens.first
+    dt.token.should eql 'ABC123'
+    dt.provider.should eql 'mpns'
+    dt.device_id.should eql "DEF456"    
+  end
+  
+  it "replaces a device token for an existing device_id" do
+    dt = FactoryGirl.create(:mock_token, :provider => :mpns, :device_id => "DEF456")
+    
+    post :create, :token => "ABC123", :device_id => dt.device_id, :user_email => user1.email, :provider => :mpns
+    
+    expect(response).to be_success
+    
+    Notifiable::DeviceToken.count.should == 1
+    user1.device_tokens.count.should == 1
+    dt = user1.device_tokens.first
+    dt.token.should eql 'ABC123'
+    dt.provider.should eql 'mpns'
+    dt.device_id.should eql "DEF456"    
+  end
 
   it "deletes tokens" do
     delete :destroy, :token => user2_device_token.token, :user_email => user2.email
