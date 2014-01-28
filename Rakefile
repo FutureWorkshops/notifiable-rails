@@ -37,7 +37,7 @@ namespace :ci do
   end
   
   desc "Run all CI tests"
-  task :test => [:prepare, 'ci:test:spec', 'ci:test:security']
+  task :test => ['ci:test:spec', 'ci:test:security']
 end
 
 task :default => ':ci:test'
