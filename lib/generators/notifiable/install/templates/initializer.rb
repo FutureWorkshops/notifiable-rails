@@ -14,9 +14,6 @@ Notifiable.configure do |config|
 	# APNS
   #
   
-  # The name of the Notifier::Base subclass used for this notifier 
-  config.apns_class_name = 'Notifiable::Notifier::APNS::GrocerStream'
-  
   # The path to your apns private key
 	config.apns_certificate = File.join(Rails.root, 'config', 'apns-production.pem')
   
@@ -31,9 +28,6 @@ Notifiable.configure do |config|
   #
 	# GCM
   #
-  
-  # The name of the Notifier::Base subclass used for this notifier 
-  config.gcm_class_name = 'Notifiable::Notifier::GCM::GCMBatch'
   
   # Your GCM API Key
 	#config.gcm_api_key = 'YOUR-KEY-HERE'
