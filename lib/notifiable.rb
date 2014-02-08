@@ -14,11 +14,6 @@ module Notifiable
 
   mattr_accessor :user_class
 
-  mattr_accessor :permitted_user_attributes
-
-  mattr_accessor :user_key
-  @@user_key = :email  
-
   mattr_accessor :apns_class_name
 
   mattr_accessor :apns_gateway
