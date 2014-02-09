@@ -14,21 +14,12 @@ module Notifiable
 
   mattr_accessor :user_class
 
-  mattr_accessor :permitted_user_attributes
-
-  mattr_accessor :user_key
-  @@user_key = :email  
-
-  mattr_accessor :apns_class_name
-
   mattr_accessor :apns_gateway
   @@apns_gateway = 'gateway.push.apple.com'
 
   mattr_accessor :apns_certificate
 
   mattr_accessor :apns_passphrase
-
-  mattr_accessor :gcm_class_name
 
   mattr_accessor :gcm_api_key
 
