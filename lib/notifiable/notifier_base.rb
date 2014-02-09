@@ -32,6 +32,10 @@ module Notifiable
       self.env == "test"
     end
     
+    def notification_value(notification, key)
+      notification.provider_value(self.provider, key)
+    end
+    
     private
     def receipts
       @receipts ||= []
