@@ -15,7 +15,7 @@ module Notifiable
           clazz = Notifiable.notifier_classes[provider]          
           raise "Notifier #{provider} not configured" unless clazz
           @notifiers[provider] = clazz.new
-          @notifiers[provider].env = Notifiable.env
+          @notifiers[provider].env = Rails.env
           @config[provider].each_pair {|key, value| @notifiers[provider].send("#{key}=", value) if @notifiers[provider].methods.include?("#{key}=".to_sym) } if @config[provider]
         end
         
