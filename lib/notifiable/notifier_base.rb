@@ -15,7 +15,7 @@ module Notifiable
       save_receipts
     end
     
-    protected
+    protected    
     def flush
       
     end
@@ -26,6 +26,10 @@ module Notifiable
       if receipts.count > 10000
         save_receipts
       end
+    end
+    
+    def test_env?
+      self.env == "test"
     end
     
     private
