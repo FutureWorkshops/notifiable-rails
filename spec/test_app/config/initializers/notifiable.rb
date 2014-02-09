@@ -1,44 +1,10 @@
 Notifiable.configure do |config|
 
-  #
-	# Rails Engine
-  #
-  
   # The controller class that the DeviceTokenController should extend
 	config.api_controller_class = ApplicationController
   
   # The class representing the holder of the device
 	config.user_class = User
-
-  #
-	# APNS
-  #
-  
-  # The path to your apns private key
-	config.apns_certificate = File.join(Rails.root, 'config', 'apns-development.pem')
-  
-  # The passphrase for your private key
-  # Defaults to nil
-	#config.apns_passphrase = 'YOUR-PASSPHRASE-HERE'
-	
-  # The apns gateway to use
-  # Defaults to 'gateway.push.apple.com', can also be 'gateway.sandbox.push.apple.com'
-  #config.apns_gateway = 'gateway.push.apple.com'
-	
-  #
-	# GCM
-  #
-  
-  # Your GCM API Key
-	#config.gcm_api_key = 'YOUR-KEY-HERE'
-  
-  # The batch size
-  # Defaults to 1000
-  #config.gcm_batch_size = 1000
-  
-  #
-  # Global
-  #
   
   # Set the delivery method to test, preventing notifications from being sent
   # Defaults to :send

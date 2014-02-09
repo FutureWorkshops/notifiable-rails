@@ -2,6 +2,8 @@ module Notifiable
 
 	class NotifierBase
     
+    attr_accessor :env
+    
 		def send_notification(notification, device_token)
       # todo - add before hook
       enqueue(notification, device_token)
