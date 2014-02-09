@@ -5,8 +5,12 @@ module Notifiable
     
     has_many :notification_device_tokens, :class_name => 'Notifiable::NotificationDeviceToken'
     
-    def apns_message
-      @apns_message ||= (self.message.bytesize > 232 ? "#{self.message.byteslice(0, 229)}..." : self.message)
+    def provider_value(provider, key)
+      if self.payload && self.payload[provider] && self.payload[provider][key]
+        self.payload[provider][key]
+      elsif self.respond_to? key
+        self.send(key)
+      end       
     end
   end
 end
