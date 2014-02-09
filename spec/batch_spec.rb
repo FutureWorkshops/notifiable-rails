@@ -12,7 +12,7 @@ describe Notifiable::Batch do
     b = Notifiable::Batch.new(config)
     b.add(notification, user1)
 
-    b.notifiers[:configurable_mock].env.should eql Notifiable.env
+    b.notifiers[:configurable_mock].env.should eql Rails.env
     b.notifiers[:configurable_mock].use_sandbox.should == true
   end
   
