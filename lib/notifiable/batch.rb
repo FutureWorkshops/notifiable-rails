@@ -16,7 +16,7 @@ module Notifiable
           raise "Notifier #{provider} not configured" unless clazz
           @notifiers[provider] = clazz.new
           @notifiers[provider].env = Notifiable.env
-          @config[provider].each_pair {|key, value| @notifiers[provider].send("#{key}=", value)} if @config[provider]
+          @config[provider].each_pair {|key, value| @notifiers[provider].send("#{key}=", value) if @notifiers[provider].methods.include?("#{key}=".to_sym) } if @config[provider]
         end
         
         notifier = @notifiers[provider]
