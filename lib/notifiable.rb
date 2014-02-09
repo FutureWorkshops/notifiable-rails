@@ -29,10 +29,6 @@ module Notifiable
     yield(b)
     b.close
   end
-  
-  def self.env
-    Rails.env || 'development'
-  end
 
 end
 
