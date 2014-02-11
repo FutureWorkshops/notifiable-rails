@@ -35,8 +35,12 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   end
 
   create_table "notifiable_notifications", force: true do |t|
+    t.text     "title"
     t.text     "message"
-    t.text     "payload"
+    t.text     "params"
+    t.integer  "badge"
+    t.text     "sound"
+    t.datetime "expiry"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
