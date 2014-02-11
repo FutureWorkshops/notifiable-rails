@@ -16,11 +16,11 @@ describe Notifiable do
     
     all_notifications = Notifiable::NotificationDeviceToken.all
     first_notification_token = all_notifications[0]
-    first_notification_token.notification.provider_value(:mock, :message).should eql "First test message"
+    first_notification_token.notification.message.should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
     
     second_notification_token = all_notifications[1]
-    second_notification_token.notification.provider_value(:mock, :message).should eql "First test message"
+    second_notification_token.notification.message.should eql "First test message"
     second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
@@ -34,11 +34,11 @@ describe Notifiable do
     
     all_notifications = Notifiable::NotificationDeviceToken.all
     first_notification_token = all_notifications[0]
-    first_notification_token.notification.provider_value(:mock, :message).should eql "First test message"
+    first_notification_token.notification.message.should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
     
     second_notification_token = all_notifications[1]
-    second_notification_token.notification.provider_value(:mock, :message).should eql "Second test message"
+    second_notification_token.notification.message.should eql "Second test message"
     second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
