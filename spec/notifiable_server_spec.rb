@@ -12,9 +12,9 @@ describe Notifiable do
       b.add(notification1, user2)
     end
 
-    Notifiable::NotificationDeviceToken.count.should == 2
+    Notifiable::NotificationStatus.count.should == 2
     
-    all_notifications = Notifiable::NotificationDeviceToken.all
+    all_notifications = Notifiable::NotificationStatus.all
     first_notification_token = all_notifications[0]
     first_notification_token.notification.message.should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
@@ -30,14 +30,16 @@ describe Notifiable do
       b.add(notification2, user2)
     end
     
-    Notifiable::NotificationDeviceToken.count.should == 2
+    Notifiable::NotificationStatus.count.should == 2
     
-    all_notifications = Notifiable::NotificationDeviceToken.all
+    all_notifications = Notifiable::NotificationStatus.all
     first_notification_token = all_notifications[0]
+    first_notification_token.status.should == 200
     first_notification_token.notification.message.should eql "First test message"
     first_notification_token.device_token.should eql user1.device_tokens[0]
     
     second_notification_token = all_notifications[1]
+    second_notification_token.status.should == 200
     second_notification_token.notification.message.should eql "Second test message"
     second_notification_token.device_token.should eql user2.device_tokens[0]
   end

@@ -42,7 +42,7 @@ end
 
 class MockNotifier < Notifiable::NotifierBase
   def enqueue(notification, device_token)
-    processed(notification, device_token)
+    processed(notification, device_token, 200)
   end
 end
 

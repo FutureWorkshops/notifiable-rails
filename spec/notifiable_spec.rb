@@ -8,7 +8,7 @@ describe Notifiable::Concern do
     
     user1.send_notification(notification)
     
-    Notifiable::NotificationDeviceToken.count.should == 1    
+    Notifiable::NotificationStatus.count.should == 1    
   end
   
   it "sends zero notifications if the device is not valid" do
@@ -16,7 +16,7 @@ describe Notifiable::Concern do
     
     user.send_notification(notification)
     
-    Notifiable::NotificationDeviceToken.count.should == 0    
+    Notifiable::NotificationStatus.count.should == 0    
   end
   
 end

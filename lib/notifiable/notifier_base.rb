@@ -20,8 +20,8 @@ module Notifiable
       
     end
     
-    def processed(notification, device_token)
-      receipts << {:notification_id => notification.id, :device_token_id => device_token.id }
+    def processed(notification, device_token, status)
+      receipts << {notification_id: notification.id, device_token_id: device_token.id, status: status }
       
       if receipts.count > 10000
         save_receipts
@@ -38,7 +38,7 @@ module Notifiable
     end
     
     def save_receipts
-      Notifiable::NotificationDeviceToken.bulk_insert! receipts
+      Notifiable::NotificationStatus.bulk_insert! receipts
       @receipts = []
     end
 	end
