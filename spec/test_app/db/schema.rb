@@ -27,11 +27,10 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   add_index "notifiable_device_tokens", ["token"], name: "index_notifiable_device_tokens_on_token", unique: true
   add_index "notifiable_device_tokens", ["user_id"], name: "index_notifiable_device_tokens_on_user_id"
 
-  create_table "notifiable_notification_device_tokens", force: true do |t|
-    t.integer  "notification_id"
-    t.integer  "device_token_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "notifiable_notification_statuses", force: true do |t|
+    t.integer "notification_id"
+    t.integer "device_token_id"
+    t.integer "status"
   end
 
   create_table "notifiable_notifications", force: true do |t|
