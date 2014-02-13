@@ -11,7 +11,10 @@ require 'notifiable/notifier_base'
 module Notifiable
 
   mattr_accessor :api_controller_class
-
+  
+  mattr_accessor :api_device_token_params
+  @@api_device_token_params = [:device_id, :token, :provider]
+  
   mattr_accessor :user_class
   
   mattr_accessor :delivery_method

@@ -7,16 +7,16 @@ module Notifiable
     
     def create
       if params[:device_id]
-        @device_token = DeviceToken.find_or_create_by(:device_id => params[:device_id])
-        @device_token.token = params[:token]                
+        @device_token = DeviceToken.find_by(:device_id => params[:device_id])
       else
-        @device_token = DeviceToken.find_or_create_by(:token => params[:token]) 
-      end
-      
-      @device_token.provider = params[:provider]
-      @device_token.user_id = current_notifiable_user.id if current_notifiable_user
+        @device_token = DeviceToken.find_by(:token => params[:token]) 
+      end      
+      @device_token = DeviceToken.new unless @device_token
 
-      if @device_token.save
+      notifiable_params = params.permit(Notifiable.api_device_token_params)
+      notifiable_params[:user_id] = current_notifiable_user.id if current_notifiable_user
+
+      if @device_token.update_attributes(notifiable_params)
         head :status => :ok
       else
         render :json => { :errors => @device_token.errors.full_messages }, :status => :internal_server_error
