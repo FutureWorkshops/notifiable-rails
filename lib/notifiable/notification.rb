@@ -3,6 +3,6 @@ module Notifiable
     
     serialize :params
     
-    has_many :notification_device_tokens, :class_name => 'Notifiable::NotificationDeviceToken'
+    has_many :notification_status, :class_name => 'Notifiable::NotificationStatus'
   end
 end

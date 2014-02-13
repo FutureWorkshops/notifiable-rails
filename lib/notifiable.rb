@@ -3,7 +3,7 @@ require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
 require 'notifiable/notification'
-require 'notifiable/notification_device_token'
+require 'notifiable/notification_status'
 require 'notifiable/batch'
 require 'notifiable/device_token'
 require 'notifiable/notifier_base'
