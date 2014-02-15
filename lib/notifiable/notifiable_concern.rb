@@ -4,7 +4,7 @@ module Notifiable
 
   	def send_notification(notification)
       Notifiable.batch do |b|
-        b.add(notification, self)
+        b.add_notifiable(notification, self)
       end
   	end
   

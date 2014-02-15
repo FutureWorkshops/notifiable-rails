@@ -8,8 +8,8 @@ describe Notifiable do
   
   it "sends two identical push notifications" do
     Notifiable.batch do |b|
-      b.add(notification1, user1)
-      b.add(notification1, user2)
+      b.add_notifiable(notification1, user1)
+      b.add_notifiable(notification1, user2)
     end
 
     Notifiable::NotificationStatus.count.should == 2
@@ -26,8 +26,8 @@ describe Notifiable do
   
   it "sends two different push notifications" do
     Notifiable.batch do |b|
-      b.add(notification1, user1)
-      b.add(notification2, user2)
+      b.add_notifiable(notification1, user1)
+      b.add_notifiable(notification2, user2)
     end
     
     Notifiable::NotificationStatus.count.should == 2
