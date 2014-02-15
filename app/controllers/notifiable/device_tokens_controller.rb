@@ -19,7 +19,7 @@ module Notifiable
       if @device_token.update_attributes(notifiable_params)
         head :status => :ok
       else
-        render :json => { :errors => @device_token.errors.full_messages }, :status => :internal_server_error
+        render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
       end
     end
 
@@ -32,7 +32,7 @@ module Notifiable
       elsif @device_token.destroy
         head :status => :ok
       else
-        render :json => { :errors => @device_token.errors.full_messages }, :status => :internal_server_error
+        render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
       end
     end
     
