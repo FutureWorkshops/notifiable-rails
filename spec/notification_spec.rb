@@ -14,4 +14,13 @@ describe Notifiable::Notification do
     Notifiable::Notification.first.params.should == {:custom_property => "A different message"}
   end
   
+  it "destroys dependent NotificationStatuses" do
+    n = Notifiable::Notification.create :params => {:custom_property => "A different message"}
+    Notifiable::NotificationStatus.create :notification => n
+    
+    n.destroy
+    
+    Notifiable::NotificationStatus.count.should == 0
+  end
+  
 end
