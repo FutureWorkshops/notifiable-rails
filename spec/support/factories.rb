@@ -9,6 +9,10 @@ FactoryGirl.define do
   factory :app, :class => Notifiable::App do
   end
   
+  factory :notification, :class => Notifiable::Notification do
+    app
+  end
+  
   sequence(:email) {|n| "person-#{n}@example.com" }
   
   factory :user do
