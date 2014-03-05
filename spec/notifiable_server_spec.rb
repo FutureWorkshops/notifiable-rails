@@ -6,6 +6,8 @@ describe Notifiable do
   let(:notification1) { Notifiable::Notification.create(:message => "First test message")}
   let(:notification2) { Notifiable::Notification.create(:message => "Second test message")}
   
+  before(:each) { FactoryGirl.create(:app) }
+  
   it "sends two identical push notifications" do
     Notifiable.batch do |b|
       b.add_notifiable(notification1, user1)
@@ -46,7 +48,7 @@ describe Notifiable do
   
   it "raises an error if it can't find the notification provider" do
     user = FactoryGirl.create(:user)
-    Notifiable::DeviceToken.create :user_id => user.id, :token => "DEF567", :provider => :gcm
+    device_token = FactoryGirl.create(:mock_token, :provider => :sms, :user_id => user.id)
     
     expect { user.send_notification(notification1) }.to raise_error    
   end
