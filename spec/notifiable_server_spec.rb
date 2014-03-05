@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Notifiable do
   let(:user1) { FactoryGirl.create(:user_with_mock_token) }
   let(:user2) { FactoryGirl.create(:user_with_mock_token) }
-  let(:notification1) { Notifiable::Notification.create(:message => "First test message")}
-  let(:notification2) { Notifiable::Notification.create(:message => "Second test message")}
+  let(:notification1) { FactoryGirl.create(:notification, :message => "First test message")}
+  let(:notification2) { FactoryGirl.create(:notification, :message => "Second test message")}
   
   before(:each) { FactoryGirl.create(:app) }
   
