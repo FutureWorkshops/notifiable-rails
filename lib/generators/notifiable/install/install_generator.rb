@@ -21,6 +21,7 @@ module Notifiable
       end
 
       def copy_migrations
+        migration_template "create_notifiable_apps.rb", "db/migrate/create_notifiable_apps.rb"
         migration_template "create_notifiable_device_tokens.rb", "db/migrate/create_notifiable_device_tokens.rb"
         migration_template "create_notifiable_notifications.rb", "db/migrate/create_notifiable_notifications.rb"
         migration_template "create_notifiable_notification_device_tokens.rb", "db/migrate/create_notifiable_notification_device_tokens.rb"
