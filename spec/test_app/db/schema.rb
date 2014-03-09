@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 20131229104039) do
     t.text     "message"
     t.text     "params"
     t.integer  "app_id"
+    t.integer  "sent_count"
+    t.integer  "gateway_accepted_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
