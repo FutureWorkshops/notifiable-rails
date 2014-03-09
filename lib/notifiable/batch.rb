@@ -5,6 +5,7 @@ module Notifiable
       raise "Must specify Notifiable::App" unless app
       @app = app
       @notifiers = {}
+      @notification_ids = []
     end
     
     def add_notifiable(notification, notifiable)
@@ -29,13 +30,25 @@ module Notifiable
       
       notifier = @notifiers[provider]
       if d.is_valid? && !notifier.nil? 
-  		  notifier.send_notification(notification, d) 
+  		  notifier.send_notification(notification, d)
+        @notification_ids << notification.id
       end
     end
     
     def close
       @notifiers.each_value {|n| n.close}
       @notifiers = nil
+      summarise
     end
+    
+    private
+    def summarise
+      notifications = Notification.where(:id => @notification_ids)
+      notifications.each do |n|
+        n.sent_count = n.notification_statuses.count
+        n.gateway_accepted_count = n.notification_statuses.where(:status => 0).count
+        n.save
+      end
+    end 
   end
 end
