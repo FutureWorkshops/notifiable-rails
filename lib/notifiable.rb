@@ -1,4 +1,5 @@
 require 'notifiable/active_record'
+require 'notifiable/app'
 require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
@@ -13,7 +14,7 @@ module Notifiable
   mattr_accessor :api_controller_class
   
   mattr_accessor :api_device_token_params
-  @@api_device_token_params = [:device_id, :token, :provider]
+  @@api_device_token_params = [:device_id, :token, :provider, :app_id]
   
   mattr_accessor :user_class
   
@@ -27,8 +28,8 @@ module Notifiable
     yield self
   end
   
-  def self.batch(config = {})    
-    b = Batch.new(config)
+  def self.batch(app = Notifiable::App.first)    
+    b = Batch.new(app)
     yield(b)
     b.close
   end
