@@ -2,30 +2,37 @@ require 'spec_helper'
 
 describe Notifiable::Batch do
   let(:user1) { FactoryGirl.create(:user) }
-  let(:notification) { Notifiable::Notification.new(:message => "Test message")}
+  let(:notification) { FactoryGirl.create(:notification, :app => app) }
   let(:app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
   
   it "adds a notifiable object" do  
-    FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id)
+    FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id, :app => app)
           
     b = Notifiable::Batch.new(app)
     b.add_notifiable(notification, user1)
+    b.close
 
-    Notifiable::NotificationStatus.count == 1
+    Notifiable::NotificationStatus.count.should == 1
+    saved_notification = Notifiable::Notification.first
+    saved_notification.sent_count.should == 1
+    saved_notification.gateway_accepted_count.should == 1
   end
   
   it "adds a device token" do  
-    FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id)
+    token = FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id, :app => app)
           
     b = Notifiable::Batch.new(app)
-    b.add_device_token(notification, user1.device_tokens.first)
+    b.add_device_token(notification, token)
+    b.close
 
-    Notifiable::NotificationStatus.count == 1
+    Notifiable::NotificationStatus.count.should == 1
+    saved_notification = Notifiable::Notification.first
+    saved_notification.sent_count.should == 1
+    saved_notification.gateway_accepted_count.should == 1
   end
   
   it "configures the provider via an App" do  
-    FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id)
-
+    FactoryGirl.create(:mock_token, :provider => :configurable_mock, :user_id => user1.id, :app => app)
     
     b = Notifiable::Batch.new(app)
     b.add_notifiable(notification, user1)
@@ -46,7 +53,7 @@ class ConfigurableMockNotifier < Notifiable::NotifierBase
   attr_accessor :use_sandbox
   
   def enqueue(notification, device_token)
-    processed(notification, device_token, 200)
+    processed(notification, device_token, 0)
   end
 end
 

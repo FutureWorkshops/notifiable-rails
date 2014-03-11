@@ -6,6 +6,10 @@ class CreateNotifiableNotifications < ActiveRecord::Migration
       t.text :params
       t.references :app
       
+      #stats
+      t.integer :sent_count
+      t.integer :gateway_accepted_count
+      
       # APNS - Optional
       #t.integer :badge
       #t.text :sound
