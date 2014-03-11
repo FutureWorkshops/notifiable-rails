@@ -2,12 +2,22 @@ class CreateNotifiableNotifications < ActiveRecord::Migration
   
   def change
     create_table :notifiable_notifications do |t|
-      t.text :title
       t.text :message
       t.text :params
-      t.integer :badge
-      t.text :sound
-      t.datetime :expiry
+      t.references :app
+      
+      #stats
+      t.integer :sent_count
+      t.integer :gateway_accepted_count
+      
+      # APNS - Optional
+      #t.integer :badge
+      #t.text :sound
+      #t.datetime :expiry
+      
+      # MPNS - Optional
+      #t.text :title
+      
       t.timestamps
     end
   end

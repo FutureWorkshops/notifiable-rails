@@ -3,8 +3,10 @@ require 'spec_helper'
 describe Notifiable do
   let(:user1) { FactoryGirl.create(:user_with_mock_token) }
   let(:user2) { FactoryGirl.create(:user_with_mock_token) }
-  let(:notification1) { Notifiable::Notification.create(:message => "First test message")}
-  let(:notification2) { Notifiable::Notification.create(:message => "Second test message")}
+  let(:notification1) { FactoryGirl.create(:notification, :message => "First test message")}
+  let(:notification2) { FactoryGirl.create(:notification, :message => "Second test message")}
+  
+  before(:each) { FactoryGirl.create(:app) }
   
   it "sends two identical push notifications" do
     Notifiable.batch do |b|
@@ -46,7 +48,7 @@ describe Notifiable do
   
   it "raises an error if it can't find the notification provider" do
     user = FactoryGirl.create(:user)
-    Notifiable::DeviceToken.create :user_id => user.id, :token => "DEF567", :provider => :gcm
+    device_token = FactoryGirl.create(:mock_token, :provider => :sms, :user_id => user.id)
     
     expect { user.send_notification(notification1) }.to raise_error    
   end

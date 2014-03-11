@@ -2,11 +2,18 @@ FactoryGirl.define do
 
   factory :mock_token, :class => Notifiable::DeviceToken do
     provider :mock
-    token
+    sequence(:token) {|n| "ABCD#{n}" }
+    app
+  end
+  
+  factory :app, :class => Notifiable::App do
+  end
+  
+  factory :notification, :class => Notifiable::Notification do
+    app
   end
   
   sequence(:email) {|n| "person-#{n}@example.com" }
-  sequence(:token) {|n| "ABCD#{n}" }
   
   factory :user do
     email

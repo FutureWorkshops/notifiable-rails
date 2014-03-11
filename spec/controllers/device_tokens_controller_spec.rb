@@ -5,6 +5,7 @@ describe Notifiable::DeviceTokensController do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user_with_mock_token) }
   let(:user2_device_token) { user2.device_tokens.first }
+  let(:app) { FactoryGirl.create(:app) }
   
   before(:each) do
     @request.env["HTTP_ACCEPT"] = "application/json"
@@ -12,29 +13,33 @@ describe Notifiable::DeviceTokensController do
   end
 
   it "creates a new device token for an existing user" do
-    post :create, :token => "ABC123", :user_email => user1.email, :provider => :apns
+    post :create, :token => "ABC123", :user_email => user1.email, :provider => :apns, :app_id => app.id
     
     expect(response).to be_success
     
     Notifiable::DeviceToken.count.should == 1
     user1.device_tokens.count.should == 1
-    user1.device_tokens.first.token.should.eql? "ABC123"
-    user1.device_tokens.first.provider.should.eql? :apns    
+    dt = user1.device_tokens.first
+    dt.token.should.eql? "ABC123"
+    dt.provider.should.eql? :apns 
+    dt.app.should.eql? app   
   end
   
   it "creates a new device token for an anonymous user" do
-    post :create, :token => "ABC123", :provider => :apns
+    post :create, :token => "ABC123", :provider => :apns, :app_id => app.id
     
     expect(response).to be_success
     
     Notifiable::DeviceToken.count.should == 1
-    Notifiable::DeviceToken.first.token.should.eql? "ABC123"
-    Notifiable::DeviceToken.first.provider.should.eql? :apns   
+    dt = Notifiable::DeviceToken.first
+    dt.token.should.eql? "ABC123"
+    dt.provider.should.eql? :apns   
+    dt.app.should.eql? app
     User.count.should == 0 
   end
   
   it "creates a new device token with a device_id" do
-    post :create, :token => "ABC123", :device_id => "DEF456", :user_email => user1.email, :provider => :mpns
+    post :create, :token => "ABC123", :device_id => "DEF456", :user_email => user1.email, :provider => :mpns, :app_id => app.id
     
     expect(response).to be_success
     
@@ -43,6 +48,7 @@ describe Notifiable::DeviceTokensController do
     dt = user1.device_tokens.first
     dt.token.should eql 'ABC123'
     dt.provider.should eql 'mpns'
+    dt.app.should.eql? app
     dt.device_id.should eql "DEF456"    
   end
   
@@ -58,6 +64,7 @@ describe Notifiable::DeviceTokensController do
     dt = user1.device_tokens.first
     dt.token.should eql 'ABC123'
     dt.provider.should eql 'mpns'
+    dt.app.should.eql? app
     dt.device_id.should eql "DEF456"    
   end
 
@@ -80,6 +87,13 @@ describe Notifiable::DeviceTokensController do
     
   	expect(response.status).to eq(401)
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
+  end
+  
+  it "doesn't create a token if no app is specified" do
+    post :create, :token => "ABC123", :device_id => "DEF456", :user_email => user1.email, :provider => :mpns
+    
+  	expect(response.status).to eq(422)
+  	Notifiable::DeviceToken.count.should == 0
   end
   
   it "returns not found if the token doesnt exist" do
