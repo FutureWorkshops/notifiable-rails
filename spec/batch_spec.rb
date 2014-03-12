@@ -16,6 +16,11 @@ describe Notifiable::Batch do
     saved_notification = Notifiable::Notification.first
     saved_notification.sent_count.should == 1
     saved_notification.gateway_accepted_count.should == 1
+    saved_notification.opened_count.should == 0
+    
+    saved_status = Notifiable::NotificationStatus.first
+    saved_status.uuid.should_not be_nil
+    saved_status.status.should == 0
   end
   
   it "adds a device token" do  
