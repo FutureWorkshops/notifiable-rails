@@ -5,7 +5,10 @@ class CreateNotifiableNotificationStatuses < ActiveRecord::Migration
       t.references :notification
       t.references :device_token
       t.integer :status
+      t.string :uuid
     end
+    
+    add_index :notifiable_notification_statuses, :uuid, :unique => true  
   end
 
 end

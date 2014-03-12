@@ -7,8 +7,9 @@ class CreateNotifiableNotifications < ActiveRecord::Migration
       t.references :app
       
       #stats
-      t.integer :sent_count
-      t.integer :gateway_accepted_count
+      t.integer :sent_count, :default => 0
+      t.integer :gateway_accepted_count, :default => 0
+      t.integer :opened_count, :default => 0
       
       # APNS - Optional
       #t.integer :badge
