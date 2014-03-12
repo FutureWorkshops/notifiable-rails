@@ -10,4 +10,5 @@ Notifiable.configure do |config|
   # Defaults to :send
   #config.delivery_method = :test
 
+  config.count_opens = true
 end

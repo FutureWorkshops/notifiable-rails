@@ -1,3 +1,5 @@
+require 'simple_uuid'
+
 require 'notifiable/active_record'
 require 'notifiable/app'
 require 'notifiable/notifiable_concern'
@@ -23,6 +25,9 @@ module Notifiable
   
   mattr_accessor :notifier_classes
   @@notifier_classes = {}
+  
+  mattr_accessor :count_opens
+  @@count_opens = false 
   
   def self.configure
     yield self

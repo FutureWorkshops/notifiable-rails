@@ -13,5 +13,9 @@ Notifiable.configure do |config|
   # Set the delivery method to test, preventing notifications from being sent
   # Defaults to :send
   #config.delivery_method = :test
+  
+  # Track the number of opens each push notification recieves
+  # Involves a performance hit so defaults to false
+  #config.count_opens = false
 
 end
