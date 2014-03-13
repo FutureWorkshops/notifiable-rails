@@ -15,7 +15,7 @@ describe Notifiable::NotificationStatusesController do
   end
 
   it "marks a status as opened" do
-    post :opened, {:uuid => notification_status.uuid, :user_email => user1.email}
+    put :opened, {:uuid => notification_status.uuid, :user_email => user1.email}
     
     expect(response).to be_success
     
