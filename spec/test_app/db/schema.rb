@@ -39,14 +39,16 @@ ActiveRecord::Schema.define(version: 20131229104039) do
     t.integer "notification_id"
     t.integer "device_token_id"
     t.integer "status"
+    t.string  "uuid"
   end
 
   create_table "notifiable_notifications", force: true do |t|
     t.text     "message"
     t.text     "params"
     t.integer  "app_id"
-    t.integer  "sent_count"
-    t.integer  "gateway_accepted_count"
+    t.integer  "sent_count",             default: 0
+    t.integer  "gateway_accepted_count", default: 0
+    t.integer  "opened_count",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
