@@ -1,7 +1,7 @@
 
 module Notifiable
   
-  class NotificationStatusesController < Notifiable.api_controller_class
+  class NotificationsController < Notifiable.api_controller_class
     
     before_filter :ensure_current_notifiable_user!, :find_notification_status!, :check_authorisation!
     
@@ -16,8 +16,12 @@ module Notifiable
     
     private
     def find_notification_status!
-      head :status => :not_acceptable unless params[:uuid]
-      @notification_status = NotificationStatus.find_by(:uuid => params[:uuid])
+      return head :status => :not_acceptable unless params[:notification_id] && params[:device_token] && (params[:device_token][:device_id] || params[:device_token][:token])
+      device_token = params[:device_token][:device_id] ? 
+        DeviceToken.find_by!("device_id = ?", params[:device_token][:device_id]) :  
+        DeviceToken.find_by!("token = ?", params[:device_token][:token])
+      
+      @notification_status = NotificationStatus.find_by!("notification_id = ? AND device_token_id = ?", params[:notification_id], device_token.id)
     end
     
     def check_authorisation!
