@@ -56,7 +56,7 @@ end
 class ConfigurableMockNotifier < Notifiable::NotifierBase
   attr_accessor :use_sandbox
   
-  def enqueue(notification, device_token)
+  def enqueue(notification, device_token, params)
     processed(notification, device_token, 0)
   end
 end
