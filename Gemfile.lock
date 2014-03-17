@@ -3,7 +3,6 @@ PATH
   specs:
     notifiable-rails (0.10.1)
       rails (~> 4.0.0)
-      simple_uuid (~> 0.4.0)
 
 GEM
   remote: https://rubygems.org/
@@ -121,7 +120,6 @@ GEM
       sexp_processor (~> 4.1)
     sass (3.2.13)
     sexp_processor (4.4.1)
-    simple_uuid (0.4.0)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
