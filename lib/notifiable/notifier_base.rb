@@ -21,9 +21,7 @@ module Notifiable
     end
     
     def processed(notification, device_token, status)
-      hash = {notification_id: notification.id, device_token_id: device_token.id, status: status}
-      hash[:uuid] = generate_uuid if Notifiable.count_opens
-      receipts << hash
+      receipts << {notification_id: notification.id, device_token_id: device_token.id, status: status}
       
       if receipts.count > 10000
         save_receipts

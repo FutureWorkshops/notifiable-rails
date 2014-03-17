@@ -5,7 +5,6 @@ class CreateNotifiableNotificationStatuses < ActiveRecord::Migration
       t.references :notification
       t.references :device_token
       t.integer :status
-      t.string :uuid
     end
   end
 

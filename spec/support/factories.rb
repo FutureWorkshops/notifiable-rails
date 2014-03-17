@@ -1,5 +1,3 @@
-require 'simple_uuid'
-
 FactoryGirl.define do
 
   factory :mock_token, :class => Notifiable::DeviceToken do
@@ -19,7 +17,6 @@ FactoryGirl.define do
   factory :notification_status, :class => Notifiable::NotificationStatus do
     notification
     status 0
-    uuid SimpleUUID::UUID.new.to_guid
   end
   
   sequence(:email) {|n| "person-#{n}@example.com" }
