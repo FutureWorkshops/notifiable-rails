@@ -41,7 +41,7 @@ RSpec.configure do |config|
 end
 
 class MockNotifier < Notifiable::NotifierBase
-  def enqueue(notification, device_token)
+  def enqueue(notification, device_token, params)
     processed(notification, device_token, 200)
   end
 end
