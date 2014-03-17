@@ -6,7 +6,7 @@ module Notifiable
     
 		def send_notification(notification, device_token)
       # todo - add before hook
-      enqueue(notification, device_token)
+      enqueue(notification, device_token, custom_params(notification))
       # todo - add after hook       				
     end
     
@@ -28,8 +28,10 @@ module Notifiable
       end
     end
     
-    def generate_uuid
-      SimpleUUID::UUID.new.to_guid
+    def custom_params(notification)
+      params = notification.params || {}
+      params[:notification_id] = notification.id
+      params
     end
     
     def test_env?
