@@ -4,8 +4,9 @@ module Notifiable
     belongs_to :device_token, :class_name => 'Notifiable::DeviceToken'
     
     self.table_name = 'notifiable_statuses'
+    
     def opened!
-      update_attributes({:status => -1, :uuid => nil})
+      update_attribute(:status, -1)
     end
     
     def opened?
