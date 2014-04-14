@@ -21,7 +21,7 @@ module Notifiable
     end
     
     def processed(notification, device_token, status)
-      receipts << {notification_id: notification.id, device_token_id: device_token.id, status: status}
+      receipts << {notification_id: notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
       
       if receipts.count > 10000
         save_receipts
