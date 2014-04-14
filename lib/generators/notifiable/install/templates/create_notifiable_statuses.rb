@@ -5,6 +5,7 @@ class CreateNotifiableStatuses < ActiveRecord::Migration
       t.references :notification
       t.references :device_token
       t.integer :status
+      t.datetime :created_at
     end    
   end
 
