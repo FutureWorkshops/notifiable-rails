@@ -14,7 +14,7 @@ module Notifiable
   mattr_accessor :api_controller_class
   
   mattr_accessor :api_device_token_params
-  @@api_device_token_params = [:device_id, :token, :provider, :app_id]
+  @@api_device_token_params = [:token, :provider, :app_id]
   
   mattr_accessor :user_class
   

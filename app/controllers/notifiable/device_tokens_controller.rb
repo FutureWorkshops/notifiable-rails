@@ -3,33 +3,25 @@ module Notifiable
   
   class DeviceTokensController < Notifiable.api_controller_class
     
-    before_filter :ensure_current_notifiable_user, :only => :destroy
+    rescue_from ActiveRecord::RecordNotFound do |error|
+      render :json => {:error => error.message}, :status => :not_found
+    end
+    
+    before_filter :find_device_token, :ensure_current_notifiable_user!, :ensure_authorized!, :only => [:update, :destroy]
     
     def create
-      if params[:device_id]
-        @device_token = DeviceToken.find_by(:device_id => params[:device_id])
-      else
-        @device_token = DeviceToken.find_by(:token => params[:token]) 
-      end      
+      @device_token = DeviceToken.find_by(:token => params[:token]) 
       @device_token = DeviceToken.new unless @device_token
 
-      notifiable_params = params.permit(Notifiable.api_device_token_params)
-      notifiable_params[:user_id] = current_notifiable_user.id if current_notifiable_user
-
-      if @device_token.update_attributes(notifiable_params)
-        head :status => :ok
-      else
-        render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
-      end
+      perform_update
+    end
+    
+    def update
+      perform_update
     end
 
-    def destroy
-      @device_token = DeviceToken.where(:token => params[:token]).first
-      if !@device_token
-        head :status => :not_found        
-      elsif !@device_token.user.eql?(current_notifiable_user)
-        head :status => :unauthorized
-      elsif @device_token.destroy
+    def destroy    
+      if @device_token.destroy
         head :status => :ok
       else
         render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
@@ -37,9 +29,31 @@ module Notifiable
     end
     
     private
-    def ensure_current_notifiable_user
-      head :status => :not_acceptable unless current_notifiable_user
-    end
+      def perform_update
+        if @device_token.update_attributes(device_token_params)
+          render :json => @device_token, :status => :ok
+        else
+          render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
+        end
+      end
+    
+      def device_token_params
+        device_token_params = params.permit(Notifiable.api_device_token_params)
+        device_token_params[:user_id] = current_notifiable_user.id if current_notifiable_user && !device_token_params.has_key?(:user_id)
+        device_token_params
+      end
+    
+      def ensure_current_notifiable_user!
+        head :status => :not_acceptable unless current_notifiable_user
+      end
+    
+      def ensure_authorized!
+        head :status => :unauthorized if @device_token.user && !@device_token.user.eql?(current_notifiable_user)
+      end
+    
+      def find_device_token
+        @device_token = DeviceToken.find(params[:id])
+      end
   end
   
 end
