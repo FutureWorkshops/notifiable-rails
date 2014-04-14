@@ -39,7 +39,7 @@ module Notifiable
     
       def device_token_params
         device_token_params = params.permit(Notifiable.api_device_token_params)
-        device_token_params[:user_id] = current_notifiable_user.id if current_notifiable_user
+        device_token_params[:user_id] = current_notifiable_user.id if current_notifiable_user && !device_token_params.has_key?(:user_id)
         device_token_params
       end
     
