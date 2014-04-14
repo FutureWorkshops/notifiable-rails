@@ -20,6 +20,7 @@ describe Notifiable::Batch do
     
     saved_status = Notifiable::NotificationStatus.first
     saved_status.status.should == 0
+    saved_status.created_at.should_not be_nil
   end
   
   it "adds a device token" do  
