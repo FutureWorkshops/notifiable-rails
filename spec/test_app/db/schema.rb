@@ -47,9 +47,10 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   end
 
   create_table "notifiable_statuses", force: true do |t|
-    t.integer "notification_id"
-    t.integer "device_token_id"
-    t.integer "status"
+    t.integer  "notification_id"
+    t.integer  "device_token_id"
+    t.integer  "status"
+    t.datetime "created_at"
   end
 
   create_table "users", force: true do |t|
