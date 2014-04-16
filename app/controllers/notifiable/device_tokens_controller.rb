@@ -7,17 +7,17 @@ module Notifiable
       render :json => {:error => error.message}, :status => :not_found
     end
     
-    before_filter :find_device_token, :ensure_current_notifiable_user!, :ensure_authorized!, :only => [:update, :destroy]
+    before_filter :find_device_token, :ensure_authorized!, :except => :create
     
     def create
       @device_token = DeviceToken.find_by(:token => params[:token]) 
       @device_token = DeviceToken.new unless @device_token
 
-      perform_update
+      perform_update(device_token_params)
     end
     
     def update
-      perform_update
+      perform_update(device_token_params)
     end
 
     def destroy    
@@ -29,8 +29,8 @@ module Notifiable
     end
     
     private
-      def perform_update
-        if @device_token.update_attributes(device_token_params)
+      def perform_update(params)
+        if @device_token.update_attributes(params)
           render :json => @device_token, :status => :ok
         else
           render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
@@ -39,12 +39,14 @@ module Notifiable
     
       def device_token_params
         device_token_params = params.permit(Notifiable.api_device_token_params)
-        device_token_params[:user_id] = current_notifiable_user.id if current_notifiable_user && !device_token_params.has_key?(:user_id)
+        
+        if current_notifiable_user
+          device_token_params[:user_id] = current_notifiable_user.id 
+        else
+          device_token_params[:user_id] = nil   
+        end
+        
         device_token_params
-      end
-    
-      def ensure_current_notifiable_user!
-        head :status => :not_acceptable unless current_notifiable_user
       end
     
       def ensure_authorized!

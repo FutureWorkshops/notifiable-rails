@@ -22,7 +22,7 @@ module Notifiable
   @@delivery_method = :send
   
   mattr_accessor :notification_status_batch_size
-  @@status_batch_size = 10000
+  @@notification_status_batch_size = 10000
   
   mattr_accessor :notifier_classes
   @@notifier_classes = {}

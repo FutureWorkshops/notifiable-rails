@@ -38,8 +38,8 @@ describe Notifiable::DeviceTokensController do
     User.count.should == 0 
   end
   
-  it "returns device token for an existing token" do
-    post :create, :token => user2_device_token.token, :provider => user2_device_token.provider, :app_id => app.id
+  it "uses an existing token" do
+    post :create, :token => user2_device_token.token, :provider => user2_device_token.provider, :app_id => app.id, :user_email => user2.email
     
     expect(response).to be_success
     
@@ -52,10 +52,21 @@ describe Notifiable::DeviceTokensController do
   end
   
   it "doesn't create a token if no app is specified" do
-    post :create, :token => "ABC123", :device_id => "DEF456", :user_email => user1.email, :provider => :mpns
+    post :create, :token => "ABC123", :user_email => user1.email, :provider => :mpns
     
   	expect(response.status).to eq(422)
   	Notifiable::DeviceToken.count.should == 0
+  end
+  
+  it "anonymises an existing token" do
+    
+    post :create, :token => user2_device_token.token, :provider => :mpns
+    
+  	expect(response.status).to eq(200)
+  	Notifiable::DeviceToken.count.should == 1
+    dt = Notifiable::DeviceToken.first
+    dt.token.should eql user2_device_token.token
+    dt.user.should be_nil
   end
   
   it "updates token for an existing device token" do
@@ -78,7 +89,7 @@ describe Notifiable::DeviceTokensController do
   it "doesn't delete token unless authorised" do
   	delete :destroy, :id => user2_device_token.id
     
-  	expect(response.status).to eq(406)
+  	expect(response.status).to eq(401)
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
   end
   

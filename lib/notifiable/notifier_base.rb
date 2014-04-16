@@ -30,6 +30,7 @@ module Notifiable
     
     def custom_params(notification)
       params = notification.params || {}
+      # Always add the notification ID so that it can be marked as opened
       params[:notification_id] = notification.id
       params
     end
