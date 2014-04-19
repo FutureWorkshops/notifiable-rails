@@ -15,7 +15,8 @@ describe Notifiable::DeviceTokensController do
   it "creates a new device token for an existing user" do
     post :create, :token => "ABC123", :user_email => user1.email, :provider => :apns, :app_id => app.id
     
-    expect(response).to be_success
+    response.status.should == 200
+    Notifiable.api_device_token_params.push('id').each{|p| json.should have_key(p.to_s)} 
     
     Notifiable::DeviceToken.count.should == 1
     user1.device_tokens.count.should == 1
@@ -28,7 +29,8 @@ describe Notifiable::DeviceTokensController do
   it "creates a new device token for an anonymous user" do
     post :create, :token => "ABC123", :provider => :apns, :app_id => app.id
     
-    expect(response).to be_success
+    response.status.should == 200
+    Notifiable.api_device_token_params.push('id').each{|p| json.should have_key(p.to_s)} 
     
     Notifiable::DeviceToken.count.should == 1
     dt = Notifiable::DeviceToken.first
@@ -41,7 +43,8 @@ describe Notifiable::DeviceTokensController do
   it "uses an existing token" do
     post :create, :token => user2_device_token.token, :provider => user2_device_token.provider, :app_id => app.id, :user_email => user2.email
     
-    expect(response).to be_success
+    response.status.should == 200
+    Notifiable.api_device_token_params.push('id').each{|p| json.should have_key(p.to_s)} 
     
     Notifiable::DeviceToken.count.should == 1
     user2.device_tokens.count.should == 1
@@ -54,7 +57,7 @@ describe Notifiable::DeviceTokensController do
   it "doesn't create a token if no app is specified" do
     post :create, :token => "ABC123", :user_email => user1.email, :provider => :mpns
     
-  	expect(response.status).to eq(422)
+    response.status.should == 422
   	Notifiable::DeviceToken.count.should == 0
   end
   
@@ -62,7 +65,9 @@ describe Notifiable::DeviceTokensController do
     
     post :create, :token => user2_device_token.token, :provider => :mpns
     
-  	expect(response.status).to eq(200)
+  	response.status.should == 200
+    Notifiable.api_device_token_params.push('id').each{|p| json.should have_key(p.to_s)} 
+    
   	Notifiable::DeviceToken.count.should == 1
     dt = Notifiable::DeviceToken.first
     dt.token.should eql user2_device_token.token
@@ -72,7 +77,8 @@ describe Notifiable::DeviceTokensController do
   it "updates token for an existing device token" do
     put :update, :id => user2_device_token.id, :token => "DEF456", :user_email => user2.email
 
-  	expect(response.status).to eq(200)
+  	response.status.should == 200
+    Notifiable.api_device_token_params.each{|p| json.should have_key(p.to_s)} 
     
   	Notifiable::DeviceToken.count.should == 1
     dt = Notifiable::DeviceToken.first
@@ -89,21 +95,23 @@ describe Notifiable::DeviceTokensController do
   it "doesn't delete token unless authorised" do
   	delete :destroy, :id => user2_device_token.id
     
-  	expect(response.status).to eq(401)
+  	response.status.should == 401 
+    
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
   end
   
   it "doesn't delete tokens of other users" do
   	delete :destroy, :id => user2_device_token.id, :user_email => user1.email
     
-  	expect(response.status).to eq(401)
+  	response.status.should == 401
+    
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
   end
   
   it "doesnt delete tokens if they don't exist" do
   	delete :destroy, :id => 59, :user_email => user1.email
     
-  	expect(response.status).to eq(404)
+  	response.status.should == 404
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
   end
   

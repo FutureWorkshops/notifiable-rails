@@ -13,19 +13,11 @@ module Notifiable
       @device_token = DeviceToken.find_by(:token => params[:token]) 
       @device_token = DeviceToken.new unless @device_token
 
-      if @device_token.update_attributes(device_token_params)
-        render :json => { :id => @device_token.id }, :status => :ok
-      else
-        render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
-      end
+      perform_update(device_token_params)
     end
     
     def update
-      if @device_token.update_attributes(device_token_params)
-        head :status => :ok
-      else
-        render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
-      end
+      perform_update(device_token_params)
     end
 
     def destroy    
@@ -36,7 +28,15 @@ module Notifiable
       end
     end
     
-    private    
+    private
+      def perform_update(params)
+        if @device_token.update_attributes(params)
+          render :json => @device_token.to_json(:only => Notifiable.api_device_token_params.push(:id)), :status => :ok
+        else
+          render :json => { :errors => @device_token.errors.full_messages }, :status => :unprocessable_entity
+        end
+      end
+    
       def device_token_params
         device_token_params = params.permit(Notifiable.api_device_token_params)
         

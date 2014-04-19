@@ -29,6 +29,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
   config.include EngineControllerTestMonkeyPatch, :type => :controller
+  config.include Requests::JsonHelpers, :type => :controller
   
   config.before(:each) {
     DatabaseCleaner.start
