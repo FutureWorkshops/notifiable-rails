@@ -6,7 +6,7 @@ module Notifiable
     
 		def send_notification(notification, device_token)
       # todo - add before hook
-      enqueue(notification, device_token, custom_params(notification))
+      enqueue(notification, device_token, notification.message, custom_params(notification))
       # todo - add after hook       				
     end
     
