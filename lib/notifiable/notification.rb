@@ -26,8 +26,7 @@ module Notifiable
         clazz = Notifiable.notifier_classes[provider]          
         raise "Notifier #{provider} not configured" unless clazz
         
-        notifier = clazz.new
-        notifier.env = Rails.env
+        notifier = clazz.new(Rails.env, self)
         self.app.configure provider, notifier
         
         notifiers[provider] = notifier
@@ -35,8 +34,12 @@ module Notifiable
       
       notifier = @notifiers[provider]
       if d.is_valid? && !notifier.nil? 
-  		  notifier.send_notification(self, d)
+  		  notifier.send_notification(d)
       end
+    end
+    
+    def send_params
+      @send_params ||= self.params.merge(:notification_id => self.id)
     end
     
     private
