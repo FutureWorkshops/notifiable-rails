@@ -2,12 +2,14 @@ module Notifiable
 
 	class NotifierBase
     
-    attr_accessor :env
+    attr_reader :env, :notification
     
-		def send_notification(notification, device_token)
-      # todo - add before hook
-      enqueue(notification, device_token, notification.message, custom_params(notification))
-      # todo - add after hook       				
+    def initialize(env, notification)
+      @env, @notification = env, notification
+    end
+    
+		def send_notification(device_token)
+      enqueue(device_token)
     end
     
     def close
@@ -16,39 +18,30 @@ module Notifiable
     end
     
     protected    
-    def flush
+      def flush
       
-    end
-    
-    def processed(notification, device_token, status)
-      receipts << {notification_id: notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
-      
-      if receipts.count > Notifiable.notification_status_batch_size
-        save_receipts
       end
-    end
     
-    def custom_params(notification)
-      params = notification.params || {}
-      # Always add the notification ID so that it can be marked as opened
-      params[:notification_id] = notification.id
-      params
-    end
+      def processed(device_token, status)
+        receipts << {notification_id: self.notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
+      
+        if receipts.count > Notifiable.notification_status_batch_size
+          save_receipts
+        end
+      end
     
-    def test_env?
-      self.env == "test"
-    end
+      def test_env?
+        self.env == "test"
+      end
     
     private
-    def receipts
-      @receipts ||= []
-    end
+      def receipts
+        @receipts ||= []
+      end
     
-    def save_receipts
-      Notifiable::NotificationStatus.bulk_insert! receipts
-      @receipts = []
-    end
+      def save_receipts
+        Notifiable::NotificationStatus.bulk_insert! receipts
+        @receipts = []
+      end
 	end
-
-
 end
