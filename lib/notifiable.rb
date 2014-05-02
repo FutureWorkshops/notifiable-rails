@@ -5,7 +5,6 @@ require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
 require 'notifiable/notification'
 require 'notifiable/notification_status'
-require 'notifiable/batch'
 require 'notifiable/device_token'
 require 'notifiable/notifier_base'
 
@@ -29,12 +28,6 @@ module Notifiable
   
   def self.configure
     yield self
-  end
-  
-  def self.batch(app = Notifiable::App.first)    
-    b = Batch.new(app)
-    yield(b)
-    b.close
   end
 
 end

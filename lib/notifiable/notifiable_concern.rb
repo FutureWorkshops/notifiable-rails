@@ -3,8 +3,8 @@ module Notifiable
   	extend ActiveSupport::Concern
 
   	def send_notification(notification)
-      Notifiable.batch do |b|
-        b.add_notifiable(notification, self)
+      notification.batch do |n|
+        n.add_notifiable(self)
       end
   	end
   
