@@ -39,7 +39,7 @@ module Notifiable
     end
     
     def send_params
-      @send_params ||= self.params.merge(:notification_id => self.id)
+      @send_params ||= (self.params ? self.params : {}).merge({:notification_id => self.id})
     end
     
     private
