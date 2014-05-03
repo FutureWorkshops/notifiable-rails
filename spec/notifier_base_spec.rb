@@ -1,14 +1,17 @@
 require 'spec_helper'
 
-describe Notifiable::App do
+describe Notifiable::NotifierBase do
 
   let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
   let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
   let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
   
-  it "contains notifications" do  
-    notification.app.should_not be_nil
-    notifiable_app.notifications.count.should == 1
+  before(:each) do
+    ConfigurableMockNotifier.send(:public, *ConfigurableMockNotifier.protected_instance_methods)  
+  end
+  
+  it "knows if the environment is test" do  
+    notifier.test_env?.should == true
   end
   
   it "configures a notifier" do  
