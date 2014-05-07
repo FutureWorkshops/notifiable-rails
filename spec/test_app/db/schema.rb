@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20131229104039) do
   create_table "notifiable_device_tokens", force: true do |t|
     t.string   "token"
     t.string   "provider"
-    t.boolean  "is_valid",   default: true
     t.integer  "user_id"
     t.integer  "app_id"
     t.datetime "created_at"
