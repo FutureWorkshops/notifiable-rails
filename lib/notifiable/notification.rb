@@ -22,7 +22,7 @@ module Notifiable
     def add_device_token(d)
       provider = d.provider.to_sym
 
-      unless notifiers[provider]
+      if notifiers[provider].nil?
         clazz = Notifiable.notifier_classes[provider]          
         raise "Notifier #{provider} not configured" unless clazz
         
@@ -32,10 +32,7 @@ module Notifiable
         notifiers[provider] = notifier
       end
       
-      notifier = @notifiers[provider]
-      if d.is_valid? && !notifier.nil? 
-  		  notifier.send_notification(d)
-      end
+      notifiers[provider].send_notification(d)  		  
     end
     
     def send_params
