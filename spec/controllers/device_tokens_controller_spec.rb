@@ -115,4 +115,11 @@ describe Notifiable::DeviceTokensController do
   	Notifiable::DeviceToken.where(:token => user2_device_token.token).count.should == 1
   end
   
+  it "doesn't update token unless authorised" do 
+    put :update, :id => user2_device_token.id, :user_email => user1.email, :token => "ZXY987"
+        
+    response.status.should == 401
+    user2_device_token.token.should.eql? "ZXY987"
+  end
+  
 end
