@@ -29,6 +29,12 @@ FactoryGirl.define do
         FactoryGirl.create(:mock_token, :user_id => user.id)
       end
     end
+  
+    factory :user_with_invalid_mock_token do
+      after(:create) do |user, evaluator|
+        FactoryGirl.create(:mock_token, :user_id => user.id, :is_valid => false)
+      end
+    end  
   end
   
   
