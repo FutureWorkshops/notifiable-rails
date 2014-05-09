@@ -4,6 +4,10 @@ FactoryGirl.define do
     provider :mock
     sequence(:token) {|n| "ABCD#{n}" }
     app
+    
+    factory :invalid_mock_token do
+      is_valid false
+    end
   end
   
   factory :app, :class => Notifiable::App do
@@ -32,7 +36,7 @@ FactoryGirl.define do
   
     factory :user_with_invalid_mock_token do
       after(:create) do |user, evaluator|
-        FactoryGirl.create(:mock_token, :user_id => user.id, :is_valid => false)
+        FactoryGirl.create(:invalid_mock_token, :user_id => user.id)
       end
     end  
   end

@@ -10,7 +10,7 @@ module Notifiable
     before_filter :find_device_token, :ensure_authorized!, :except => :create
     
     def create
-      @device_token = DeviceToken.find_by(:token => params[:token]) 
+      @device_token = DeviceToken.find_by(:token => params[:token], :is_valid => true) 
       @device_token = DeviceToken.new unless @device_token
 
       perform_update(device_token_params)
