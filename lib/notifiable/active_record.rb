@@ -44,7 +44,7 @@ class ActiveRecord::Base
       inserts << "INTO #{self.table_name} (#{key_list.join(", ")}) VALUES (#{rec.join(", ")})"
     end 
     
-    "INSERT ALL #{inserts.join(' ')}"   
+    "INSERT ALL #{inserts.join(' ')} SELECT 1 FROM DUAL;"   
   end
   
 end
