@@ -8,18 +8,17 @@ class ActiveRecord::Base
     when :mysql
       raise NotImplementedError, "Not implemented type '#{adapter_type}'"
     when :sqlite
-      sqlite_bulk_insert(record_list)
+      self.create(record_list)
     when :postgresql
-      postgresql_bulk_insert(record_list)
+      self.connection.execute(postgresql_bulk_insert_sql(record_list))      
     when :oracleenhanced
-      oracle_bulk_insert(record_list)
+      self.connection.execute(oracle_bulk_insert_sql(record_list))
     else
       raise NotImplementedError, "Unknown adapter type '#{adapter_type}' for ActiveRecord::Base.bulk_insert!"
     end
-    
   end
   
-  protected
+  protected  
   def self.convert_record_list(record_list)
     key_list = record_list.map(&:keys).flatten.uniq.sort
 
@@ -32,20 +31,20 @@ class ActiveRecord::Base
     return [key_list, value_list]
   end
   
-  def self.sqlite_bulk_insert(record_list)
-    self.create record_list
+  def self.postgresql_bulk_insert_sql(record_list)
+    key_list, value_list = convert_record_list(record_list)        
+    "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")}"
   end
   
-  def self.postgresql_bulk_insert(record_list)
-    key_list, value_list = convert_record_list(record_list)        
-    sql = "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")}"
-    self.connection.insert_sql(sql)
-  end
-  
-  def self.oracle_bulk_insert(record_list)
-    key_list, value_list = convert_record_list(record_list)        
-    sql = "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES (bind variables #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")})"
-    self.connection.execute(sql)
+  def self.oracle_bulk_insert_sql(record_list)
+    key_list, value_list = convert_record_list(record_list)  
+    
+    inserts = []
+    value_list.each do |rec|
+      inserts << "INTO #{self.table_name} (#{key_list.join(", ")}) VALUES (#{rec.join(", ")})"
+    end 
+    
+    "INSERT ALL #{inserts.join(' ')}"   
   end
   
 end
