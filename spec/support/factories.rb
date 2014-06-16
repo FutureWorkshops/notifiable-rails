@@ -21,6 +21,7 @@ FactoryGirl.define do
   factory :notification_status, :class => Notifiable::NotificationStatus do
     notification
     status 0
+    association :device_token, factory: :mock_token
   end
   
   sequence(:email) {|n| "person-#{n}@example.com" }
