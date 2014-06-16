@@ -5,16 +5,10 @@ class ActiveRecord::Base
     
     adapter_type = connection.adapter_name.downcase.to_sym
     case adapter_type
-    when :mysql
-      raise NotImplementedError, "Not implemented type '#{adapter_type}'"
-    when :sqlite
-      self.create(record_list)
     when :postgresql
       self.connection.execute(postgresql_bulk_insert_sql(record_list))      
-    when :oracleenhanced
-      self.connection.execute(oracle_bulk_insert_sql(record_list))
     else
-      raise NotImplementedError, "Unknown adapter type '#{adapter_type}' for ActiveRecord::Base.bulk_insert!"
+      self.default_bulk_insert(record_list)
     end
   end
   
@@ -36,15 +30,10 @@ class ActiveRecord::Base
     "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")}"
   end
   
-  def self.oracle_bulk_insert_sql(record_list)
-    key_list, value_list = convert_record_list(record_list)  
-    
-    inserts = []
-    value_list.each do |rec|
-      inserts << "INTO #{self.table_name} (#{key_list.join(", ")}) VALUES (#{rec.join(", ")})"
-    end 
-    
-    "INSERT ALL #{inserts.join(' ')} SELECT 1 FROM DUAL;"   
+  def self.default_bulk_insert(record_list)
+    ActiveRecord::Base.transaction do
+      record_list.each{|record| Notifiable::NotificationStatus.create(record) }
+    end
   end
   
 end
