@@ -11,10 +11,10 @@ class ActiveRecord::Base
       sqlite_bulk_insert(record_list)
     when :postgresql
       postgresql_bulk_insert(record_list)
-    when :oracle_enhanced
+    when :oracleenhanced
       oracle_bulk_insert(record_list)
     else
-      raise NotImplementedError, "Unknown adapter type '#{adapter_type}'"
+      raise NotImplementedError, "Unknown adapter type '#{adapter_type}' for ActiveRecord::Base.bulk_insert!"
     end
     
   end
