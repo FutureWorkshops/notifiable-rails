@@ -45,7 +45,7 @@ class ActiveRecord::Base
   def self.oracle_bulk_insert(record_list)
     key_list, value_list = convert_record_list(record_list)        
     sql = "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES (bind variables #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")})"
-    self.connection.exec_insert(sql)
+    self.connection.execute(sql)
   end
   
 end
