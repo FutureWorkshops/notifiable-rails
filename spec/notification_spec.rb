@@ -96,11 +96,24 @@ describe Notifiable::Notification do
     second_notification_token.device_token.should eql user2.device_tokens[0]
   end
   
-  it "raises an error if it can't find the notification provider" do
-    user = FactoryGirl.create(:user)
-    device_token = FactoryGirl.create(:mock_token, :provider => :sms, :user_id => user.id)
-    
-    expect { user.send_notification(notification1) }.to raise_error    
+  it "raise an error if notification provider isnt found" do
+    unconfigured_device_token = FactoryGirl.create(:mock_token, :provider => :sms)
+
+    notification1.batch do |n|
+      n.add_notifiable(user1)
+      
+      raised_error = false
+      begin    
+        n.add_device_token(unconfigured_device_token)
+      rescue
+        raised_error = true
+      end
+      raised_error.should be_true
+      
+      n.add_notifiable(user2)
+    end
+
+    Notifiable::NotificationStatus.count.should == 2  
   end
   
 end
