@@ -23,19 +23,14 @@ module Notifiable
       provider = d.provider.to_sym
 
       unless notifiers[provider]
-        clazz = Notifiable.notifier_classes[provider]          
+        clazz = Notifiable.notifier_classes[provider]
         raise "Notifier #{provider} not configured" unless clazz
-        
         notifier = clazz.new(Rails.env, self)
-        self.app.configure provider, notifier
-        
-        notifiers[provider] = notifier
+        self.app.configure(provider, notifier)
+        @notifiers[provider] = notifier
       end
       
-      notifier = @notifiers[provider]
-      if d.is_valid? && !notifier.nil? 
-  		  notifier.send_notification(d)
-      end
+  		notifiers[provider].send_notification(d) if d.is_valid?
     end
     
     def send_params
