@@ -49,7 +49,7 @@ module Notifiable
       end
     
       def ensure_authorized!
-        head :status => :unauthorized if @device_token.user && !@device_token.user.eql?(current_notifiable_user)
+        head :status => :unauthorized if @device_token.user && current_notifiable_user && !@device_token.user.eql?(current_notifiable_user)
       end
     
       def find_device_token
