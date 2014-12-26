@@ -10,9 +10,8 @@ module Notifiable
     before_filter :find_device_token, :ensure_authorized!, :except => :create
     
     def create
-      @device_token = DeviceToken.find_by(:token => params[:token], :is_valid => true) 
-      @device_token = DeviceToken.new unless @device_token
-
+      @device_token = DeviceToken.find_or_initialize_by(:token => params[:token])
+      @device_token.is_valid = true
       perform_update(device_token_params)
     end
     
@@ -50,7 +49,7 @@ module Notifiable
       end
     
       def ensure_authorized!
-        head :status => :unauthorized if @device_token.user && !@device_token.user.eql?(current_notifiable_user)
+        head :status => :unauthorized if @device_token.user && current_notifiable_user && !@device_token.user.eql?(current_notifiable_user)
       end
     
       def find_device_token
