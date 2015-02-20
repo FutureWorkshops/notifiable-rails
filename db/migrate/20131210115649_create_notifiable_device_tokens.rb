@@ -11,7 +11,7 @@ class CreateNotifiableDeviceTokens < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :notifiable_device_tokens, :token 
+    add_index :notifiable_device_tokens, :token, :unique => true      
     add_index :notifiable_device_tokens, :user_id
   end
 
