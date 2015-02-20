@@ -5,7 +5,9 @@ describe Notifiable::Concern do
   let(:invalid_token_user) { FactoryGirl.create(:user_with_invalid_mock_token) }
   let(:notification1) { FactoryGirl.create(:notification, :message => "First test message")}
     
-  it "sends a single push notification" do        
+  it "sends a single push notification" do
+    puts "**** #{Rails.configuration.database_configuration}"
+          
     user1.send_notification(notification1)
     
     Notifiable::NotificationStatus.count.should == 1    
