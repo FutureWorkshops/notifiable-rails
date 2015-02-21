@@ -29,14 +29,21 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  
+  # For testing engines
   config.include EngineControllerTestMonkeyPatch, :type => :controller
+  
+  # JsonHelpers for controllers
   config.include Requests::JsonHelpers, :type => :controller
   
   # Remove need for factory girl prefix
   config.include FactoryGirl::Syntax::Methods
   
   # errors for deprecations
-  config.raise_errors_for_deprecations!
+  #config.raise_errors_for_deprecations!
+  
+  # Infer the spec type from the containing folder
+  config.infer_spec_type_from_file_location!
   
   config.before(:each) {
     DatabaseCleaner.start
