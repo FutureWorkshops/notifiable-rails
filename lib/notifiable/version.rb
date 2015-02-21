@@ -1,3 +1,3 @@
 module Notifiable
-  VERSION = "0.19.9"
+  VERSION = "0.20.0"
 end

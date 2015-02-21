@@ -14,7 +14,6 @@ require File.expand_path("../../lib/notifiable",  __FILE__)
 require File.expand_path("../../app/controllers/notifiable/device_tokens_controller",  __FILE__)
 require 'database_cleaner'
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'factory_girl_rails'
 
 Rails.backtrace_cleaner.remove_silencers!
@@ -23,13 +22,28 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 DatabaseCleaner.strategy = :truncation
 
+ActiveRecord::Migrator.migrate(File.join(Rails.root, 'db/migrate'))
+
 RSpec.configure do |config|  
   config.mock_with :rspec
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  
+  # For testing engines
   config.include EngineControllerTestMonkeyPatch, :type => :controller
+  
+  # JsonHelpers for controllers
   config.include Requests::JsonHelpers, :type => :controller
+  
+  # Remove need for factory girl prefix
+  config.include FactoryGirl::Syntax::Methods
+  
+  # errors for deprecations
+  #config.raise_errors_for_deprecations!
+  
+  # Infer the spec type from the containing folder
+  config.infer_spec_type_from_file_location!
   
   config.before(:each) {
     DatabaseCleaner.start
