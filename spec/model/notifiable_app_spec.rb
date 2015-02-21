@@ -1,22 +1,23 @@
 require 'spec_helper'
 
 describe Notifiable::App do
-
-  let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
-  let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
-  let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
-  
-  it "contains notifications" do  
-    notification.app.should_not be_nil
-    notifiable_app.notifications.count.should == 1
+  describe "#notifications" do
+    subject(:notifiable_app) { create(:app) }
+    let!(:notification) { create(:notification, :app => notifiable_app) }
+    
+    it { expect(notification.app).to_not be_nil }
+    it { expect(notifiable_app.notifications.count).to eq 1 }
   end
   
-  it "configures a notifier" do  
-    notifiable_app.configure :configurable_mock, notifier
-
-    notifier.use_sandbox.should == true
+  describe "#configure" do
+    let(:notification) { create(:notification, :app => notifiable_app) }
+    let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
+    subject(:notifiable_app) { create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
+    
+    before(:each) { notifiable_app.configure :configurable_mock, notifier }
+    
+    it { expect(notifier.use_sandbox).to eq true }
   end
-  
 end
 
 class ConfigurableMockNotifier < Notifiable::NotifierBase
