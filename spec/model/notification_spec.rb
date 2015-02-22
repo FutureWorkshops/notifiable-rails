@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Notifiable::Notification do
+  
+  describe "#create" do
+    it { expect { create(:notification, :localized_notifications_attributes => [{:message => "Hello", :locale => :en}]) }.to change(Notifiable::LocalizedNotification, :count).by(1) }
+    it { expect { create(:notification, :localized_notifications_attributes => [{:message => nil, :locale => :en}]) }.to change(Notifiable::LocalizedNotification, :count).by(0) }
+  end
 
   describe "#localized_notifications" do
     subject(:n) { create(:notification) }
