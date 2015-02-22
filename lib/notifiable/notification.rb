@@ -4,7 +4,7 @@ module Notifiable
     serialize :params
     
     has_many :localized_notifications, :class_name => 'Notifiable::LocalizedNotification', :dependent => :destroy
-    accepts_nested_attributes_for :localized_notifications
+    accepts_nested_attributes_for :localized_notifications, reject_if: proc { |attributes| attributes['message'].blank? }
     
     belongs_to :app, :class_name => 'Notifiable::App'    
     validates :app, presence: true
@@ -40,10 +40,6 @@ module Notifiable
       end
       
   		notifiers[provider].send_notification(d) if d.is_valid?
-    end
-    
-    def send_params
-      @send_params ||= (self.params ? self.params : {}).merge({:notification_id => self.id})
     end
     
     private
