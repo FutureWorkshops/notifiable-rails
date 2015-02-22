@@ -3,14 +3,23 @@ module Notifiable
     
     serialize :params
     
-    has_many :notification_statuses, :class_name => 'Notifiable::NotificationStatus', :dependent => :destroy
-    belongs_to :app, :class_name => 'Notifiable::App'
+    has_many :localized_notifications, :class_name => 'Notifiable::LocalizedNotification', :dependent => :destroy
+    accepts_nested_attributes_for :localized_notifications
     
-    validates_presence_of :app
+    belongs_to :app, :class_name => 'Notifiable::App'    
+    validates :app, presence: true
+    
+    def notification_statuses
+      Notifiable::NotificationStatus.joins(:localized_notification).where('notifiable_localized_notifications.notification_id' => self.id)
+    end
     
     def batch  
       yield(self)
       close
+    end
+    
+    def localized_notification(locale)
+      self.localized_notifications.find_by(:locale => locale)
     end
     
     def add_notifiable(notifiable)
