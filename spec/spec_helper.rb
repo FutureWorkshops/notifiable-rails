@@ -45,6 +45,10 @@ RSpec.configure do |config|
   # Infer the spec type from the containing folder
   config.infer_spec_type_from_file_location!
   
+  config.before(:suite) do
+    #FactoryGirl.lint
+  end
+  
   config.before(:each) {
     DatabaseCleaner.start
     Notifiable.delivery_method = :send

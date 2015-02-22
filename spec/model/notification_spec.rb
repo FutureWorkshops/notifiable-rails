@@ -1,27 +1,18 @@
 require 'spec_helper'
 
 describe Notifiable::Notification do
-  
-  let(:user1) { FactoryGirl.create(:user_with_mock_token) }
-  let(:user2) { FactoryGirl.create(:user_with_mock_token) }
-  let(:notification1) { FactoryGirl.create(:notification, :message => "First test message")}
-  let(:notification2) { FactoryGirl.create(:notification, :message => "Second test message")}
-  
-  describe "#message" do
-    subject!(:n) { create(:notification, :message => "Test message") }
-    
-    it { expect(Notifiable::Notification.first.message).to eq "Test message" }
-  end
-  
-  describe "#params" do
-    subject!(:n) { create(:notification, :params => {:custom_property => "A different message"}) }
-    
-    it { expect(Notifiable::Notification.first.params).to eq({:custom_property => "A different message"}) }
+
+  describe "#localized_notifications" do
+    subject(:n) { create(:notification) }
+    let!(:localizations) { create_list(:localized_notification, 2, :notification => n)}
+
+    it { expect(Notifiable::Notification.count).to eq 1 }    
+    it { expect(Notifiable::Notification.first.localized_notifications.count).to eq 2 }
   end
   
   describe "#destroy" do
-    subject(:n) { create(:notification) }
-    let!(:s) { create(:notification_status, :notification => n) }
+    subject(:n) { create(:localized_notification) }
+    let!(:s) { create(:notification_status, :localized_notification => n) }
     
     before(:each) { n.destroy }
     
@@ -30,11 +21,11 @@ describe Notifiable::Notification do
   
   describe "#add_notifiable" do
     context "for a single user" do
-      subject(:notification) { create(:notification) }
-      let(:u) { create(:user_with_mock_token) }
+      subject(:notification) { create(:notification_with_en_localization) }
+      let(:u) { create(:user_with_en_token) }
     
       before(:each) do
-        notification1.batch do |n|
+        notification.batch do |n|
           n.add_notifiable(u)
         end      
       end
@@ -48,12 +39,12 @@ describe Notifiable::Notification do
     end
     
     context "for two users" do
-      subject(:notification) { create(:notification) }
-      let(:u1) { create(:user_with_mock_token) }
-      let(:u2) { create(:user_with_mock_token) }
+      subject(:notification) { create(:notification_with_en_localization) }
+      let(:u1) { create(:user_with_en_token) }
+      let(:u2) { create(:user_with_en_token) }
     
       before(:each) do
-        notification1.batch do |n|
+        notification.batch do |n|
           n.add_notifiable(u1)
           n.add_notifiable(u2)
         end      
@@ -73,10 +64,10 @@ describe Notifiable::Notification do
   
   describe "#add_device_token" do
     context "single token" do
-      subject(:n) { create(:notification) }
-      let(:dt) { create(:mock_token) }
+      subject(:notification) { create(:notification_with_en_localization) }
+      let(:dt) { create(:device_token, :locale => :en) }
     
-      before(:each) { notification1.batch {|n| n.add_device_token(dt) } }
+      before(:each) { notification.batch {|n| n.add_device_token(dt) } }
     
       it { expect(Notifiable::Notification.first.sent_count).to eq 1 }
       it { expect(Notifiable::Notification.first.gateway_accepted_count).to eq 1 }
@@ -87,11 +78,11 @@ describe Notifiable::Notification do
     end
     
     context "undefined provider" do
-      subject(:n) { create(:notification) }
+      subject(:notification) { create(:notification) }
       let(:dt) { create(:mock_token, :provider => :sms) }
       
       before(:each) do
-        notification1.batch do |n|      
+        notification.batch do |n|      
           begin    
             n.add_device_token(unconfigured_device_token)
           rescue

@@ -1,8 +1,10 @@
 FactoryGirl.define do
 
-  factory :mock_token, :class => Notifiable::DeviceToken do
+  sequence(:token) {|n| "ABCD#{n}" }
+
+  factory :device_token, aliases: [:mock_token], :class => Notifiable::DeviceToken do
     provider :mock
-    sequence(:token) {|n| "ABCD#{n}" }
+    token
     app
     
     factory :invalid_mock_token do
@@ -15,13 +17,22 @@ FactoryGirl.define do
   
   factory :notification, :class => Notifiable::Notification do
     app
+    
+    factory :notification_with_en_localization do
+      after(:create) do |notification, evaluator|
+        FactoryGirl.create(:localized_notification, :locale => :en, :notification => notification)
+      end
+    end
   end
   
+  factory :localized_notification, :class => Notifiable::LocalizedNotification do
+    notification
+  end
   
   factory :notification_status, :class => Notifiable::NotificationStatus do
-    notification
+    localized_notification
     status 0
-    association :device_token, factory: :mock_token
+    device_token
   end
   
   sequence(:email) {|n| "person-#{n}@example.com" }
@@ -29,9 +40,9 @@ FactoryGirl.define do
   factory :user do
     email
     
-    factory :user_with_mock_token do
+    factory :user_with_en_token do
       after(:create) do |user, evaluator|
-        FactoryGirl.create(:mock_token, :user_id => user.id)
+        FactoryGirl.create(:device_token, :user_id => user.id, :locale => :en)
       end
     end
   

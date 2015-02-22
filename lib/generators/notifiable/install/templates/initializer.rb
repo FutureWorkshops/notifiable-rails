@@ -5,7 +5,7 @@ Notifiable.configure do |config|
   
   # Set the params permitted for creation of device tokens
   # Defaults to [:token, :provider, :app_id]
-  #config.api_device_token_params = [:token, :provider, :app_id]
+  #config.api_device_token_params = [:token, :provider, :app_id, :locale]
   
   # The class representing the holder of the device
 	config.user_class = User
