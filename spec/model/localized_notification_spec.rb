@@ -9,9 +9,17 @@ describe Notifiable::LocalizedNotification do
   end
   
   describe "#message" do
-    subject!(:l) { create(:localized_notification, :message => "Test message") }
+    context "valid" do
+      subject!(:l) { create(:localized_notification, :message => "Test message") }
     
-    it { expect(Notifiable::LocalizedNotification.first.message).to eq "Test message" }
+      it { expect(Notifiable::LocalizedNotification.first.message).to eq "Test message" }
+    end
+    
+    context "empty" do
+      subject!(:l) { build(:localized_notification, :message => nil) } 
+           
+      it { expect{ l.save! }.to raise_error ActiveRecord::RecordInvalid }      
+    end
   end
   
   describe "#params" do

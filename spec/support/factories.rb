@@ -27,6 +27,7 @@ FactoryGirl.define do
   
   factory :localized_notification, :class => Notifiable::LocalizedNotification do
     notification
+    message "Hello"
   end
   
   factory :notification_status, :class => Notifiable::NotificationStatus do

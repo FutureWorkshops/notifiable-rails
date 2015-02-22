@@ -9,7 +9,8 @@ module Notifiable
     end
     
 		def send_notification(device_token)
-      enqueue(device_token, self.localized_notification(device_token))
+      localized_notification = self.localized_notification(device_token)
+      enqueue(device_token, localized_notification) if localized_notification
     end
     
     def close

@@ -1,5 +1,7 @@
 module Notifiable
   class LocalizedNotification < ActiveRecord::Base
+    validates :message, presence: true, allow_blank: false
+    
     belongs_to :notification, :class_name => "Notifiable::Notification"
     #validates :notification, presence: true
     
