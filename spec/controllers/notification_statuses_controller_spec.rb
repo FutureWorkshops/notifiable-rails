@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Notifiable::NotificationsController do
+describe Notifiable::NotificationStatusesController do
   
-  let(:user1_device_token) { user1.device_tokens.first }
-  let(:user2) { FactoryGirl.create(:user) }
-  let(:anonymous_device_token) { FactoryGirl.create(:mock_token) }
+  #let(:user1_device_token) { user1.device_tokens.first }
+  #let(:user2) { create(:user) }
+  #let(:anonymous_device_token) { create(:mock_token) }
   
   before(:each) do
     @request.env["HTTP_ACCEPT"] = "application/json"
@@ -19,10 +19,10 @@ describe Notifiable::NotificationsController do
         let(:notifiable_app) { create(:app) }
         let(:user) { create(:user) }
         let(:token) { create(:mock_token, :app => notifiable_app, :user_id => user.id) }
-        subject(:n) { create(:notification, :app => notifiable_app)}
-        let!(:status) { create(:notification_status, :notification => n, :device_token => token) }
+        let(:localized_notification) { create(:localized_notification, :locale => :en) }
+        subject!(:status) { create(:notification_status, :localized_notification => localized_notification, :device_token => token) }
       
-        before(:each) { put :opened, {:notification_id => n.id, :device_token_id => token.id, :user_email => user.email} }
+        before(:each) { put :opened, {:localized_notification_id => localized_notification.id, :device_token_id => token.id, :user_email => user.email} }
       
         it { expect(Notifiable::NotificationStatus.count).to eq 1 }
         it { expect(Notifiable::NotificationStatus.first.opened?).to eq true }
@@ -34,10 +34,10 @@ describe Notifiable::NotificationsController do
         let(:user1) { create(:user) }
         let(:user2) { create(:user) }
         let(:token) { create(:mock_token, :app => notifiable_app, :user_id => user1.id) }
-        subject(:n) { create(:notification, :app => notifiable_app)}
-        let!(:status) { create(:notification_status, :notification => n, :device_token => token) }
-      
-        before(:each) { put :opened, {:notification_id => n.id, :device_token_id => token.id, :user_email => user2.email} }
+        let(:localized_notification) { create(:localized_notification, :locale => :en) }
+        subject!(:status) { create(:notification_status, :localized_notification => localized_notification, :device_token => token) }
+              
+        before(:each) { put :opened, {:localized_notification_id => localized_notification.id, :device_token_id => token.id, :user_email => user2.email} }
 
         it { expect(response.status).to eq 401 }      
         it { expect(Notifiable::NotificationStatus.count).to eq 1 }
@@ -49,10 +49,10 @@ describe Notifiable::NotificationsController do
     describe "anonymously" do
       let(:notifiable_app) { create(:app) }
       let(:token) { create(:mock_token, :app => notifiable_app) }
-      subject(:n) { create(:notification, :app => notifiable_app)}
-      let!(:status) { create(:notification_status, :notification => n, :device_token => token) }
+      let(:localized_notification) { create(:localized_notification, :locale => :en) }
+      let!(:status) { create(:notification_status, :localized_notification => localized_notification, :device_token => token) }
       
-      before(:each) { put :opened, {:notification_id => n.id, :device_token_id => token.id} }
+      before(:each) { put :opened, {:localized_notification_id => localized_notification.id, :device_token_id => token.id} }
       
       it { expect(Notifiable::NotificationStatus.count).to eq 1 }
       it { expect(Notifiable::NotificationStatus.first.opened?).to eq true }
