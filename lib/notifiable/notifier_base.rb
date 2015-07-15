@@ -29,10 +29,8 @@ module Notifiable
     
       def processed(device_token, status)
         receipts << {localized_notification_id: self.localized_notification(device_token).id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
-      
-        if receipts.count > Notifiable.notification_status_batch_size
-          save_receipts
-        end
+        
+        save_receipts if receipts.count >= Notifiable.notification_status_batch_size
       end
     
       def test_env?
