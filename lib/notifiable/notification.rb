@@ -3,14 +3,23 @@ module Notifiable
     
     serialize :params
     
-    has_many :notification_statuses, :class_name => 'Notifiable::NotificationStatus', :dependent => :destroy
-    belongs_to :app, :class_name => 'Notifiable::App'
+    has_many :localized_notifications, :class_name => 'Notifiable::LocalizedNotification', :dependent => :destroy
+    accepts_nested_attributes_for :localized_notifications, reject_if: proc { |attributes| attributes['message'].blank? }
     
-    validates_presence_of :app
+    belongs_to :app, :class_name => 'Notifiable::App'    
+    validates :app, presence: true
+    
+    def notification_statuses
+      Notifiable::NotificationStatus.joins(:localized_notification).where('notifiable_localized_notifications.notification_id' => self.id)
+    end
     
     def batch  
       yield(self)
       close
+    end
+    
+    def localized_notification(locale)
+      self.localized_notifications.find_by(:locale => locale)
     end
     
     def add_notifiable(notifiable)
@@ -33,8 +42,10 @@ module Notifiable
   		notifiers[provider].send_notification(d) if d.is_valid?
     end
     
-    def send_params
-      @send_params ||= (self.params ? self.params : {}).merge({:notification_id => self.id})
+    def summarise
+      self.sent_count = self.notification_statuses.count
+      self.gateway_accepted_count = self.notification_statuses.where(:status => 0).count
+      self.save
     end
     
     private
@@ -46,12 +57,6 @@ module Notifiable
         notifiers.each_value {|n| n.close}
         @notifiers = nil
         summarise
-      end
-    
-      def summarise
-        self.sent_count = self.notification_statuses.count
-        self.gateway_accepted_count = self.notification_statuses.where(:status => 0).count
-        self.save
       end
   end
 end

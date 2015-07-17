@@ -4,6 +4,7 @@ require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
 require 'notifiable/notification'
+require 'notifiable/localized_notification'
 require 'notifiable/notification_status'
 require 'notifiable/device_token'
 require 'notifiable/notifier_base'
@@ -13,7 +14,10 @@ module Notifiable
   mattr_accessor :api_controller_class
   
   mattr_accessor :api_device_token_params
-  @@api_device_token_params = [:token, :provider, :app_id]
+  @@api_device_token_params = [:token, :provider, :app_id, :locale]
+
+  mattr_accessor :locales
+  @@locales = [:en]
   
   mattr_accessor :user_class
   

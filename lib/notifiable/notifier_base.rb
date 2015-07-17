@@ -9,7 +9,8 @@ module Notifiable
     end
     
 		def send_notification(device_token)
-      enqueue(device_token)
+      localized_notification = self.localized_notification(device_token)
+      enqueue(device_token, localized_notification) if localized_notification
     end
     
     def close
@@ -21,13 +22,15 @@ module Notifiable
       def flush
       
       end
+      
+      def localized_notification(device_token)
+        self.notification.localized_notification(device_token.locale)
+      end
     
       def processed(device_token, status)
-        receipts << {notification_id: self.notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
-      
-        if receipts.count > Notifiable.notification_status_batch_size
-          save_receipts
-        end
+        receipts << {localized_notification_id: self.localized_notification(device_token).id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
+        
+        save_receipts if receipts.count >= Notifiable.notification_status_batch_size
       end
     
       def test_env?
@@ -42,6 +45,7 @@ module Notifiable
       def save_receipts
         Notifiable::NotificationStatus.bulk_insert! receipts
         @receipts = []
+        @notification.summarise
       end
 	end
 end

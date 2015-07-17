@@ -1,5 +1,5 @@
   
 Notifiable::Engine.routes.draw do
 	resources :device_tokens, :only => [:create, :update, :destroy]
-	put 'notifications/opened', :to => "notifications#opened"
+	put 'notification_statuses/opened', :to => "notification_statuses#opened"
 end

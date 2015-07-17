@@ -45,6 +45,10 @@ RSpec.configure do |config|
   # Infer the spec type from the containing folder
   config.infer_spec_type_from_file_location!
   
+  config.before(:suite) do
+    #FactoryGirl.lint
+  end
+  
   config.before(:each) {
     DatabaseCleaner.start
     Notifiable.delivery_method = :send
@@ -56,7 +60,7 @@ RSpec.configure do |config|
 end
 
 class MockNotifier < Notifiable::NotifierBase
-  def enqueue(device_token)
+  def enqueue(device_token, localized_notification)
     processed(device_token, 0)
   end
 end
