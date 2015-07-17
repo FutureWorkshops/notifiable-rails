@@ -45,6 +45,7 @@ module Notifiable
       def save_receipts
         Notifiable::NotificationStatus.bulk_insert! receipts
         @receipts = []
+        @notification.summarise
       end
 	end
 end
