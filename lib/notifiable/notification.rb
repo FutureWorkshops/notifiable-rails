@@ -42,6 +42,12 @@ module Notifiable
   		notifiers[provider].send_notification(d) if d.is_valid?
     end
     
+    def summarise
+      self.sent_count = self.notification_statuses.count
+      self.gateway_accepted_count = self.notification_statuses.where(:status => 0).count
+      self.save
+    end
+    
     private
       def notifiers
         @notifiers ||= {}
@@ -51,12 +57,6 @@ module Notifiable
         notifiers.each_value {|n| n.close}
         @notifiers = nil
         summarise
-      end
-    
-      def summarise
-        self.sent_count = self.notification_statuses.count
-        self.gateway_accepted_count = self.notification_statuses.where(:status => 0).count
-        self.save
       end
   end
 end

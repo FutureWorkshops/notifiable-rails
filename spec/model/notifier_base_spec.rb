@@ -31,6 +31,8 @@ describe Notifiable::NotifierBase do
     end
 
     it { expect(Notifiable::NotificationStatus.count).to eq 2 }
+    it { expect(notification.sent_count).to eq 2 }
+    
   end
   
   
