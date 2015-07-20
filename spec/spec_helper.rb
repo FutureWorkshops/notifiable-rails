@@ -52,6 +52,8 @@ RSpec.configure do |config|
   config.before(:each) {
     DatabaseCleaner.start
     Notifiable.delivery_method = :send
+    Notifiable.save_receipts = true
+    Notifiable.notification_status_batch_size = 10000
   }
   
   config.after(:each) {
