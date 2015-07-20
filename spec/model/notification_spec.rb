@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Notifiable::Notification do
   
   describe "#create" do
-    it { expect { create(:notification, :localized_notifications_attributes => [{:message => "Hello", :locale => :en}]) }.to change(Notifiable::LocalizedNotification, :count).by(1) }
-    it { expect { create(:notification, :localized_notifications_attributes => [{:message => nil, :locale => :en}]) }.to change(Notifiable::LocalizedNotification, :count).by(0) }
+    it { expect { create(:notification, :localized_notifications_attributes => [{:message => "Hello", :locale => 'en'}]) }.to change(Notifiable::LocalizedNotification, :count).by(1) }
+    it { expect { create(:notification, :localized_notifications_attributes => [{:message => nil, :locale => 'en'}]) }.to change(Notifiable::LocalizedNotification, :count).by(0) }
   end
 
   describe "#localized_notifications" do
@@ -70,7 +70,7 @@ describe Notifiable::Notification do
   describe "#add_device_token" do
     context "single token" do
       subject(:notification) { create(:notification_with_en_localization) }
-      let(:dt) { create(:device_token, :locale => :en) }
+      let(:dt) { create(:device_token, :locale => 'en') }
     
       before(:each) { notification.batch {|n| n.add_device_token(dt) } }
     

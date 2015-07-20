@@ -24,6 +24,9 @@ module Notifiable
   mattr_accessor :delivery_method
   @@delivery_method = :send
   
+  mattr_accessor :save_receipts
+  @@save_receipts = true
+  
   mattr_accessor :notification_status_batch_size
   @@notification_status_batch_size = 10000
   
