@@ -14,7 +14,7 @@ module Notifiable
   mattr_accessor :api_controller_class
   
   mattr_accessor :api_device_token_params
-  @@api_device_token_params = [:token, :provider, :app_id, :locale]
+  @@api_device_token_params = [:token, :provider, :app_id, :locale, :name]
 
   mattr_accessor :locales
   @@locales = [:en]
