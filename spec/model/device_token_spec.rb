@@ -8,6 +8,12 @@ describe Notifiable::DeviceToken do
     it { expect(token.locale).to eq 'en' }
   end
   
+  describe "#name" do
+    subject(:token) { create(:mock_token, :name => "Matt's iPhone") }
+    
+    it { expect(token.name).to eq "Matt's iPhone" }
+  end
+  
   describe "#notification_statuses" do
     subject(:token) { create(:mock_token, :notification_statuses => create_list(:notification_status, 2)) }
     
