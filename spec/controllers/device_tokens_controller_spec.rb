@@ -12,12 +12,13 @@ describe Notifiable::DeviceTokensController do
       let(:user1) { create(:user) }
       let(:app) { create(:app) }
       
-      before(:each) { post :create, :token => "ABC123", :user_email => user1.email, :provider => :apns, :app_id => app.id }
+      before(:each) { post :create, :token => "ABC123", :name => "Matt's iPhone", :user_email => user1.email, :provider => :apns, :app_id => app.id }
       
       it { expect(response.status).to eq 200 }
       it { expect(json['id']).to_not be_nil }
       it { expect(Notifiable::DeviceToken.count).to eq 1 }
       it { expect(Notifiable::DeviceToken.first.token).to eq "ABC123" }
+      it { expect(Notifiable::DeviceToken.first.name).to eq "Matt's iPhone" }
       it { expect(Notifiable::DeviceToken.first.provider).to eq "apns" }
       it { expect(Notifiable::DeviceToken.first.app).to eq app }
       it { expect(User.first.device_tokens.count).to eq 1 }      
