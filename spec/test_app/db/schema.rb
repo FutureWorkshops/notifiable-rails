@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20131210115660) do
     t.string   "token"
     t.string   "provider"
     t.string   "locale"
+    t.string   "name"
     t.boolean  "is_valid",   default: true
     t.integer  "user_id"
     t.integer  "app_id"
