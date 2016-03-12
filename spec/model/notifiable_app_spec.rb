@@ -18,4 +18,12 @@ describe Notifiable::App do
     
     it { expect(notifier.use_sandbox).to eq true }
   end
+  
+  describe "#configuration" do
+    let(:notification) { create(:notification, :app => notifiable_app) }
+    let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
+    subject(:notifiable_app) { create(:app) }
+        
+    it { expect(notifiable_app.send(:configuration)).to eq :mock => {}, :configurable_mock=>{:use_sandbox=>nil} }
+  end
 end
