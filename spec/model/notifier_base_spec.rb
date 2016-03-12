@@ -49,10 +49,4 @@ describe Notifiable::NotifierBase do
       it { expect(Notifiable::Notification.first.sent_count).to eq 2 }
     end
   end
-  
-  
-end
-
-class ConfigurableMockNotifier < Notifiable::NotifierBase
-  attr_accessor :use_sandbox
 end

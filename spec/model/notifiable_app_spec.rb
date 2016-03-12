@@ -19,7 +19,3 @@ describe Notifiable::App do
     it { expect(notifier.use_sandbox).to eq true }
   end
 end
-
-class ConfigurableMockNotifier < Notifiable::NotifierBase
-  attr_accessor :use_sandbox
-end
