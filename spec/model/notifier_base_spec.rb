@@ -13,7 +13,6 @@ describe Notifiable::NotifierBase do
   end
   
   describe "#processed" do
-    let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
     let(:notification) { FactoryGirl.create(:notification_with_en_localization, :app => notifiable_app) }
   
     let(:device_token1) { FactoryGirl.create(:device_token, :app => notifiable_app, :locale => 'en') }
@@ -24,8 +23,12 @@ describe Notifiable::NotifierBase do
     
     before(:each) { Notifiable.notification_status_batch_size = 2 }  
     
-    context "saving receipts" do    
-      before(:each) do      
+    context "saving receipts by default" do
+      let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
+      
+      before(:each) do
+        notifiable_app.save_notification_statuses = true
+             
         notifier.processed(device_token1, 0)
         notifier.processed(device_token2, 0)
       end
@@ -34,10 +37,10 @@ describe Notifiable::NotifierBase do
       it { expect(Notifiable::Notification.first.sent_count).to eq 2 }
     end
     
-    context "not saving receipts" do    
-      before(:each) do      
-        Notifiable.save_receipts = false
+    context "not saving statuses" do  
+      let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:save_notification_statuses => false, :configurable_mock => {:use_sandbox => true}}) }
         
+      before(:each) do
         notifier.processed(device_token1, 0)
         notifier.processed(device_token2, 0)
       end
