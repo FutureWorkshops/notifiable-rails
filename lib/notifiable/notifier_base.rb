@@ -31,14 +31,14 @@ module Notifiable
       end
     
       def processed(device_token, status)
-        if Notifiable.save_receipts
+        if @notification.app.save_notification_statuses?
           receipts << {localized_notification_id: self.localized_notification(device_token).id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
-        
           save_receipts if receipts.count >= Notifiable.notification_status_batch_size
-        else
-          @notification.sent_count += 1
-          @notification.save if (@notification.sent_count % Notifiable.notification_status_batch_size == 0)
         end
+        
+        @notification.sent_count += 1
+        @notification.gateway_accepted_count += 1 if status == 0
+        @notification.save if (@notification.sent_count % Notifiable.notification_status_batch_size == 0)
       end
     
       def test_env?
@@ -53,7 +53,6 @@ module Notifiable
       def save_receipts
         Notifiable::NotificationStatus.bulk_insert! receipts
         @receipts = []
-        @notification.summarise
       end
 	end
 end
