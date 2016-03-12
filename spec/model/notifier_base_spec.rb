@@ -3,13 +3,29 @@ require 'spec_helper'
 describe Notifiable::NotifierBase do
 
   before(:each) { ConfigurableMockNotifier.send(:public, *ConfigurableMockNotifier.protected_instance_methods) }  
+  let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
 
   describe "#test_env?" do
     let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
-    let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
     subject(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
     
     it { expect(notifier.test_env?).to eq true }
+  end
+  
+  describe "#notifier_attributes" do
+    let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
+    subject { ConfigurableMockNotifier.new(Rails.env, notification) }
+    
+    context "single" do
+      it { expect(ConfigurableMockNotifier.notifier_attributes).to eq [:use_sandbox]}      
+    end
+    
+    context "set" do
+      before(:each) { ConfigurableMockNotifier.new(Rails.env, notification) }
+      
+      it { expect(ConfigurableMockNotifier.notifier_attributes).to eq [:use_sandbox]}      
+    end
+    
   end
   
   describe "#processed" do

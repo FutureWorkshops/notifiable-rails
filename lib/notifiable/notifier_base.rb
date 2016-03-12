@@ -4,6 +4,16 @@ module Notifiable
     
     attr_reader :env, :notification, :localized_notifications
     
+    def self.notifier_attribute(*vars)
+      @notifier_attributes ||= []
+      @notifier_attributes.concat vars
+      attr_writer(*vars)
+    end
+    
+    def self.notifier_attributes
+      @notifier_attributes
+    end
+    
     def initialize(env, notification)
       @env, @notification = env, notification
       @localized_notifications = {}
