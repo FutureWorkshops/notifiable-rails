@@ -46,6 +46,9 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   
   config.before(:suite) do
+    Notifiable.notifier_classes[:mock] = MockNotifier
+    Notifiable.notifier_classes[:configurable_mock] = ConfigurableMockNotifier
+    Notifiable::App.define_configuration_accessors(Notifiable.notifier_classes)
     #FactoryGirl.lint
   end
   
@@ -67,8 +70,6 @@ class MockNotifier < Notifiable::NotifierBase
   end
 end
 
-Notifiable.notifier_classes[:mock] = MockNotifier
-
 class ConfigurableMockNotifier < Notifiable::NotifierBase
   notifier_attribute :use_sandbox
   
@@ -76,4 +77,3 @@ class ConfigurableMockNotifier < Notifiable::NotifierBase
     @use_sandbox
   end
 end
-Notifiable.notifier_classes[:configurable_mock] = ConfigurableMockNotifier

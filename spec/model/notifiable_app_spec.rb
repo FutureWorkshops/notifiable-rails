@@ -26,4 +26,9 @@ describe Notifiable::App do
         
     it { expect(notifiable_app.send(:configuration)).to eq :mock => {}, :configurable_mock=>{:use_sandbox=>nil} }
   end
+  
+  describe "define_configuration_accessors" do        
+    it { expect(Notifiable::App.instance_methods).to include(:configurable_mock_use_sandbox) }
+    it { expect(Notifiable::App.instance_methods).to include(:configurable_mock_use_sandbox=) }
+  end
 end
