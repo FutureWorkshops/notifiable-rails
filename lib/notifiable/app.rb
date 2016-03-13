@@ -30,6 +30,17 @@ module Notifiable
       configuration
     end
     
+    def self.define_configuration_accessors(notifiers)
+      notifiers.each_pair do |provider, clazz|
+        next unless clazz.notifier_attributes
+        
+        clazz.notifier_attributes.each do |attribute|
+          define_method("#{provider}_#{attribute}="){ |v| configuration[provider][attribute] = v }
+          define_method("#{provider}_#{attribute}"){ configuration[provider][attribute] }
+        end
+      end
+    end
+    
     def save_notification_statuses?
       self.configuration[:save_notification_statuses].nil? ? true : self.configuration[:save_notification_statuses]
     end

@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Kamil Kocemba", "Matt Brooke-Smith"]
   s.email       = ["kamil@futureworkshops.com", "matt@futureworkshops.com"]
   s.homepage    = "http://www.futureworkshops.com"
-  s.summary     = "Rails engine to make push notifications a bit easier."
-  s.description = "Rails engine to make push notifications a bit easier. "
+  s.summary     = "Notifiable engine for Rails."
+  s.description = "Notifiable engine for Rails."
   s.licenses    = ["Apache 2.0"]
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.rdoc"]
