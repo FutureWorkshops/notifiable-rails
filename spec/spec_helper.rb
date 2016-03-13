@@ -52,7 +52,7 @@ RSpec.configure do |config|
   config.before(:each) {
     DatabaseCleaner.start
     Notifiable.delivery_method = :send
-    Notifiable.save_receipts = true
+    Notifiable.save_receipts = true 
     Notifiable.notification_status_batch_size = 10000
   }
   
@@ -68,3 +68,12 @@ class MockNotifier < Notifiable::NotifierBase
 end
 
 Notifiable.notifier_classes[:mock] = MockNotifier
+
+class ConfigurableMockNotifier < Notifiable::NotifierBase
+  notifier_attribute :use_sandbox
+  
+  def use_sandbox
+    @use_sandbox
+  end
+end
+Notifiable.notifier_classes[:configurable_mock] = ConfigurableMockNotifier
