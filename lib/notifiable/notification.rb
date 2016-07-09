@@ -56,7 +56,6 @@ module Notifiable
       def close
         notifiers.each_value {|n| n.close}
         @notifiers = nil
-        summarise
       end
   end
 end
