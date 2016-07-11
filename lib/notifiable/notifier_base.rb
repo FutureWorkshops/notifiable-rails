@@ -37,6 +37,7 @@ module Notifiable
           save_receipts if receipts.count >= Notifiable.notification_status_batch_size
         else
           @notification.sent_count += 1
+          @notification.gateway_accepted_count += 1
           @notification.save if (@notification.sent_count % Notifiable.notification_status_batch_size == 0)
         end
       end
