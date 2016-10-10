@@ -7,8 +7,8 @@ require "notifiable/version"
 Gem::Specification.new do |s|
   s.name        = "notifiable-rails"
   s.version     = Notifiable::VERSION
-  s.authors     = ["Kamil Kocemba", "Matt Brooke-Smith"]
-  s.email       = ["kamil@futureworkshops.com", "matt@futureworkshops.com"]
+  s.authors     = ["Matt Brooke-Smith"]
+  s.email       = ["matt@futureworkshops.com"]
   s.homepage    = "http://www.futureworkshops.com"
   s.summary     = "Notifiable engine for Rails."
   s.description = "Notifiable engine for Rails."
