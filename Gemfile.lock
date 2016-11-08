@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    notifiable-rails (0.24.2)
+    notifiable-rails (0.24.3)
       rails
 
 GEM
