@@ -11,7 +11,6 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path("../test_app/config/environment",  __FILE__)
 require File.expand_path("../../lib/notifiable",  __FILE__)
-require File.expand_path("../../app/controllers/notifiable/device_tokens_controller",  __FILE__)
 require 'database_cleaner'
 require 'rspec/rails'
 require 'factory_girl_rails'
@@ -29,12 +28,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
-  
-  # For testing engines
-  config.include EngineControllerTestMonkeyPatch, :type => :controller
-  
-  # JsonHelpers for controllers
-  config.include Requests::JsonHelpers, :type => :controller
   
   # Remove need for factory girl prefix
   config.include FactoryGirl::Syntax::Methods
