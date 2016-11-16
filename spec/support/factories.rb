@@ -17,21 +17,10 @@ FactoryGirl.define do
   
   factory :notification, :class => Notifiable::Notification do
     app
-    
-    factory :notification_with_en_localization do
-      after(:create) do |notification, evaluator|
-        FactoryGirl.create(:localized_notification, :locale => :en, :notification => notification)
-      end
-    end
-  end
-  
-  factory :localized_notification, :class => Notifiable::LocalizedNotification do
-    notification
-    message "Hello"
   end
   
   factory :notification_status, :class => Notifiable::NotificationStatus do
-    localized_notification
+    notification
     status 0
     device_token
   end
