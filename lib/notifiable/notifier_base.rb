@@ -2,7 +2,7 @@ module Notifiable
 
 	class NotifierBase
     
-    attr_reader :env, :notification, :localized_notifications
+    attr_reader :env, :notification
     
     def self.notifier_attribute(*vars)
       @notifier_attributes ||= []
@@ -16,13 +16,10 @@ module Notifiable
     
     def initialize(env, notification)
       @env, @notification = env, notification
-      @localized_notifications = {}
-      notification.localized_notifications.each{|l| @localized_notifications[l.locale] = l}
     end
     
 		def send_notification(device_token)
-      localized_notification = self.localized_notification(device_token)
-      enqueue(device_token, localized_notification) if localized_notification
+      enqueue(device_token, self.notification)
     end
     
     def close
@@ -35,14 +32,10 @@ module Notifiable
       def flush
       
       end
-      
-      def localized_notification(device_token)
-        @localized_notifications[device_token.locale]
-      end
     
       def processed(device_token, status)
         if @notification.app.save_notification_statuses?
-          receipts << {localized_notification_id: self.localized_notification(device_token).id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
+          receipts << {notification_id: self.notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
           save_receipts if receipts.count >= Notifiable.notification_status_batch_size
         end
         
