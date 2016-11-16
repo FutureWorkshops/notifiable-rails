@@ -29,7 +29,7 @@ describe Notifiable::NotifierBase do
   end
   
   describe "#processed" do
-    let(:notification) { FactoryGirl.create(:notification_with_en_localization, :app => notifiable_app) }
+    let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
   
     let(:device_token1) { FactoryGirl.create(:device_token, :app => notifiable_app, :locale => 'en') }
     let(:device_token2) { FactoryGirl.create(:device_token, :app => notifiable_app, :locale => 'en') }

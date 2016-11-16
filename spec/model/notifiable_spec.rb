@@ -6,7 +6,7 @@ describe Notifiable::Concern do
     
     context "single" do
       let(:user1) { create(:user_with_en_token) }
-      let(:notification1) { create(:notification_with_en_localization) } 
+      let(:notification1) { create(:notification) } 
       
       before(:each) { user1.send_notification(notification1) }
       
@@ -15,7 +15,7 @@ describe Notifiable::Concern do
     
     context "invalid device" do
       let(:user1) { FactoryGirl.create(:user_with_invalid_mock_token) }
-      let(:notification1) { create(:notification_with_en_localization) } 
+      let(:notification1) { create(:notification) } 
     
       before(:each) { user1.send_notification(notification1) }
       
