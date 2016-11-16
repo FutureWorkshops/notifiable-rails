@@ -1,25 +1,16 @@
 module Notifiable
   class Notification < ActiveRecord::Base
-    
-    serialize :params
-    
-    has_many :localized_notifications, :class_name => 'Notifiable::LocalizedNotification', :dependent => :destroy
-    accepts_nested_attributes_for :localized_notifications, reject_if: proc { |attributes| attributes['message'].blank? }
-    
+          
     belongs_to :app, :class_name => 'Notifiable::App'    
     validates :app, presence: true
     
-    def notification_statuses
-      Notifiable::NotificationStatus.joins(:localized_notification).where('notifiable_localized_notifications.notification_id' => self.id)
-    end
+    serialize :parameters
+    
+    has_many :notification_statuses, :class_name => 'Notifiable::NotificationStatus', :dependent => :destroy
     
     def batch  
       yield(self)
       close
-    end
-    
-    def localized_notification(locale)
-      self.localized_notifications.find_by(:locale => locale)
     end
     
     def add_notifiable(notifiable)
@@ -40,6 +31,10 @@ module Notifiable
       end
       
   		notifiers[provider].send_notification(d) if d.is_valid?
+    end
+    
+    def send_params
+      @send_params ||= (self.parameters ? self.parameters : {}).merge({:notification_id => self.id})
     end
     
     private
