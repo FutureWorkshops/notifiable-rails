@@ -41,8 +41,8 @@ module Notifiable
       end
     end
     
-    def save_notification_statuses?
-      self.configuration[:save_notification_statuses].nil? ? true : self.configuration[:save_notification_statuses]
+    def save_notification_statuses
+      self.configuration[:save_notification_statuses].eql? "1"
     end
     
     def save_notification_statuses=(save_notification_statuses)
