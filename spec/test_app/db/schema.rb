@@ -25,14 +25,14 @@ ActiveRecord::Schema.define(version: 20131210115660) do
     t.string   "provider"
     t.string   "locale"
     t.boolean  "is_valid",   default: true
-    t.integer  "user_id"
+    t.string   "user_alias"
     t.integer  "app_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
   end
 
-  add_index "notifiable_device_tokens", ["user_id"], name: "index_notifiable_device_tokens_on_user_id"
+  add_index "notifiable_device_tokens", ["user_alias"], name: "index_notifiable_device_tokens_on_user_alias"
 
   create_table "notifiable_notifications", force: :cascade do |t|
     t.integer  "app_id"

@@ -6,13 +6,13 @@ class CreateNotifiableDeviceTokens < ActiveRecord::Migration
     	t.string :provider
       t.string :locale
       t.boolean :is_valid, :default => true
-      t.integer :user_id
+      t.string :user_alias
       t.references :app
 
       t.timestamps
     end
 
-    add_index :notifiable_device_tokens, :user_id
+    add_index :notifiable_device_tokens, :user_alias
   end
 
 end
