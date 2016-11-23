@@ -15,8 +15,6 @@ module Notifiable
   mattr_accessor :api_device_token_params
   @@api_device_token_params = [:token, :provider, :app_id, :locale, :name]
   
-  mattr_accessor :user_class
-  
   mattr_accessor :delivery_method
   @@delivery_method = :send
   
