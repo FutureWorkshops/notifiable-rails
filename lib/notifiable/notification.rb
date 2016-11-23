@@ -13,12 +13,6 @@ module Notifiable
       close
     end
     
-    def add_notifiable(notifiable)
-      notifiable.device_tokens.each do |d|
-        self.add_device_token(d)
-      end
-    end
-    
     def add_device_token(d)
       provider = d.provider.to_sym
 

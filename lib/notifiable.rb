@@ -1,6 +1,5 @@
 require 'notifiable/active_record'
 require 'notifiable/app'
-require 'notifiable/notifiable_concern'
 require 'notifiable/railtie' if defined?(Rails)
 require 'notifiable/engine'
 require 'notifiable/notification'
