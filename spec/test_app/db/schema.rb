@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210115660) do
+ActiveRecord::Schema.define(version: 20131210115653) do
 
   create_table "notifiable_apps", force: :cascade do |t|
     t.string   "name"
@@ -55,10 +55,6 @@ ActiveRecord::Schema.define(version: 20131210115660) do
     t.integer  "device_token_id"
     t.integer  "status"
     t.datetime "created_at"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
   end
 
 end

@@ -1,50 +1,6 @@
 require 'spec_helper'
 
-describe Notifiable::Notification do
-  
-  describe "#add_notifiable" do
-    context "for a single user" do
-      subject(:notification) { create(:notification) }
-      let(:u) { create(:user_with_en_token) }
-    
-      before(:each) do
-        notification.batch do |n|
-          n.add_notifiable(u)
-        end      
-      end
-    
-      it { expect(Notifiable::Notification.first.sent_count).to eq 1 }
-      it { expect(Notifiable::Notification.first.gateway_accepted_count).to eq 1 }
-      it { expect(Notifiable::Notification.first.opened_count).to eq 0 }    
-      it { expect(Notifiable::NotificationStatus.count).to eq 1 }  
-      it { expect(Notifiable::NotificationStatus.first.status).to eq 0 }
-      it { expect(Notifiable::NotificationStatus.first.created_at).to_not be_nil }
-    end
-    
-    context "for two users" do
-      subject(:notification) { create(:notification) }
-      let(:u1) { create(:user_with_en_token) }
-      let(:u2) { create(:user_with_en_token) }
-    
-      before(:each) do
-        notification.batch do |n|
-          n.add_notifiable(u1)
-          n.add_notifiable(u2)
-        end      
-      end
-    
-      it { expect(Notifiable::Notification.first.sent_count).to eq 2 }
-      it { expect(Notifiable::Notification.first.gateway_accepted_count).to eq 2 }
-      it { expect(Notifiable::Notification.first.opened_count).to eq 0 }    
-      it { expect(Notifiable::NotificationStatus.count).to eq 2 }  
-      it { expect(Notifiable::NotificationStatus.first.status).to eq 0 }
-      it { expect(Notifiable::NotificationStatus.first.created_at).to_not be_nil }
-      it { expect(Notifiable::NotificationStatus.last.status).to eq 0 }
-      it { expect(Notifiable::NotificationStatus.last.created_at).to_not be_nil }
-    end 
-  
-  end
-  
+describe Notifiable::Notification do  
   describe "#add_device_token" do
     context "single token" do
       subject(:notification) { create(:notification) }
