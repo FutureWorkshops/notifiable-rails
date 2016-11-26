@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe Notifiable::App do
+  describe "#name" do
+    context "missing" do
+      subject { build(:app, name: nil) }
+      it { is_expected.to_not be_valid }
+    end
+    
+    context "blank" do
+      subject { build(:app, name: "") }
+      it { is_expected.to_not be_valid }
+    end
+  end
+  
   describe "#notifications" do
     subject(:notifiable_app) { create(:app) }
     let!(:notification) { create(:notification, :app => notifiable_app) }

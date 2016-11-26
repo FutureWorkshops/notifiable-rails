@@ -5,6 +5,8 @@ module Notifiable
     
     serialize :configuration
     
+    validates :name, presence: true, allow_blank: false
+    
     def configure(provider, notifier)
       return unless self.configuration && self.configuration[provider]
 
@@ -42,7 +44,7 @@ module Notifiable
     end
     
     def save_notification_statuses
-      self.configuration[:save_notification_statuses].eql? "1"
+      self.configuration[:save_notification_statuses] == true || self.configuration[:save_notification_statuses].eql?("1")
     end
     
     def save_notification_statuses=(save_notification_statuses)

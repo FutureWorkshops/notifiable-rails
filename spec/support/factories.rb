@@ -13,6 +13,7 @@ FactoryGirl.define do
   end
   
   factory :app, :class => Notifiable::App do
+    sequence(:name) {|n| "App #{n}" }
   end
   
   factory :notification, :class => Notifiable::Notification do
