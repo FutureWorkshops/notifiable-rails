@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Notifiable::Notification do  
   describe "#add_device_token" do
     context "single token" do
-      subject(:notification) { create(:notification) }
+      subject(:notification) { create(:notification, app: create(:app, save_notification_statuses: true)) }
       let(:dt) { create(:device_token, :locale => 'en') }
     
       before(:each) { notification.batch {|n| n.add_device_token(dt) } }
