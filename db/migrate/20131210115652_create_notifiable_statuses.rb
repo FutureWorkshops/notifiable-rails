@@ -1,4 +1,4 @@
-class CreateNotifiableStatuses < ActiveRecord::Migration
+class CreateNotifiableStatuses < ActiveRecord::Migration[5.0]
   
   def change
     create_table :notifiable_statuses do |t|
