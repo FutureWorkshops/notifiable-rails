@@ -6,10 +6,6 @@ FactoryGirl.define do
     provider :mock
     token
     app
-    
-    factory :invalid_mock_token do
-      is_valid false
-    end
   end
   
   factory :app, :class => Notifiable::App do

@@ -24,7 +24,7 @@ module Notifiable
         @notifiers[provider] = notifier
       end
       
-  		notifiers[provider].send_notification(d) if d.is_valid?
+  		notifiers[provider].send_notification(d)
     end
     
     def send_params
