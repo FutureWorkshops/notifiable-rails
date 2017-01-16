@@ -19,7 +19,9 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.3.1'
 
-  s.add_dependency "rails"
+  s.add_dependency 'rails'
+  s.add_dependency 'pg'
+  s.add_dependency 'activerecord-postgis-adapter'
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'sqlite3'
