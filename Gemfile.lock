@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    notifiable-rails (0.25.0)
+    notifiable-rails (0.26.0)
       activerecord-postgis-adapter
       pg
       rails
