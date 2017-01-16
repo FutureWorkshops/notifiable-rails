@@ -3,15 +3,28 @@ require 'spec_helper'
 describe Notifiable::DeviceToken do
   
   describe "#locale" do
-    subject(:token) { create(:device_token, :locale => 'en') }
+    subject(:token) { create(:device_token, locale: 'en') }
     
     it { expect(token.locale).to eq 'en' }
   end
   
   describe "#name" do
-    subject(:token) { create(:device_token, :name => "Matt's iPhone") }
+    subject(:token) { create(:device_token, name: "Matt's iPhone") }
     
     it { expect(token.name).to eq "Matt's iPhone" }
+  end
+  
+  describe "#lonlat" do
+    subject(:token) { create(:device_token, lonlat: 'POINT(-122 47)') }
+    
+    it { expect(token.lonlat.lat).to eq 47 }
+    it { expect(token.lonlat.lon).to eq -122 }
+  end
+  
+  describe ".nearby" do
+    subject!(:token) { create(:device_token, lonlat: 'POINT(-122 47)') }
+    
+    it { expect(Notifiable::DeviceToken.nearby(-122, 47, 500).count).to eq 1 }
   end
   
   describe "#notification_statuses" do

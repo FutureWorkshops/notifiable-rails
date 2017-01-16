@@ -5,10 +5,10 @@ require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
 require "notifiable"
+require 'activerecord-postgis-adapter'
 
 module TestApp
   class Application < Rails::Application

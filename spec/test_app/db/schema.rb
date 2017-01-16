@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210115653) do
+ActiveRecord::Schema.define(version: 20170116212641) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "notifiable_apps", force: :cascade do |t|
     t.string   "name"
@@ -21,18 +25,19 @@ ActiveRecord::Schema.define(version: 20131210115653) do
   end
 
   create_table "notifiable_device_tokens", force: :cascade do |t|
-    t.string   "token"
-    t.string   "provider"
-    t.string   "locale"
-    t.boolean  "is_valid",   default: true
-    t.string   "user_alias"
-    t.integer  "app_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
+    t.string    "token"
+    t.string    "provider"
+    t.string    "locale"
+    t.string    "user_alias"
+    t.integer   "app_id"
+    t.datetime  "created_at"
+    t.datetime  "updated_at"
+    t.string    "name"
+    t.geography "lonlat",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
-  add_index "notifiable_device_tokens", ["user_alias"], name: "index_notifiable_device_tokens_on_user_alias"
+  add_index "notifiable_device_tokens", ["app_id", "token"], name: "index_notifiable_device_tokens_on_app_id_and_token", unique: true, using: :btree
+  add_index "notifiable_device_tokens", ["user_alias"], name: "index_notifiable_device_tokens_on_user_alias", using: :btree
 
   create_table "notifiable_notifications", force: :cascade do |t|
     t.integer  "app_id"
@@ -48,6 +53,7 @@ ActiveRecord::Schema.define(version: 20131210115653) do
     t.boolean  "mutable_content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "badge_count"
   end
 
   create_table "notifiable_statuses", force: :cascade do |t|

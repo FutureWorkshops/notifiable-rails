@@ -1,36 +1,17 @@
-load_test_sqlite:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  pool: 5
-  timeout: 5000
-
-load_test_pg:
-  adapter: postgresql
+postgis: &postgis
+  adapter: postgis
   host: localhost
   port: 5432
-  database: notifiable-development
   username: matt
-  password: 
+  password:
 
-load_test_mysql:
-  adapter: mysql2
-  encoding: utf8
-  database: notifiable
-  username: notifiable-rails
-  password: notifiable-rails
-  host: 127.0.0.1
-  port: 3306 
-    
-test:
-  adapter: sqlite3
-  database: db/test.sqlite3
-  pool: 5
-  timeout: 5000
-  
+
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  pool: 5
-  timeout: 5000
+  <<: *postgis
+  database: notifiable-rails-development
+
+test:
+  <<: *postgis
+  database: notifiable-rails-test
 
 
