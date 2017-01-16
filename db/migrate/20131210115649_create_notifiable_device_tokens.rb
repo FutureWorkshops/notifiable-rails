@@ -1,4 +1,4 @@
-class CreateNotifiableDeviceTokens < ActiveRecord::Migration[5.0]
+class CreateNotifiableDeviceTokens < ActiveRecord::Migration
   
   def change
     create_table :notifiable_device_tokens do |t|

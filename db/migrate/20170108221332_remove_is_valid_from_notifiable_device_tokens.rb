@@ -1,4 +1,4 @@
-class RemoveIsValidFromNotifiableDeviceTokens < ActiveRecord::Migration[5.0]
+class RemoveIsValidFromNotifiableDeviceTokens < ActiveRecord::Migration
   
   def change
     remove_column :notifiable_device_tokens, :is_valid, :boolean, default: true
