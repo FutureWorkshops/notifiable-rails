@@ -27,7 +27,10 @@ module Notifiable
       end
       
       def localized_notification(device_token)
-        @localized_notifications[device_token.locale]
+        ln = @localized_notifications[device_token.locale]
+        ln = @localized_notifications[device_token.locale.split('_')[1]] if !ln && device_token.locale.split('_').count == 2
+        ln = @localized_notifications['en'] unless ln
+        ln
       end
     
       def processed(device_token, status)
