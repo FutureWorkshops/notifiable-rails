@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe Notifiable::Notification do  
+describe Notifiable::Notification do
+  subject { create(:notification) }
+    
   describe "#add_device_token" do
     context "single token" do
       subject(:notification) { create(:notification, app: create(:app, save_notification_statuses: true)) }
@@ -40,12 +42,24 @@ describe Notifiable::Notification do
   end
   
   describe "#destroy" do
-    subject { create(:notification) }
     let!(:s) { create(:notification_status, :notification => subject) }
     
     before(:each) { subject.destroy }
     
     it { expect(Notifiable::NotificationStatus.count).to eq 0 }
+  end
+  
+  describe "#batch" do
+    
+    context 'throws exception' do
+      before(:each) do
+        subject.batch do
+          raise 'SSL error occured'
+        end
+      end
+      it { expect(subject.last_error_message).to eq 'SSL error occured' }
+    end
+    
   end
   
 end

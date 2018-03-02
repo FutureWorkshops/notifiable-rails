@@ -8,9 +8,15 @@ module Notifiable
     
     has_many :notification_statuses, :class_name => 'Notifiable::NotificationStatus', :dependent => :destroy
     
-    def batch  
-      yield(self)
-      close
+    def batch 
+      begin 
+        yield(self)
+        update(last_error_message: nil)
+      rescue Exception => e
+        update(last_error_message: e.message)
+      ensure
+        close
+      end
     end
     
     def add_device_token(d)

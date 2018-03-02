@@ -2,8 +2,6 @@ postgis: &postgis
   adapter: postgis
   host: localhost
   port: 5432
-  username: matt
-  password:
 
 
 development:
