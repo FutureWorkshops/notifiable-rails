@@ -1,4 +1,4 @@
-class CreateNotifiableApps < ActiveRecord::Migration
+class CreateNotifiableApps < ActiveRecord::Migration[4.2]
   def change
     create_table :notifiable_apps do |t|
       t.string :name

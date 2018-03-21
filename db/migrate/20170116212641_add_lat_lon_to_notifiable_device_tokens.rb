@@ -1,4 +1,4 @@
-class AddLatLonToNotifiableDeviceTokens < ActiveRecord::Migration
+class AddLatLonToNotifiableDeviceTokens < ActiveRecord::Migration[4.2]
   
   def change
     enable_extension "postgis"

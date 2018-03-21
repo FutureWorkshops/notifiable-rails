@@ -1,4 +1,4 @@
-class AddNameToNotifiableDeviceTokens < ActiveRecord::Migration
+class AddNameToNotifiableDeviceTokens < ActiveRecord::Migration[4.2]
   
   def change
     add_column :notifiable_device_tokens, :name, :string
