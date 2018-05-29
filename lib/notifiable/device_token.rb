@@ -13,6 +13,8 @@ module Notifiable
     validates :token, presence: true, uniqueness: { scope: :app }
     validates :provider, presence: true
     validates :app, presence: true
+    validates :language, length: { in: 2..3 }, allow_blank: true # ISO 639-1 or ISO 6369-2 language code
+    validates :country, length: { is: 2 }, allow_blank: true # ISO 3166-1 alpha-2 country code
     
     scope :nearby, -> (lon, lat, radius){ where("ST_DWithin(lonlat, ST_MakePoint(?,?), ?)", lon, lat, radius) }    
   end

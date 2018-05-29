@@ -51,4 +51,33 @@ describe Notifiable::DeviceToken do
       it { is_expected.to_not be_valid }
     end
   end
+  
+  describe "#language" do
+    context 'ISO 639-1' do
+      subject(:token) { create(:device_token, language: 'en') }
+      it { expect(token.language).to eq 'en' }
+    end
+    
+    context 'ISO 639-2' do
+      subject(:token) { create(:device_token, language: 'ido') }
+      it { expect(token.language).to eq 'ido' }
+    end
+    
+    context 'nil' do
+      subject { create(:device_token, language: nil) }
+      it { expect(subject.language).to be_nil }
+    end
+  end
+  
+  describe "#country" do    
+    context 'ISO 3166-1' do
+      subject { create(:device_token, country: 'GB') }
+      it { expect(subject.country).to eq 'GB' }
+    end
+    
+    context 'nil' do
+      subject { create(:device_token, country: nil) }
+      it { expect(subject.country).to be_nil }
+    end
+  end
 end
