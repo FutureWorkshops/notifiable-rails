@@ -54,7 +54,7 @@ describe Notifiable::DeviceToken do
   
   describe "#language" do
     context 'ISO 639-1' do
-      subject(:token) { create(:device_token, language: 'en') }
+      subject(:token) { create(:device_token, language: 'EN') }
       it { expect(token.language).to eq 'en' }
     end
     
@@ -72,7 +72,7 @@ describe Notifiable::DeviceToken do
   describe "#country" do    
     context 'ISO 3166-1' do
       subject { create(:device_token, country: 'GB') }
-      it { expect(subject.country).to eq 'GB' }
+      it { expect(subject.country).to eq 'gb' }
     end
     
     context 'nil' do

@@ -16,6 +16,17 @@ module Notifiable
     validates :language, length: { in: 2..3 }, allow_blank: true # ISO 639-1 or ISO 6369-2 language code
     validates :country, length: { is: 2 }, allow_blank: true # ISO 3166-1 alpha-2 country code
     
-    scope :nearby, -> (lon, lat, radius){ where("ST_DWithin(lonlat, ST_MakePoint(?,?), ?)", lon, lat, radius) }    
+    scope :nearby, -> (lon, lat, radius){ where("ST_DWithin(lonlat, ST_MakePoint(?,?), ?)", lon, lat, radius) } 
+    
+    before_save :downcase_language, :downcase_country
+
+    private
+    def downcase_language
+      language.downcase! if language
+    end
+    
+    def downcase_country
+      country.downcase! if country
+    end
   end
 end
