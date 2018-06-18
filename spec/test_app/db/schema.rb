@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201805292135000) do
+ActiveRecord::Schema.define(version: 201806182135000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 201805292135000) do
     t.integer "badge_count"
     t.text "last_error_message"
     t.string "title"
+    t.string "thead_id"
   end
 
   create_table "notifiable_statuses", id: :serial, force: :cascade do |t|
