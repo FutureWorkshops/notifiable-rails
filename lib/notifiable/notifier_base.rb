@@ -33,9 +33,9 @@ module Notifiable
       
       end
     
-      def processed(device_token, status)
+      def processed(device_token, status, error_message = nil)
         if @notification.app.save_notification_statuses
-          receipts << {notification_id: self.notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now}
+          receipts << {notification_id: self.notification.id, device_token_id: device_token.id, status: status, created_at: DateTime.now, error_message: error_message}
           save_receipts if receipts.count >= Notifiable.notification_status_batch_size
         end
         
