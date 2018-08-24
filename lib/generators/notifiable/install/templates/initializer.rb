@@ -11,6 +11,8 @@ Notifiable.configure do |config|
   
   # Custom function to select the class for a provider
   # Defaults to nil
-  #config.find_notifier_class = :test
+  #config.find_notifier_class do |notification, device|
+  #  Notifiable.notifier_classes[device.provider]
+  #end
 
 end
