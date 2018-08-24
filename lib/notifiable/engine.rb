@@ -1,3 +1,5 @@
+require 'rails'
+
 module Notifiable
   
   class Engine < ::Rails::Engine

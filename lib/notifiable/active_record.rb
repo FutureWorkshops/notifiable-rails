@@ -1,3 +1,5 @@
+require 'active_record'
+
 class ActiveRecord::Base
 
   def self.bulk_insert!(record_list)
