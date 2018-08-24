@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201806242135000) do
+ActiveRecord::Schema.define(version: 201808242135000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 201806242135000) do
     t.string "name"
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "language"
-    t.string "region"
+    t.string "country"
     t.index ["app_id", "token"], name: "index_notifiable_device_tokens_on_app_id_and_token", unique: true
     t.index ["user_alias"], name: "index_notifiable_device_tokens_on_user_alias"
   end
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 201806242135000) do
     t.integer "badge_count"
     t.text "last_error_message"
     t.string "title"
-    t.string "thread_id"
+    t.string "thead_id"
     t.string "category"
   end
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 201806242135000) do
     t.integer "device_token_id"
     t.integer "status"
     t.datetime "created_at"
+    t.string "error_message"
   end
 
 end
