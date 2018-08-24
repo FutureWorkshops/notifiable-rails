@@ -21,14 +21,14 @@ module Notifiable
   mattr_accessor :notifier_classes
   @@notifier_classes = {}
   
-  mattr_accessor :find_notifier_class
-  @@find_notifier_class = nil
+  mattr_accessor :find_notifier_class_proc
+  @@find_notifier_class_proc = nil
   
   def self.configure
     yield self
   end
   
   def self.notifier_class(notification, device)
-    Notifiable.find_notifier_class ? Notifiable.find_notifier_class(notification, device) : Notifiable.notifier_classes[device.provider.to_sym]
+    Notifiable.find_notifier_class_proc ? Notifiable.find_notifier_class_proc.call(notification, device) : Notifiable.notifier_classes[device.provider.to_sym]
   end
 end
