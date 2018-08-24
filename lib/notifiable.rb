@@ -8,11 +8,6 @@ require 'notifiable/device_token'
 require 'notifiable/notifier_base'
 
 module Notifiable
-
-  mattr_accessor :api_controller_class
-  
-  mattr_accessor :api_device_token_params
-  @@api_device_token_params = [:token, :provider, :app_id, :locale, :name]
   
   mattr_accessor :delivery_method
   @@delivery_method = :send
@@ -33,9 +28,5 @@ module Notifiable
 end
 
 module Notifiable
-  module Model
-    def notifiable(options = {})
-      include Notifiable::Concern
-    end
-  end
+
 end

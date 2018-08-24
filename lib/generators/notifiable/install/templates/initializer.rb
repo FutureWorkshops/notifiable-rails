@@ -1,11 +1,4 @@
 Notifiable.configure do |config|
-
-  # The controller class that the DeviceTokenController should extend
-	config.api_controller_class = ApplicationController
-  
-  # Set the params permitted for creation of device tokens
-  # Defaults to [:token, :provider, :app_id]
-  #config.api_device_token_params = [:token, :provider, :app_id, :locale]
   
   # The size of the batch of Notification Statuses kept in memory
   # before being saved. This should be varied with the heap size of the process
@@ -15,5 +8,9 @@ Notifiable.configure do |config|
   # Set the delivery method to test, preventing notifications from being sent
   # Defaults to :send
   #config.delivery_method = :test
+  
+  # Custom function to select the class for a provider
+  # Defaults to nil
+  #config.find_notifier_class = :test
 
 end
