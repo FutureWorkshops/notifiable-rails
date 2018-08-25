@@ -50,7 +50,7 @@ module Notifiable
     end
 
     def save_receipts
-      Notifiable::NotificationStatus.bulk_insert! receipts
+      Notifiable::NotificationStatus.import receipts, validate: false
       @receipts = []
     end
   end

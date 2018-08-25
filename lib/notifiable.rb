@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require 'notifiable/active_record'
+require 'active_record'
+require 'activerecord-import/base'
+
 require 'notifiable/app'
 require 'notifiable/notification'
 require 'notifiable/notification_status'

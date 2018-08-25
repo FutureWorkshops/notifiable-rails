@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3.1'
 
   s.add_dependency 'activerecord'
+  s.add_dependency 'activerecord-import'
   s.add_dependency 'activerecord-postgis-adapter'
   s.add_dependency 'pg'
 
