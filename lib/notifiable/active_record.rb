@@ -1,41 +1,42 @@
+# frozen_string_literal: true
+
 require 'active_record'
 
 class ActiveRecord::Base
-
   def self.bulk_insert!(record_list)
     return if record_list.empty?
-    
+
     adapter_type = connection.adapter_name.downcase.to_sym
     case adapter_type
     when :postgresql
-      self.connection.execute(postgresql_bulk_insert_sql(record_list))      
+      connection.execute(postgresql_bulk_insert_sql(record_list))
     else
-      self.default_bulk_insert(record_list)
+      default_bulk_insert(record_list)
     end
   end
-  
-  protected  
+
+  protected
+
   def self.convert_record_list(record_list)
     key_list = record_list.map(&:keys).flatten.uniq.sort
 
     value_list = record_list.map do |rec|
       list = []
-      key_list.each {|key| list <<  ActiveRecord::Base.connection.quote(rec[key]) }
+      key_list.each { |key| list << ActiveRecord::Base.connection.quote(rec[key]) }
       list
     end
 
-    return [key_list, value_list]
+    [key_list, value_list]
   end
-  
+
   def self.postgresql_bulk_insert_sql(record_list)
-    key_list, value_list = convert_record_list(record_list)        
-    "INSERT INTO #{self.table_name} (#{key_list.join(", ")}) VALUES #{value_list.map {|rec| "(#{rec.join(", ")})" }.join(" ,")}"
+    key_list, value_list = convert_record_list(record_list)
+    "INSERT INTO #{table_name} (#{key_list.join(', ')}) VALUES #{value_list.map { |rec| "(#{rec.join(', ')})" }.join(' ,')}"
   end
-  
+
   def self.default_bulk_insert(record_list)
     ActiveRecord::Base.transaction do
-      record_list.each{|record| Notifiable::NotificationStatus.create(record) }
+      record_list.each { |record| Notifiable::NotificationStatus.create(record) }
     end
   end
-  
 end
