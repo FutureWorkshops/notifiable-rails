@@ -23,7 +23,7 @@ describe Notifiable::App do
   
   describe "#configure" do
     let(:notification) { create(:notification, :app => notifiable_app) }
-    let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
+    let(:notifier) { ConfigurableMockNotifier.new(notification) }
     subject(:notifiable_app) { create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
     
     before(:each) { notifiable_app.configure :configurable_mock, notifier }
@@ -33,7 +33,7 @@ describe Notifiable::App do
   
   describe "#configuration" do
     let(:notification) { create(:notification, :app => notifiable_app) }
-    let(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
+    let(:notifier) { ConfigurableMockNotifier.new(notification) }
     subject(:notifiable_app) { create(:app) }
         
     it { expect(notifiable_app.send(:configuration)).to eq :mock => {}, :configurable_mock=>{:use_sandbox=>nil} }

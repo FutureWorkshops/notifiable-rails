@@ -4,24 +4,17 @@ describe Notifiable::NotifierBase do
 
   before(:each) { ConfigurableMockNotifier.send(:public, *ConfigurableMockNotifier.protected_instance_methods) }  
   let(:notification) { FactoryGirl.create(:notification, :app => notifiable_app) }
-
-  describe "#test_env?" do
-    let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
-    subject(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
-    
-    it { expect(notifier.test_env?).to eq true }
-  end
   
   describe "#notifier_attributes" do
     let(:notifiable_app) { FactoryGirl.create(:app, :configuration => {:configurable_mock => {:use_sandbox => true}}) }
-    subject { ConfigurableMockNotifier.new(Rails.env, notification) }
+    subject { ConfigurableMockNotifier.new(notification) }
     
     context "single" do
       it { expect(ConfigurableMockNotifier.notifier_attributes).to eq [:use_sandbox]}      
     end
     
     context "set" do
-      before(:each) { ConfigurableMockNotifier.new(Rails.env, notification) }
+      before(:each) { ConfigurableMockNotifier.new(notification) }
       
       it { expect(ConfigurableMockNotifier.notifier_attributes).to eq [:use_sandbox]}      
     end
@@ -35,7 +28,7 @@ describe Notifiable::NotifierBase do
     let(:device_token2) { FactoryGirl.create(:device_token, :app => notifiable_app, :locale => 'en') }
     let(:device_token3) { FactoryGirl.create(:device_token, :app => notifiable_app, :locale => 'en') }
 
-    subject(:notifier) { ConfigurableMockNotifier.new(Rails.env, notification) }
+    subject(:notifier) { ConfigurableMockNotifier.new(notification) }
     
     before(:each) { Notifiable.notification_status_batch_size = 2 }  
     

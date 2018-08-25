@@ -7,36 +7,32 @@ SimpleCov.start do
   add_filter "/config/"
 end
 
-ENV['RAILS_ENV'] ||= 'test'
-
-require File.expand_path("../test_app/config/environment",  __FILE__)
 require File.expand_path("../../lib/notifiable",  __FILE__)
 require 'database_cleaner'
-require 'rspec/rails'
-require 'factory_girl_rails'
+require 'factory_girl'
 
-Rails.backtrace_cleaner.remove_silencers!
+# Setup ActiveRecord
+require 'active_record'
+db_config = { adapter: 'postgis', host: 'localhost', port: 5432, database: 'notifiable-core-test' }
+ActiveRecord::Base.establish_connection(db_config)
+#ActiveRecord::Base.connection.create_database(db_config[:database])
+ActiveRecord::Migration.verbose = true
+migrations_path = File.join(File.dirname(__FILE__), '..', 'db', 'migrate')
+ActiveRecord::MigrationContext.new(migrations_path).migrate
 
+# Load support dir
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
-
-DatabaseCleaner.strategy = :truncation
-
-ActiveRecord::Migrator.migrate(File.join(Rails.root, 'db/migrate'))
 
 RSpec.configure do |config|  
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
-  config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
   
   # Remove need for factory girl prefix
   config.include FactoryGirl::Syntax::Methods
   
   # errors for deprecations
-  #config.raise_errors_for_deprecations!
+  config.raise_errors_for_deprecations!
   
-  # Infer the spec type from the containing folder
-  config.infer_spec_type_from_file_location!
   
   config.before(:suite) do
     Notifiable.notifier_classes[:mock] = MockNotifier
@@ -46,6 +42,8 @@ RSpec.configure do |config|
   end
   
   config.before(:each) {
+    DatabaseCleaner.strategy = :deletion, {:except => %w[spatial_ref_sys]}
+    DatabaseCleaner.clean_with :truncation, {:except => %w[spatial_ref_sys]}
     DatabaseCleaner.start
     Notifiable.delivery_method = :send
     Notifiable.save_receipts = true 

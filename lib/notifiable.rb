@@ -1,7 +1,5 @@
 require 'notifiable/active_record'
 require 'notifiable/app'
-require 'notifiable/railtie' if defined?(Rails)
-require 'notifiable/engine'
 require 'notifiable/notification'
 require 'notifiable/notification_status'
 require 'notifiable/device_token'

@@ -14,8 +14,8 @@ module Notifiable
       @notifier_attributes
     end
     
-    def initialize(env, notification)
-      @env, @notification = env, notification
+    def initialize(notification)
+      @notification = notification
     end
     
 		def send_notification(device_token)
@@ -42,10 +42,6 @@ module Notifiable
         @notification.sent_count += 1
         @notification.gateway_accepted_count += 1 if status == 0
         @notification.save if (@notification.sent_count % Notifiable.notification_status_batch_size == 0)
-      end
-    
-      def test_env?
-        self.env == "test"
       end
     
     private

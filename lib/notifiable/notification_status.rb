@@ -1,5 +1,6 @@
 module Notifiable
   class NotificationStatus < ActiveRecord::Base
+    self.table_name_prefix = 'notifiable_'
     
     belongs_to :notification, :class_name => 'Notifiable::Notification'
     validates :notification, presence: true

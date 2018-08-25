@@ -1,5 +1,6 @@
 module Notifiable
   class Notification < ActiveRecord::Base
+    self.table_name_prefix = 'notifiable_'
           
     belongs_to :app, :class_name => 'Notifiable::App'    
     validates :app, presence: true
@@ -25,7 +26,7 @@ module Notifiable
       unless notifiers[provider]
         clazz = Notifiable.notifier_class(self, d)
         raise "Notifier #{provider} not configured" unless clazz
-        notifier = clazz.new(Rails.env, self)
+        notifier = clazz.new(self)
         self.app.configure(provider, notifier)
         @notifiers[provider] = notifier
       end
