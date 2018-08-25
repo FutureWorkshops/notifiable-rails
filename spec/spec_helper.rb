@@ -15,12 +15,7 @@ require 'factory_bot'
 
 # Setup ActiveRecord
 require 'active_record'
-db_config = { adapter: 'postgis', host: 'localhost', port: 5432, database: 'notifiable-core-test' }
-ActiveRecord::Base.establish_connection(db_config)
-# ActiveRecord::Base.connection.create_database(db_config[:database])
-ActiveRecord::Migration.verbose = true
-migrations_path = File.join(File.dirname(__FILE__), '..', 'db', 'migrate')
-ActiveRecord::MigrationContext.new(migrations_path).migrate
+ActiveRecord::Base.establish_connection(YAML.load_file('config/database.yml')['test'])
 
 # Load support dir
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }

@@ -25,6 +25,14 @@ namespace :db do
   task drop: :env do
     DatabaseTasks.drop_current('test')
   end
+  
+  desc 'Migrate the database'
+  task migrate: :env do
+    ActiveRecord::Base.establish_connection(YAML.load_file('config/database.yml')['test'])
+    ActiveRecord::Migration.verbose = true
+    migrations_path = File.join(File.dirname(__FILE__), 'db', 'migrate')
+    ActiveRecord::MigrationContext.new(migrations_path).migrate
+  end
 end
 
 require 'rspec/core'
