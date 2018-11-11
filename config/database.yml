@@ -1,0 +1,12 @@
+postgres: &postgres
+  adapter: postgresql
+  host: localhost
+  port: 5432
+
+development:
+  <<: *postgres
+  database: notifiable-core-development
+
+test:
+  <<: *postgres
+  database: notifiable-core-test
