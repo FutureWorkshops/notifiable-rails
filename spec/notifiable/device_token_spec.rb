@@ -49,11 +49,15 @@ describe Notifiable::DeviceToken do
 
     context 'unique' do
       subject { build(:device_token, token: 'abc123', app: app1) }
-
       let(:app1) { create(:app) }
-
       let!(:dt2) { create(:device_token, token: 'abc123', app: app1) }
-
+      it { is_expected.to_not be_valid }
+    end
+    
+    context 'unique and case insensitive' do
+      subject { build(:device_token, token: 'abc123', app: app1) }
+      let(:app1) { create(:app) }
+      let!(:dt2) { create(:device_token, token: 'ABC123', app: app1) }
       it { is_expected.to_not be_valid }
     end
   end

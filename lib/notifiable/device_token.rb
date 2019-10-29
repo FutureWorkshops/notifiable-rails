@@ -14,7 +14,7 @@ module Notifiable
     belongs_to :app, class_name: 'Notifiable::App'
     has_many :notification_statuses, class_name: 'Notifiable::NotificationStatus'
 
-    validates :token, presence: true, uniqueness: { scope: :app }
+    validates :token, presence: true, uniqueness: { scope: :app, case_sensitive: false }
     validates :provider, presence: true
     validates :app, presence: true
     validates :language, length: { in: 2..3 }, allow_blank: true # ISO 639-1 or ISO 6369-2 language code
