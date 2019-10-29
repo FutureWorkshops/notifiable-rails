@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    notifiable (0.30.4)
+    notifiable (0.31.0)
       activerecord
       activerecord-import
       activerecord-postgis-adapter
@@ -16,9 +16,9 @@ GEM
       activemodel (= 5.2.1)
       activesupport (= 5.2.1)
       arel (>= 9.0)
-    activerecord-import (0.25.0)
+    activerecord-import (1.0.3)
       activerecord (>= 3.2)
-    activerecord-postgis-adapter (5.2.1)
+    activerecord-postgis-adapter (5.2.2)
       activerecord (~> 5.1)
       rgeo-activerecord (~> 6.0)
     activesupport (5.2.1)
@@ -42,14 +42,14 @@ GEM
     parallel (1.12.1)
     parser (2.5.1.2)
       ast (~> 2.4.0)
-    pg (1.1.0)
+    pg (1.1.4)
     powerpack (0.1.2)
     rainbow (3.0.0)
     rake (12.3.1)
-    rgeo (1.1.1)
-    rgeo-activerecord (6.0.0)
-      activerecord (~> 5.0)
-      rgeo (~> 1.0)
+    rgeo (2.1.1)
+    rgeo-activerecord (6.2.1)
+      activerecord (>= 5.0)
+      rgeo (>= 1.0.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -104,4 +104,4 @@ RUBY VERSION
    ruby 2.4.4p296
 
 BUNDLED WITH
-   1.16.6
+   1.17.3
